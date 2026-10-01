@@ -3,15 +3,21 @@ using UnityEngine.AI;
 
 public class Enemy : MonoBehaviour
 {
-    [SerializeField] private Transform target;
-    [SerializeField] private string[] _attackAnimations = { "Attack 1", "Attack 2", "Attack 3", "Attack 4" };
-
+    [SerializeField] private string[] _attackAnimations = 
+        { "Attack 1", "Attack 2", "Attack 3", "Attack 4" };
+    
+    private Tower _target;
     private NavMeshAgent _agent;
     private Animator _animator;
 
-    private void Start()
+    private void Awake()
     {
         _agent = GetComponent<NavMeshAgent>();
+    }
+
+    private void Start()
+    {
+        _target = FindObjectOfType<Tower>();
         _animator = GetComponent<Animator>();
     }
 
@@ -22,8 +28,6 @@ public class Enemy : MonoBehaviour
 
     private void Move()
     {
-        _agent.SetDestination(target.position);
-
         if (_agent.velocity.magnitude > 0.1f)
         {
             _animator.SetBool("isWalking", true);
@@ -52,5 +56,14 @@ public class Enemy : MonoBehaviour
         }
         
         _animator.Play(_attackAnimations[Random.Range(0, _attackAnimations.Length)]);
+    }
+
+    public void SetTarget(Tower target)
+    {
+        _target = target;
+        
+        Vector2 circle = Random.insideUnitCircle.normalized;
+        Vector3 offset = new Vector3(circle.x, 0, circle.y);
+        _agent.SetDestination(_target.transform.position + offset);
     }
 }
