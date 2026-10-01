@@ -3,9 +3,9 @@ using UnityEngine.AI;
 
 public class Enemy : MonoBehaviour
 {
-    [SerializeField] private string[] _attackAnimations = 
+    [SerializeField] private string[] _attackAnimations =
         { "Attack 1", "Attack 2", "Attack 3", "Attack 4" };
-    
+
     private Tower _target;
     private NavMeshAgent _agent;
     private Animator _animator;
@@ -47,23 +47,29 @@ public class Enemy : MonoBehaviour
     private void Attack()
     {
         _animator.SetBool("isWalking", false);
-        
+
         var animationState = _animator.GetCurrentAnimatorStateInfo(0);
 
         if (animationState.normalizedTime < 1f)
         {
             return;
         }
-        
+
         _animator.Play(_attackAnimations[Random.Range(0, _attackAnimations.Length)]);
     }
 
     public void SetTarget(Tower target)
     {
         _target = target;
-        
+
         Vector2 circle = Random.insideUnitCircle.normalized;
         Vector3 offset = new Vector3(circle.x, 0, circle.y);
         _agent.SetDestination(_target.transform.position + offset);
+    }
+
+    private void OnDestroy()
+    {
+        gameObject.SetActive(false);
+        GameManager.Instance.RemoveEnemy(this);
     }
 }
