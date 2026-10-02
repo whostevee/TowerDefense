@@ -1,14 +1,23 @@
+using System;
 using UnityEngine;
 using UnityEngine.AI;
+using Random = UnityEngine.Random;
 
 public class Enemy : MonoBehaviour
 {
     [SerializeField] private string[] _attackAnimations =
         { "Attack 1", "Attack 2", "Attack 3", "Attack 4" };
 
+    [SerializeField] private float _speed = 5f;
+    [SerializeField] private int _damage = 15;
+
+    private int _health = 100;
+    private bool _isDead = false;
+
     private Tower _target;
     private NavMeshAgent _agent;
     private Animator _animator;
+
 
     private void Awake()
     {
@@ -23,11 +32,18 @@ public class Enemy : MonoBehaviour
 
     private void Update()
     {
+        if (_isDead)
+        {
+            return;
+        }
+
         Move();
     }
 
     private void Move()
     {
+        _agent.speed = _speed;
+
         if (_agent.velocity.magnitude > 0.1f)
         {
             _animator.SetBool("isWalking", true);
@@ -56,6 +72,7 @@ public class Enemy : MonoBehaviour
         }
 
         _animator.Play(_attackAnimations[Random.Range(0, _attackAnimations.Length)]);
+        _target.TakeDamage(_damage);
     }
 
     public void SetTarget(Tower target)
@@ -67,9 +84,29 @@ public class Enemy : MonoBehaviour
         _agent.SetDestination(_target.transform.position + offset);
     }
 
-    private void OnDestroy()
+    public void TakeDamage(int damage)
     {
-        gameObject.SetActive(false);
+        if (_isDead)
+        {
+            return;
+        }
+
+        _health -= damage;
+        if (_health <= 0)
+        {
+            Die();
+        }
+    }
+
+    private void Die()
+    {
+        _isDead = true;
+        _agent.isStopped = true;
+        
+        _animator.SetTrigger("Die");
+        
         GameManager.Instance.RemoveEnemy(this);
+        
+        Destroy(gameObject, 3f);
     }
 }

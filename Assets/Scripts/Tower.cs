@@ -3,10 +3,19 @@ using UnityEngine;
 public class Tower : MonoBehaviour
 {
     [SerializeField] private float _attackRange = 5f;
+    [SerializeField] private int _health = 1000;
+    [SerializeField] private Projectile _projectile;
+    [SerializeField] private Transform _firePoint;
+    [SerializeField] private float _shotTimer = 2f;
+
+    public float AttackRange => _attackRange;
+
     private LineRenderer _lineRenderer;
 
-    private float _updateTime = 0.5f;
+    //private float _updateTime = 0.5f;
     private int _pointsCount = 50;
+    private float _nextShotTime;
+    
 
     private void Start()
     {
@@ -25,7 +34,13 @@ public class Tower : MonoBehaviour
             float dist = Vector3.Distance(transform.position, enemy.transform.position);
             if (dist <= _attackRange)
             {
+                if (Time.time <= _nextShotTime)
+                {
+                    return;
+                }
                 Attack(enemy);
+                
+                _nextShotTime = Time.time + _shotTimer;
             }
             else
             {
@@ -34,9 +49,12 @@ public class Tower : MonoBehaviour
         }
     }
 
-    private void Attack(Enemy e)
+    private void Attack(Enemy enemy)
     {
-        Debug.Log("Tower attack - " + e);
+        var projectile = Instantiate(_projectile, _firePoint.position, Quaternion.identity);
+        projectile.SetTarget(enemy);
+        
+        Debug.Log("Tower attack - " + enemy);
     }
 
     private Vector3[] SetPoints(float[] points)
@@ -56,5 +74,16 @@ public class Tower : MonoBehaviour
         }
 
         return pointsPositions;
+    }
+
+    public void TakeDamage(int damage)
+    {
+        _health -= damage;
+        if (_health <= 0)
+        {
+            Debug.Log("You lose");
+            
+            Destroy(gameObject);
+        }
     }
 }
