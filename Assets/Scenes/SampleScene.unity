@@ -319,6 +319,37 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &214701697
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 214701698}
+  m_Layer: 0
+  m_Name: SpawnPoint9
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &214701698
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 214701697}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0.97, y: 0, z: 10.42}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 443188089}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &224099441
 GameObject:
   m_ObjectHideFlags: 0
@@ -940,11 +971,11 @@ MonoBehaviour:
   - {fileID: 397882437}
   - {fileID: 887743523}
   - {fileID: 678166629}
-  - {fileID: 678166629}
   - {fileID: 1940402708}
   - {fileID: 701206942}
   - {fileID: 1731009852}
   - {fileID: 2082833055}
+  - {fileID: 214701698}
   _spawnTime: 5
   _maxSpawnCount: 16
 --- !u!4 &443188089
@@ -968,6 +999,7 @@ Transform:
   - {fileID: 701206942}
   - {fileID: 1731009852}
   - {fileID: 2082833055}
+  - {fileID: 214701698}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &663781412
@@ -1605,7 +1637,7 @@ GameObject:
   - component: {fileID: 868331509}
   - component: {fileID: 868331508}
   - component: {fileID: 868331507}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Terrain
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1861,6 +1893,37 @@ Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 8d5c345dcd6514e43b3641b6c27d5528, type: 3}
   m_PrefabInstance: {fileID: 1043648818}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1108122751
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1108122752}
+  m_Layer: 0
+  m_Name: Firepoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1108122752
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1108122751}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 1, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1771625988}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1122461910
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2007,9 +2070,20 @@ PrefabInstance:
       propertyPath: m_Name
       value: MainTower
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 1a241ed24eb314337a2c9c2bec78e1b8, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 8216262866208290042, guid: 1a241ed24eb314337a2c9c2bec78e1b8, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
-    m_AddedGameObjects: []
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: -8679921383154817045, guid: 1a241ed24eb314337a2c9c2bec78e1b8, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1108122752}
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 1a241ed24eb314337a2c9c2bec78e1b8, type: 3}
       insertIndex: -1
@@ -2565,7 +2639,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cdde9383310cd48b2ae9cd5198cfd9e5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Tower
-  _attackRange: 7
+  _attackRange: 5
+  _health: 1000
+  _projectile: {fileID: 4537697832828660871, guid: dfabd19a7e8c042c58d3599f465ab865, type: 3}
+  _firePoint: {fileID: 1108122752}
+  _shotDelayTime: 2
 --- !u!120 &1771625987
 LineRenderer:
   serializedVersion: 3
@@ -2676,6 +2754,11 @@ LineRenderer:
   m_UseWorldSpace: 1
   m_Loop: 1
   m_ApplyActiveColorSpace: 1
+--- !u!4 &1771625988 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 1a241ed24eb314337a2c9c2bec78e1b8, type: 3}
+  m_PrefabInstance: {fileID: 1185552515}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1792541065
 PrefabInstance:
   m_ObjectHideFlags: 0

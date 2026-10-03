@@ -323,7 +323,8 @@ MonoBehaviour:
   - Attack 2
   - Attack 3
   - Attack 4
-  _speed: 1
+  _speed: 2
+  _damage: 15
 --- !u!195 &7150612081913743363
 NavMeshAgent:
   m_ObjectHideFlags: 0

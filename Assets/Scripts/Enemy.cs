@@ -26,7 +26,7 @@ public class Enemy : MonoBehaviour
 
     private void Start()
     {
-        _target = FindObjectOfType<Tower>();
+        _target = FindAnyObjectByType<Tower>();
         _animator = GetComponent<Animator>();
     }
 
