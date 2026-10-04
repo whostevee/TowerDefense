@@ -9,11 +9,17 @@ public class Tower : MonoBehaviour
     [SerializeField] private Projectile _projectile;
     [SerializeField] private Transform _firePoint;
     [SerializeField] private float _shotDelayTime = 2f;
+    [SerializeField] private int _damage = 10;
+    [SerializeField] private float _projectileSpeed = 5f;
 
     private float _attackTimeAcc;
     private float _searchTimeAcc;
-
+    private bool _canShoot;
+    
+    public int Damage => _damage;
+    public float ProjectileSpeed => _projectileSpeed;
     public float AttackRange => _attackRange;
+
     private Enemy _nearestEnemy;
     private float _nearestDistance = Mathf.Infinity;
 
@@ -31,13 +37,28 @@ public class Tower : MonoBehaviour
 
     private void Update()
     {
-        if (!TakeTimer(ref _searchTimeAcc, UpdateTime))
+        if (TakeTimer(ref _searchTimeAcc, UpdateTime))
         {
-            return;
+            FindTarget();
         }
 
-        //TODO: разделить логику поиска и атаки
-        FindTarget();
+        if (_nearestEnemy == null)
+        {
+            _canShoot = true;
+            _attackTimeAcc = 0f;
+        }
+        else
+        {
+            if (_canShoot)
+            {
+                _canShoot = false;
+                Attack(_nearestEnemy);
+            }
+            else if (TakeTimer(ref _attackTimeAcc, _shotDelayTime))
+            {
+                Attack(_nearestEnemy);
+            }
+        }
     }
 
     private void Attack(Enemy enemy)
@@ -95,20 +116,7 @@ public class Tower : MonoBehaviour
             }
         }
 
-        if (_nearestEnemy == null)
-        {
-            return;
-        }
-
-        //TODO: разобараться с таймером
-        //TODO: выстрел должен быть по таймеру, сейчас не так
-        // if (!TakeTimer(ref _attackTimeAcc, _shotDelayTime))
-        // {
-        //     return;
-        // }
-
         Debug.Log("Готов к атаке");
-        Attack(_nearestEnemy);
     }
 
     private bool TakeTimer(ref float accumulator, float delay)

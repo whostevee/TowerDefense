@@ -2,9 +2,10 @@ using UnityEngine;
 
 public class Projectile : MonoBehaviour
 {
-    [SerializeField] private float _speed = 5f;
-    [SerializeField] private int _damage = 35;
+    private float _speed = 5f;
+    private int _damage;
     private float _maxDistance;
+    
     private Vector3 _spawnPosition;
 
     private Enemy _enemyTarget;
@@ -15,7 +16,11 @@ public class Projectile : MonoBehaviour
         _rigidbody = GetComponent<Rigidbody>();
         
         _maxDistance = FindAnyObjectByType<Tower>().AttackRange;
+        _damage = FindAnyObjectByType<Tower>().Damage;
+        _speed = FindAnyObjectByType<Tower>().ProjectileSpeed;
+        
         _spawnPosition = transform.position;
+        
     }
 
     private void Update()

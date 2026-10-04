@@ -12,7 +12,7 @@ public class Enemy : MonoBehaviour
     [SerializeField] private int _damage = 15;
 
     private int _health = 100;
-    private bool _isDead = false;
+    private bool _isDead;
 
     private Tower _target;
     private NavMeshAgent _agent;
