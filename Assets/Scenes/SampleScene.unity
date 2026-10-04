@@ -976,8 +976,8 @@ MonoBehaviour:
   - {fileID: 1731009852}
   - {fileID: 2082833055}
   - {fileID: 214701698}
-  _spawnTime: 5
-  _maxSpawnCount: 16
+  _spawnTime: 2
+  _maxSpawnCount: 30
 --- !u!4 &443188089
 Transform:
   m_ObjectHideFlags: 0
@@ -2639,11 +2639,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cdde9383310cd48b2ae9cd5198cfd9e5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Tower
-  _attackRange: 5
+  _attackRange: 8
   _health: 1000
   _projectile: {fileID: 4537697832828660871, guid: dfabd19a7e8c042c58d3599f465ab865, type: 3}
   _firePoint: {fileID: 1108122752}
-  _shotDelayTime: 2
+  _shotDelayTime: 1
+  _damage: 50
+  _projectileSpeed: 10
 --- !u!120 &1771625987
 LineRenderer:
   serializedVersion: 3

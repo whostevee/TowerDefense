@@ -18,7 +18,6 @@ public class Enemy : MonoBehaviour
     private NavMeshAgent _agent;
     private Animator _animator;
 
-
     private void Awake()
     {
         _agent = GetComponent<NavMeshAgent>();
