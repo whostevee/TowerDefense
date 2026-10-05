@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Tower : MonoBehaviour
+public class Tower : MonoBehaviour, IDamageable
 {
     private const float UpdateTime = 0.5f;
 
@@ -12,13 +12,10 @@ public class Tower : MonoBehaviour
     [SerializeField] private int _damage = 10;
     [SerializeField] private float _projectileSpeed = 5f;
 
+    private int _maxHealth = 1000;
     private float _attackTimeAcc;
     private float _searchTimeAcc;
     private bool _canShoot;
-    
-    public int Damage => _damage;
-    public float ProjectileSpeed => _projectileSpeed;
-    public float AttackRange => _attackRange;
 
     private Enemy _nearestEnemy;
     private float _nearestDistance = Mathf.Infinity;
@@ -27,6 +24,12 @@ public class Tower : MonoBehaviour
 
     private LineRenderer _lineRenderer;
 
+    public int Damage => _damage;
+    public int Health => _health;
+    public int MaxHealth => _maxHealth;
+
+    public float ProjectileSpeed => _projectileSpeed;
+    public float AttackRange => _attackRange;
 
     private void Start()
     {

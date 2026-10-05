@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.AI;
 using Random = UnityEngine.Random;
 
-public class Enemy : MonoBehaviour
+public class Enemy : MonoBehaviour, IDamageable
 {
     [SerializeField] private string[] _attackAnimations =
         { "Attack 1", "Attack 2", "Attack 3", "Attack 4" };
@@ -12,12 +12,16 @@ public class Enemy : MonoBehaviour
     [SerializeField] private int _damage = 15;
 
     private int _health = 100;
+    private int _maxHealth = 100;
     private bool _isDead;
 
     private Tower _target;
     private NavMeshAgent _agent;
     private Animator _animator;
 
+    public int Health => _health;
+    public int MaxHealth => _maxHealth;
+    
     private void Awake()
     {
         _agent = GetComponent<NavMeshAgent>();

@@ -30,7 +30,6 @@ public class EnemySpawner : MonoBehaviour
     private void Spawn()
     {
         var enemy = Instantiate(_enemy, _spawnPoint[Random.Range(0, _spawnPoint.Length)].position, Quaternion.identity);
-        enemy.name = $"Enemy - {_spawnCount}"; //удалить после создания нормального урона по врагам
         
         GameManager.Instance.AddEnemy(enemy);
         
