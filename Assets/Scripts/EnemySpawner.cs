@@ -2,14 +2,22 @@ using UnityEngine;
 
 public class EnemySpawner : MonoBehaviour
 {
+    [SerializeField] private WaveManager _waveManager;
     [SerializeField] private Enemy _enemy;
     [SerializeField] private Tower _tower;
     [SerializeField] private Transform[] _spawnPoint;
-    [SerializeField] private float _spawnTime = 2f;
-    [SerializeField] private int _maxSpawnCount = 5;
 
-    private float _nextSpawnTime = 0f;
-    private int _spawnCount = 0;
+    private float _spawnTime;
+    private int _spawnCount;
+    private float _nextSpawnTime;
+    private int _currentCount;
+    
+
+    private void Start()
+    {
+        _spawnTime = _waveManager.SpawnTime;
+        _spawnCount = _waveManager.EnemiesPerWave;
+    }
 
     private void Update()
     {
@@ -17,17 +25,16 @@ public class EnemySpawner : MonoBehaviour
         {
             return;
         }
-
-        if (_spawnCount >= _maxSpawnCount)
+        
+        if (_currentCount >= _spawnCount)
         {
             return;
         }
         
-        Spawn();
         _nextSpawnTime = Time.time + _spawnTime;
     }
 
-    private void Spawn()
+    public void Spawn()
     {
         var enemy = Instantiate(_enemy, _spawnPoint[Random.Range(0, _spawnPoint.Length)].position, Quaternion.identity);
         
@@ -35,6 +42,7 @@ public class EnemySpawner : MonoBehaviour
         
         enemy.SetTarget(_tower);
         
-        _spawnCount++;
+        _currentCount++;
     }
+
 }

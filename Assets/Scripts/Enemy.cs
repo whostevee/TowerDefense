@@ -110,6 +110,6 @@ public class Enemy : MonoBehaviour, IDamageable
         
         GameManager.Instance.RemoveEnemy(this);
         
-        Destroy(gameObject, 3f);
+        Destroy(gameObject, 0.5f);
     }
 }

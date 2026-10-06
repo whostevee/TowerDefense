@@ -68,8 +68,6 @@ public class Tower : MonoBehaviour, IDamageable
     {
         var projectile = Instantiate(_projectile, _firePoint.position, Quaternion.identity);
         projectile.SetTarget(enemy);
-
-        Debug.Log("Tower attack - " + enemy);
     }
 
     private Vector3[] SetPoints(int pointsCount)
@@ -104,7 +102,6 @@ public class Tower : MonoBehaviour, IDamageable
 
     private void FindTarget()
     {
-        Debug.Log("Ищу цель");
         _nearestDistance = Mathf.Infinity;
         _nearestEnemy = null;
 
@@ -115,11 +112,8 @@ public class Tower : MonoBehaviour, IDamageable
             {
                 _nearestEnemy = enemy;
                 _nearestDistance = dist;
-                Debug.Log("Цель найдена");
             }
         }
-
-        Debug.Log("Готов к атаке");
     }
 
     private bool TakeTimer(ref float accumulator, float delay)
@@ -130,7 +124,6 @@ public class Tower : MonoBehaviour, IDamageable
             return false;
         }
 
-        Debug.Log("Таймер готов");
         accumulator = 0f;
         return true;
     }
