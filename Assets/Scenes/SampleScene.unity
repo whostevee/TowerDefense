@@ -4215,10 +4215,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::WaveManager
   _enemySpawner: {fileID: 443188088}
-  _waveNumber: 1
+  _maxWaves: 5
   _enemiesPerWave: 5
   _spawnTime: 1
-  _waveDelay: 10
+  _waveDelay: 4
   _spawnedInWave: 0
 --- !u!4 &495887568
 Transform:

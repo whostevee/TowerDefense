@@ -2,17 +2,26 @@ using UnityEngine;
 
 public class WaveManager : MonoBehaviour
 {
+    private enum WaveState
+    {
+        Spawning,
+        WaitingForClear,
+        Pause,
+        Win
+    }
+
     [SerializeField] private EnemySpawner _enemySpawner;
-    [SerializeField] private int _waveNumber = 1;
+    [SerializeField] private int _maxWaves = 5;
     [SerializeField] private int _enemiesPerWave = 5;
-    [SerializeField] private float _spawnTime = 2f;
-    [SerializeField] private int _waveDelay = 2;
+    [SerializeField] private float _spawnTime = 0.5f;
+    [SerializeField] private int _waveDelay = 10;
     [SerializeField] private int _spawnedInWave;
 
-    private float _lastTimeKill;
-    private bool _isWaveFinished;
-    public float SpawnTime => _spawnTime;
-    public int EnemiesPerWave => _enemiesPerWave;
+    private WaveState _state;
+
+    private float _nextSpawnTime;
+    private float _waveEndTime;
+    private int _waveNumber = 1;
 
     private void Start()
     {
@@ -21,58 +30,86 @@ public class WaveManager : MonoBehaviour
 
     private void Update()
     {
-        if (_spawnedInWave < _enemiesPerWave)
+        switch (_state)
         {
-            SpawnNextEnemy();
+            case WaveState.Spawning:
+                UpdateSpawning();
+                break;
+            case WaveState.WaitingForClear:
+                UpdateWaiting();
+                break;
+            case WaveState.Pause:
+                UpdatePause();
+                break;
+            case WaveState.Win:
+                break;
+        }
+    }
+
+    private void UpdateSpawning()
+    {
+        if (Time.time < _nextSpawnTime)
+        {
+            return;
         }
 
-        if (GameManager.Instance.Enemies.Count != 0)
+        if (_spawnedInWave >= _enemiesPerWave)
         {
-            _lastTimeKill += Time.deltaTime;
-        }
-        else
-        {
-            WaveFinished();
+            _state = WaveState.WaitingForClear;
+            return;
         }
 
-        if (_isWaveFinished)
+        SpawnNextEnemy();
+        _nextSpawnTime = Time.time + _spawnTime;
+    }
+
+    private void UpdateWaiting()
+    {
+        if (GameManager.Instance.Enemies.Count == 0)
         {
-            if (Time.time > _lastTimeKill + _waveDelay)
-            {
-                NextWave();
-            }
-            else
-            {
-                Debug.Log("Жду время");
-            }
+            _waveEndTime = Time.time;
+            
+            Debug.Log("Жду время");
+            _state = WaveState.Pause;
+        }
+    }
+
+    private void UpdatePause()
+    {
+        if (_waveNumber >= _maxWaves)
+        {
+            Debug.Log("You Win");
+            _state = WaveState.Win;
+            return;
+        }
+
+        if (Time.time > _waveEndTime + _waveDelay)
+        {
+            _waveNumber++;
+
+            NextWave();
+            StartWave();
         }
     }
 
     private void StartWave()
     {
-        _isWaveFinished = false;
-        SpawnNextEnemy();
+        Debug.Log("Wave #" + _waveNumber);
+        _spawnedInWave = 0;
+        _nextSpawnTime = Time.time + _spawnTime;
+        _state = WaveState.Spawning;
     }
 
     private void SpawnNextEnemy()
     {
         _enemySpawner.Spawn();
-        _spawnedInWave++;
-    }
 
-    private void WaveFinished()
-    {
-        Debug.Log("Волна закончилась");
-        _isWaveFinished = true;
+        _spawnedInWave++;
     }
 
     private void NextWave()
     {
-        _isWaveFinished = false;
-        _spawnedInWave = 0;
-
-        _enemiesPerWave += 10;
-        _spawnTime -= 0.1f;
+        _enemiesPerWave += 5;
 
         Debug.Log("Новые условия спавна");
     }
