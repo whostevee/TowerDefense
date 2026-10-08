@@ -4214,12 +4214,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b7ac08558eae42feb5e4538d05c98e7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::WaveManager
+  _gameConfig: {fileID: 11400000, guid: 886b9803d3b5747ebae8f2cff7f98bbd, type: 2}
   _enemySpawner: {fileID: 443188088}
-  _maxWaves: 5
-  _enemiesPerWave: 5
-  _spawnTime: 1
-  _waveDelay: 4
-  _spawnedInWave: 0
 --- !u!4 &495887568
 Transform:
   m_ObjectHideFlags: 0
@@ -13963,13 +13959,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cdde9383310cd48b2ae9cd5198cfd9e5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Tower
-  _attackRange: 8
-  _health: 1000
+  _gameConfig: {fileID: 11400000, guid: 886b9803d3b5747ebae8f2cff7f98bbd, type: 2}
   _projectile: {fileID: 4537697832828660871, guid: dfabd19a7e8c042c58d3599f465ab865, type: 3}
   _firePoint: {fileID: 1108122752}
-  _shotDelayTime: 1
-  _damage: 100
-  _projectileSpeed: 10
 --- !u!120 &1771625987
 LineRenderer:
   serializedVersion: 3

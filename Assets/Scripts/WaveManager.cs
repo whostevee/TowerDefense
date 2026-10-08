@@ -10,21 +10,28 @@ public class WaveManager : MonoBehaviour
         Win
     }
 
+    [SerializeField] private GameConfig _gameConfig;
     [SerializeField] private EnemySpawner _enemySpawner;
-    [SerializeField] private int _maxWaves = 5;
-    [SerializeField] private int _enemiesPerWave = 5;
-    [SerializeField] private float _spawnTime = 0.5f;
-    [SerializeField] private int _waveDelay = 10;
-    [SerializeField] private int _spawnedInWave;
 
     private WaveState _state;
-
+    
+    private int _maxWaves;
+    private int _enemiesPerWave;
+    private float _spawnTime;
+    private int _waveDelay;
+    private int _spawnedInWave;
+    
     private float _nextSpawnTime;
     private float _waveEndTime;
     private int _waveNumber = 1;
 
     private void Start()
     {
+        _maxWaves = _gameConfig.MaxWaves;
+        _enemiesPerWave = _gameConfig.EnemiesPerWave;
+        _spawnTime = _gameConfig.SpawnTime;
+        _waveDelay = _gameConfig.WaveDelay;
+        
         StartWave();
     }
 

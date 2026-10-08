@@ -3,24 +3,25 @@ using UnityEngine;
 public class Tower : MonoBehaviour, IDamageable
 {
     private const float UpdateTime = 0.5f;
-
-    [SerializeField] private float _attackRange = 5f;
-    [SerializeField] private int _health = 1000;
+    private const int PointsCount = 50;
+    
+    [SerializeField] private GameConfig _gameConfig;
     [SerializeField] private Projectile _projectile;
     [SerializeField] private Transform _firePoint;
-    [SerializeField] private float _shotDelayTime = 2f;
-    [SerializeField] private int _damage = 10;
-    [SerializeField] private float _projectileSpeed = 5f;
 
-    private int _maxHealth = 1000;
+    private float _attackRange;
+    private int _health;
+    private int _maxHealth;
+    private float _shotDelayTime;
+    private int _damage;
+    private float _projectileSpeed;
+    
     private float _attackTimeAcc;
     private float _searchTimeAcc;
     private bool _canShoot;
 
     private Enemy _nearestEnemy;
     private float _nearestDistance = Mathf.Infinity;
-
-    private int _pointsCount = 50;
 
     private LineRenderer _lineRenderer;
 
@@ -33,9 +34,16 @@ public class Tower : MonoBehaviour, IDamageable
 
     private void Start()
     {
+        _maxHealth = _gameConfig.TowerMaxHealth;
+        _health = _maxHealth;
+        _attackRange = _gameConfig.TowerAttackRange;
+        _shotDelayTime = _gameConfig.TowerAttackSpeed;
+        _damage = _gameConfig.TowerDamage;
+        _projectileSpeed = _gameConfig.ProjectileSpeed;
+        
         _lineRenderer = GetComponent<LineRenderer>();
-        _lineRenderer.positionCount = _pointsCount;
-        _lineRenderer.SetPositions(SetPoints(_pointsCount));
+        _lineRenderer.positionCount = PointsCount;
+        _lineRenderer.SetPositions(SetPoints(PointsCount));
     }
 
     private void Update()
