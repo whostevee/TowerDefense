@@ -24,6 +24,11 @@ public class WaveManager : MonoBehaviour
     private float _nextSpawnTime;
     private float _waveEndTime;
     private int _waveNumber = 1;
+    
+    public int MaxWaves => _maxWaves;
+    public int EnemiesPerWave => _enemiesPerWave;
+    public int WaveNumber => _waveNumber;
+    
 
     private void Start()
     {
