@@ -52,5 +52,6 @@ public class HUD : MonoBehaviour
    private void PauseGame()
    {
       _menuCanvas.gameObject.SetActive(true);
+      gameObject.SetActive(false);
    }
 }
