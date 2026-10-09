@@ -1,6 +1,7 @@
 using TMPro;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.UI;
 
 public class HUD : MonoBehaviour
 {
@@ -11,6 +12,9 @@ public class HUD : MonoBehaviour
    [SerializeField] private TextMeshProUGUI _textEnemies;
    [SerializeField] private TextMeshProUGUI _textWaves;
    
+   [SerializeField] private Button _pauseButton;
+   [SerializeField] private Canvas _menuCanvas;
+   
    private int _currentWave;
    private int _maxWaves;
    private int _enemiesAlive;
@@ -19,8 +23,14 @@ public class HUD : MonoBehaviour
    private int _towerHealth;
    private int _towerMaxHealth;
 
-   private void Start()
+   private void OnEnable()
    {
+      _pauseButton.onClick.AddListener(PauseGame);
+   }
+
+   private void OnDisable()
+   {
+      _pauseButton.onClick.RemoveListener(PauseGame);
    }
 
    private void Update()
@@ -33,8 +43,14 @@ public class HUD : MonoBehaviour
       _towerMaxHealth = _tower.MaxHealth;
       _towerHealth = _tower.Health;
       
-      _textHealth.text = "Health: " + _towerHealth + " / " + _towerMaxHealth;
+      _textHealth.text = "HP: " + _towerHealth + " / " + _towerMaxHealth;
       _textEnemies.text = "Enemies: " + _enemiesAlive + " / " + _enemiesInWave;
       _textWaves.text = "Waves: " + _currentWave + " / " + _maxWaves;
+
+   }
+
+   private void PauseGame()
+   {
+      _menuCanvas.gameObject.SetActive(true);
    }
 }
