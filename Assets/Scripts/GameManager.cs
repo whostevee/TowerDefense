@@ -31,4 +31,9 @@ public class GameManager : MonoBehaviour
     {
        _enemies.Remove(e);
     }
+    
+    public void ClearEnemies()
+    {
+        _enemies.Clear();
+    }
 }

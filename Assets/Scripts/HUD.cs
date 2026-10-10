@@ -1,6 +1,5 @@
 using TMPro;
 using UnityEngine;
-using UnityEngine.AI;
 using UnityEngine.UI;
 
 public class HUD : MonoBehaviour
@@ -13,8 +12,9 @@ public class HUD : MonoBehaviour
    [SerializeField] private TextMeshProUGUI _textWaves;
    
    [SerializeField] private Button _pauseButton;
-   [SerializeField] private Canvas _menuCanvas;
-   
+   [SerializeField] private GameObject _pauseMenuPanel;
+
+   private CanvasGroup _canvasGroup;
    private int _currentWave;
    private int _maxWaves;
    private int _enemiesAlive;
@@ -31,6 +31,11 @@ public class HUD : MonoBehaviour
    private void OnDisable()
    {
       _pauseButton.onClick.RemoveListener(PauseGame);
+   }
+
+   private void Start()
+   {
+      _canvasGroup = _pauseMenuPanel.GetComponent<CanvasGroup>();
    }
 
    private void Update()
@@ -51,7 +56,7 @@ public class HUD : MonoBehaviour
 
    private void PauseGame()
    {
-      _menuCanvas.gameObject.SetActive(true);
-      gameObject.SetActive(false);
+      _pauseMenuPanel.SetActive(true);
+      Time.timeScale = 0f;
    }
 }
