@@ -1,6 +1,8 @@
+using System;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
-public class Tower : MonoBehaviour, IDamageable
+public class Tower : MonoBehaviour, IDamageable, IPointerClickHandler
 {
     private const float UpdateTime = 0.5f;
     private const int PointsCount = 50;
@@ -24,6 +26,8 @@ public class Tower : MonoBehaviour, IDamageable
     private float _nearestDistance = Mathf.Infinity;
 
     private LineRenderer _lineRenderer;
+
+    public static Action OnTowerClicked;
 
     public int Damage => _damage;
     public int Health => _health;
@@ -134,5 +138,11 @@ public class Tower : MonoBehaviour, IDamageable
 
         accumulator = 0f;
         return true;
+    }
+
+    public void OnPointerClick(PointerEventData eventData)
+    {
+        Debug.Log("OnPointerClick");
+        OnTowerClicked?.Invoke();
     }
 }
