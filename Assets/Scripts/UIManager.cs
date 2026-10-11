@@ -47,7 +47,7 @@ public class UIManager : MonoBehaviour
 
     private void ReloadScene()
     {
-        GameManager.Instance.ClearEnemies();
+        GameManager.Instance.ClearFields();
         Time.timeScale = 1f;
         
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);

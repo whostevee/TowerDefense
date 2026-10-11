@@ -3805,6 +3805,7 @@ MonoBehaviour:
   _textHealth: {fileID: 1105145297}
   _textEnemies: {fileID: 1390767928}
   _textWaves: {fileID: 528469346}
+  _textMoney: {fileID: 1399631584}
   _pauseButton: {fileID: 897108409}
   _pauseMenuPanel: {fileID: 759776382}
 --- !u!1 &375656833 stripped
@@ -19965,11 +19966,11 @@ SceneRoots:
   - {fileID: 173759548}
   - {fileID: 495887568}
   - {fileID: 1520427687}
+  - {fileID: 2051475604}
+  - {fileID: 365738867}
   - {fileID: 443188089}
   - {fileID: 1185552515}
   - {fileID: 868331509}
   - {fileID: 1792712526}
   - {fileID: 919834630}
   - {fileID: 46221688}
-  - {fileID: 365738867}
-  - {fileID: 2051475604}
