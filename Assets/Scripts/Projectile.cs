@@ -17,7 +17,7 @@ public class Projectile : MonoBehaviour
         
         _maxDistance = FindAnyObjectByType<Tower>().AttackRange;
         _damage = FindAnyObjectByType<Tower>().Damage;
-        _speed = FindAnyObjectByType<Tower>().ProjectileSpeed;
+        _speed = FindAnyObjectByType<Tower>().AttackSpeed;
         
         _spawnPosition = transform.position;
         

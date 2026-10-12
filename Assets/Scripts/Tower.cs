@@ -10,13 +10,18 @@ public class Tower : MonoBehaviour, IDamageable, IPointerClickHandler
     [SerializeField] private GameConfig _gameConfig;
     [SerializeField] private Projectile _projectile;
     [SerializeField] private Transform _firePoint;
+    [SerializeField] private UpgradeMenu _upgradeMenu;
 
     private float _attackRange;
     private int _health;
     private int _maxHealth;
     private float _shotDelayTime;
     private int _damage;
-    private float _projectileSpeed;
+    private float _attackSpeed;
+    
+    private int _healthUpgradeQuantity;
+    private float _attackSpeedUpgradeQuantity;
+    private int _damageUpgradeQuantity;
     
     private float _attackTimeAcc;
     private float _searchTimeAcc;
@@ -33,8 +38,11 @@ public class Tower : MonoBehaviour, IDamageable, IPointerClickHandler
     public int Health => _health;
     public int MaxHealth => _maxHealth;
 
-    public float ProjectileSpeed => _projectileSpeed;
+    public float AttackSpeed => _attackSpeed;
     public float AttackRange => _attackRange;
+
+    private void OnEnable() => _upgradeMenu.OnTowerUpgraded += TakeUpgrade;
+    private void OnDisable() => _upgradeMenu.OnTowerUpgraded -= TakeUpgrade;
 
     private void Start()
     {
@@ -43,7 +51,11 @@ public class Tower : MonoBehaviour, IDamageable, IPointerClickHandler
         _attackRange = _gameConfig.TowerAttackRange;
         _shotDelayTime = _gameConfig.TowerAttackSpeed;
         _damage = _gameConfig.TowerDamage;
-        _projectileSpeed = _gameConfig.ProjectileSpeed;
+        _attackSpeed = _gameConfig.AttackSpeed;
+
+        _attackSpeedUpgradeQuantity = _gameConfig.AttackSpeedUpgradeQuantity;
+        _healthUpgradeQuantity = _gameConfig.HealthUpgradeQuantity;
+        _damageUpgradeQuantity = _gameConfig.DamageUpgradeQuantity;
         
         _lineRenderer = GetComponent<LineRenderer>();
         _lineRenderer.positionCount = PointsCount;
@@ -144,5 +156,22 @@ public class Tower : MonoBehaviour, IDamageable, IPointerClickHandler
     {
         Debug.Log("OnPointerClick");
         OnTowerClicked?.Invoke();
+    }
+
+    private void TakeUpgrade(UpgradeMenu.UpgradeType upgradeType)
+    {
+        switch (upgradeType)
+        {
+            case UpgradeMenu.UpgradeType.Health:
+                _health += _healthUpgradeQuantity;
+                _maxHealth += _healthUpgradeQuantity;
+                break;
+            case UpgradeMenu.UpgradeType.AttackSpeed:
+                _attackSpeed += _attackSpeedUpgradeQuantity;
+                break;
+            case UpgradeMenu.UpgradeType.Damage:
+                _damage += _damageUpgradeQuantity;
+                break;
+        }
     }
 }

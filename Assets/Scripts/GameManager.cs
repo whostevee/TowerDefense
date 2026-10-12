@@ -5,18 +5,19 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
     private List<Enemy> _enemies;
-    public IReadOnlyList<Enemy>  Enemies => _enemies;
-    
+    public IReadOnlyList<Enemy> Enemies => _enemies;
+
     public static GameManager Instance { get; private set; }
     private int _money;
     private int _rewardForKill;
-    
+
     public int Money => _money;
 
     private void OnEnable()
     {
         Enemy.OnEnemyDied += HandleEnemyDied;
     }
+
     private void OnDisable()
     {
         Enemy.OnEnemyDied -= HandleEnemyDied;
@@ -25,7 +26,7 @@ public class GameManager : MonoBehaviour
     private void Awake()
     {
         _enemies = new List<Enemy>();
-        
+
         if (Instance != null && Instance != this)
         {
             Destroy(gameObject);
@@ -43,9 +44,9 @@ public class GameManager : MonoBehaviour
 
     public void RemoveEnemy(Enemy e)
     {
-       _enemies.Remove(e);
+        _enemies.Remove(e);
     }
-    
+
     public void ClearFields()
     {
         _enemies.Clear();
@@ -56,7 +57,15 @@ public class GameManager : MonoBehaviour
     {
         _rewardForKill = 10;
         _money += _rewardForKill;
-        
+
         RemoveEnemy(e);
+    }
+
+    public void BuyUpgrade(int price)
+    {
+        if (_money >= price)
+        {
+            _money -= price;
+        }
     }
 }
