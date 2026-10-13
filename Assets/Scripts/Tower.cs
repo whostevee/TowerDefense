@@ -33,6 +33,7 @@ public class Tower : MonoBehaviour, IDamageable, IPointerClickHandler
     private LineRenderer _lineRenderer;
 
     public static Action OnTowerClicked;
+    public static Action OnTowerDestroyed;
 
     public int Damage => _damage;
     public int Health => _health;
@@ -118,9 +119,10 @@ public class Tower : MonoBehaviour, IDamageable, IPointerClickHandler
         _health -= damage;
         if (_health <= 0)
         {
-            Debug.Log("You lose");
-
             Destroy(gameObject);
+            OnTowerDestroyed?.Invoke();
+            
+            Time.timeScale = 0f;
         }
     }
 

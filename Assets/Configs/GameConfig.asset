@@ -13,14 +13,14 @@ MonoBehaviour:
   m_Name: GameConfig
   m_EditorClassIdentifier: Assembly-CSharp::GameConfig
   _towerMaxHealth: 1000
-  _towerDamage: 50
+  _towerDamage: 100
   _towerAttackRange: 10
   _towerAttackSpeed: 1
-  _attackSpeed: 0
+  _attackSpeed: 10
   _enemyMaxHealth: 100
   _enemySpeed: 2
-  _enemyDamage: 5
-  _maxWaves: 5
+  _enemyDamage: 1
+  _maxWaves: 2
   _enemiesPerWave: 5
   _spawnTime: 0.5
   _waveDelay: 5

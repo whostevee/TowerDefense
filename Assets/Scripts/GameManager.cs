@@ -10,6 +10,8 @@ public class GameManager : MonoBehaviour
     public static GameManager Instance { get; private set; }
     private int _money;
     private int _rewardForKill;
+    private bool _isGameStarted;
+    
 
     public int Money => _money;
 

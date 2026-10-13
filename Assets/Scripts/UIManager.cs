@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -6,26 +7,34 @@ using UnityEngine.UI;
 public class UIManager : MonoBehaviour
 {
     [SerializeField] private Animator _upgradeMenuAnumator;
-    
+
     [SerializeField] private GameObject _pauseMenuPanel;
     [SerializeField] private GameObject _mainMenuPanel;
     [SerializeField] private GameObject _upgradeMenuPanel;
+    [SerializeField] private GameObject _loseMenuPanel;
+    [SerializeField] private GameObject _winMenuPanel;
     [SerializeField] private HUD _hud;
 
     [SerializeField] private Button _resumeButton;
     [SerializeField] private Button _restartButton;
     [SerializeField] private Button _exitButton;
     [SerializeField] private Button _startButton;
+
+    public static Action OnGameStarted;
+    private static bool _skipMenu;
     
+    public bool SkipMenu => _skipMenu;
 
     private void OnEnable()
     {
         _resumeButton.onClick.AddListener(HideMenu);
         _restartButton.onClick.AddListener(ReloadScene);
         _exitButton.onClick.AddListener(ReturnToMainMenu);
-        _startButton.onClick.AddListener(ReloadScene);
+        _startButton.onClick.AddListener(StartGame);
 
         Tower.OnTowerClicked += ShowUpgradeMenu;
+        Tower.OnTowerDestroyed += ShowLoseMenu;
+        WaveManager.OnWavesEnded += ShowWinMenu;
     }
 
     private void OnDisable()
@@ -33,9 +42,25 @@ public class UIManager : MonoBehaviour
         _resumeButton.onClick.RemoveListener(HideMenu);
         _restartButton.onClick.RemoveListener(ReloadScene);
         _exitButton.onClick.RemoveListener(ReturnToMainMenu);
-        _startButton.onClick.RemoveListener(ReloadScene);
+        _startButton.onClick.RemoveListener(StartGame);
 
         Tower.OnTowerClicked -= ShowUpgradeMenu;
+        Tower.OnTowerDestroyed -= ShowLoseMenu;
+        WaveManager.OnWavesEnded -= ShowWinMenu;
+    }
+
+    private void Start()
+    {
+        if (_skipMenu)
+        {
+            StartGame();
+            _skipMenu = false;
+        }
+        else
+        {
+            Time.timeScale = 0f;
+            _mainMenuPanel.SetActive(true);
+        }
     }
 
     private void HideMenu()
@@ -48,18 +73,24 @@ public class UIManager : MonoBehaviour
 
     private void ReturnToMainMenu()
     {
-        _pauseMenuPanel.SetActive(false);
-        _mainMenuPanel.SetActive(true);
-
-        Time.timeScale = 0f;
+        GameManager.Instance.ClearFields();
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
     private void ReloadScene()
     {
+        _skipMenu = true;
         GameManager.Instance.ClearFields();
         Time.timeScale = 1f;
 
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
+
+    private void StartGame()
+    {
+        Time.timeScale = 1f;
+        OnGameStarted?.Invoke();
+        _mainMenuPanel.SetActive(false);
     }
 
     private void ShowUpgradeMenu()
@@ -71,8 +102,17 @@ public class UIManager : MonoBehaviour
         else
         {
             StartCoroutine(OpenMenuRoutine());
-            
         }
+    }
+
+    private void ShowLoseMenu()
+    {
+        _loseMenuPanel.SetActive(true);
+    }
+
+    private void ShowWinMenu()
+    {
+        _winMenuPanel.SetActive(true);
     }
 
     private IEnumerator OpenMenuRoutine()

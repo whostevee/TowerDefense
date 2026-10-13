@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class WaveManager : MonoBehaviour
@@ -7,6 +8,7 @@ public class WaveManager : MonoBehaviour
         Spawning,
         WaitingForClear,
         Pause,
+        Stop,
         Win
     }
 
@@ -24,11 +26,22 @@ public class WaveManager : MonoBehaviour
     private float _nextSpawnTime;
     private float _waveEndTime;
     private int _waveNumber = 1;
+
+    public static Action OnWavesEnded;
     
     public int MaxWaves => _maxWaves;
     public int EnemiesPerWave => _enemiesPerWave;
     public int WaveNumber => _waveNumber;
-    
+
+    private void OnEnable()
+    {
+        UIManager.OnGameStarted += StartWave;
+    }
+
+    private void OnDisable()
+    {
+        UIManager.OnGameStarted -= StartWave;
+    }
 
     private void Start()
     {
@@ -36,8 +49,8 @@ public class WaveManager : MonoBehaviour
         _enemiesPerWave = _gameConfig.EnemiesPerWave;
         _spawnTime = _gameConfig.SpawnTime;
         _waveDelay = _gameConfig.WaveDelay;
-        
-        StartWave();
+
+        _state = WaveState.Stop;
     }
 
     private void Update()
@@ -53,7 +66,11 @@ public class WaveManager : MonoBehaviour
             case WaveState.Pause:
                 UpdatePause();
                 break;
+            case WaveState.Stop:
+                UpdateStop();
+                break;
             case WaveState.Win:
+                OnWavesEnded?.Invoke();
                 break;
         }
     }
@@ -102,6 +119,11 @@ public class WaveManager : MonoBehaviour
             NextWave();
             StartWave();
         }
+    }
+
+    private void UpdateStop()
+    {
+        Time.timeScale = 0;
     }
 
     private void StartWave()
