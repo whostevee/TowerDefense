@@ -11,8 +11,9 @@ public class GameManager : MonoBehaviour
     private int _money;
     private int _rewardForKill;
     private bool _isGameStarted;
-    
+    private int _diedEnemyCount;
 
+    public int DiedEnemyCount => _diedEnemyCount;
     public int Money => _money;
 
     private void OnEnable()
@@ -55,9 +56,15 @@ public class GameManager : MonoBehaviour
         _money = 0;
     }
 
+    public void ClearDiedEnemies()
+    {
+        _diedEnemyCount = 0;
+    }
+
     private void HandleEnemyDied(Enemy e)
     {
         _rewardForKill = 10;
+        _diedEnemyCount++;
         _money += _rewardForKill;
 
         RemoveEnemy(e);

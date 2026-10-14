@@ -98,8 +98,7 @@ public class WaveManager : MonoBehaviour
         {
             _waveEndTime = Time.time;
             
-            Debug.Log("Жду время");
-            _state = WaveState.Pause;
+                _state = WaveState.Pause;
         }
     }
 
@@ -107,7 +106,6 @@ public class WaveManager : MonoBehaviour
     {
         if (_waveNumber >= _maxWaves)
         {
-            Debug.Log("You Win");
             _state = WaveState.Win;
             return;
         }
@@ -128,8 +126,9 @@ public class WaveManager : MonoBehaviour
 
     private void StartWave()
     {
-        Debug.Log("Wave #" + _waveNumber);
         _spawnedInWave = 0;
+        GameManager.Instance.ClearDiedEnemies();
+        
         _nextSpawnTime = Time.time + _spawnTime;
         _state = WaveState.Spawning;
     }
@@ -144,7 +143,5 @@ public class WaveManager : MonoBehaviour
     private void NextWave()
     {
         _enemiesPerWave += 5;
-
-        Debug.Log("Новые условия спавна");
     }
 }

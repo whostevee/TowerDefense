@@ -17,7 +17,7 @@ public class HUD : MonoBehaviour
 
    private int _currentWave;
    private int _maxWaves;
-   private int _enemiesAlive;
+   private int _diedEnemies;
    private int _enemiesInWave;
    
    private int _towerHealth;
@@ -39,14 +39,14 @@ public class HUD : MonoBehaviour
       _currentWave = _waveManager.WaveNumber;
       _maxWaves = _waveManager.MaxWaves;
       _enemiesInWave = _waveManager.EnemiesPerWave;
-      _enemiesAlive = GameManager.Instance.Enemies.Count;
+      _diedEnemies = GameManager.Instance.DiedEnemyCount;
       
       _towerMaxHealth = _tower.MaxHealth;
       _towerHealth = _tower.Health;
       _moneyCount = GameManager.Instance.Money;
       
       _textHealth.text = "HP: " + _towerHealth + " / " + _towerMaxHealth;
-      _textEnemies.text = "Enemies: " + _enemiesAlive + " / " + _enemiesInWave;
+      _textEnemies.text = "Enemies: " + _diedEnemies + " / " + _enemiesInWave;
       _textWaves.text = "Waves: " + _currentWave + " / " + _maxWaves;
       _textMoney.text = "Money: " + _moneyCount;
 
