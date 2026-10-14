@@ -16,20 +16,14 @@ public class UIManager : MonoBehaviour
     [SerializeField] private HUD _hud;
 
     [SerializeField] private Button _resumeButton;
-    [SerializeField] private Button _restartButton;
-    [SerializeField] private Button _exitButton;
     [SerializeField] private Button _startButton;
 
     public static Action OnGameStarted;
     private static bool _skipMenu;
-    
-    public bool SkipMenu => _skipMenu;
 
     private void OnEnable()
     {
         _resumeButton.onClick.AddListener(HideMenu);
-        _restartButton.onClick.AddListener(ReloadScene);
-        _exitButton.onClick.AddListener(ReturnToMainMenu);
         _startButton.onClick.AddListener(StartGame);
 
         Tower.OnTowerClicked += ShowUpgradeMenu;
@@ -40,10 +34,8 @@ public class UIManager : MonoBehaviour
     private void OnDisable()
     {
         _resumeButton.onClick.RemoveListener(HideMenu);
-        _restartButton.onClick.RemoveListener(ReloadScene);
-        _exitButton.onClick.RemoveListener(ReturnToMainMenu);
         _startButton.onClick.RemoveListener(StartGame);
-
+        
         Tower.OnTowerClicked -= ShowUpgradeMenu;
         Tower.OnTowerDestroyed -= ShowLoseMenu;
         WaveManager.OnWavesEnded -= ShowWinMenu;
@@ -69,21 +61,6 @@ public class UIManager : MonoBehaviour
 
         Time.timeScale = 1f;
         _hud.gameObject.SetActive(true);
-    }
-
-    private void ReturnToMainMenu()
-    {
-        GameManager.Instance.ClearFields();
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-    }
-
-    private void ReloadScene()
-    {
-        _skipMenu = true;
-        GameManager.Instance.ClearFields();
-        Time.timeScale = 1f;
-
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
     private void StartGame()
@@ -127,5 +104,17 @@ public class UIManager : MonoBehaviour
         _upgradeMenuAnumator.SetTrigger("CloseMenu");
         yield return new WaitForSeconds(0.5f);
         _upgradeMenuPanel.SetActive(false);
+    }
+
+    public static void ChangeFlag()
+    {
+        if (_skipMenu)
+        {
+            _skipMenu = false;
+        }
+        else
+        {
+            _skipMenu = true;
+        }
     }
 }

@@ -7666,17 +7666,6 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 3100553483150029818, guid: 36a282966712440788fea75592a6237d, type: 3}
   m_PrefabInstance: {fileID: 259776705}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &654715878 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 6659205469011864503, guid: 36a282966712440788fea75592a6237d, type: 3}
-  m_PrefabInstance: {fileID: 259776705}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Button
 --- !u!1001 &660854076
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -16487,8 +16476,6 @@ MonoBehaviour:
   _winMenuPanel: {fileID: 62588933}
   _hud: {fileID: 365738868}
   _resumeButton: {fileID: 1905402758}
-  _restartButton: {fileID: 1709806631}
-  _exitButton: {fileID: 654715878}
   _startButton: {fileID: 269805723}
 --- !u!4 &1520427687
 Transform:
@@ -17999,17 +17986,6 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 5165391701994040042, guid: ab0953e6d77cb4e4fb45cb2eadf974e4, type: 3}
   m_PrefabInstance: {fileID: 193227225}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1709806631 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 2553529425081875266, guid: ab0953e6d77cb4e4fb45cb2eadf974e4, type: 3}
-  m_PrefabInstance: {fileID: 193227225}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Button
 --- !u!1 &1717750189
 GameObject:
   m_ObjectHideFlags: 0

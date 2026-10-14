@@ -149,6 +149,7 @@ GameObject:
   - component: {fileID: 6505731503585834080}
   - component: {fileID: 6169910956092952752}
   - component: {fileID: 2553529425081875266}
+  - component: {fileID: 8342479626385820171}
   m_Layer: 5
   m_Name: RestartButton
   m_TagString: Untagged
@@ -258,3 +259,16 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &8342479626385820171
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4146150710639241958}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 477d3755af5d641e5916712b6a941b68, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::RestartButton
+  _restartButton: {fileID: 2553529425081875266}

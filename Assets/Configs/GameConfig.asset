@@ -19,7 +19,7 @@ MonoBehaviour:
   _attackSpeed: 10
   _enemyMaxHealth: 100
   _enemySpeed: 2
-  _enemyDamage: 1
+  _enemyDamage: 1000
   _maxWaves: 2
   _enemiesPerWave: 5
   _spawnTime: 0.5
