@@ -16,19 +16,20 @@ public class WaveManager : MonoBehaviour
     [SerializeField] private EnemySpawner _enemySpawner;
 
     private WaveState _state;
-    
+
     private int _maxWaves;
     private int _enemiesPerWave;
     private float _spawnTime;
     private int _waveDelay;
     private int _spawnedInWave;
-    
+
     private float _nextSpawnTime;
     private float _waveEndTime;
     private int _waveNumber = 1;
 
     public static Action OnWavesEnded;
-    
+    public static Action OnWaveFinished;
+
     public int MaxWaves => _maxWaves;
     public int EnemiesPerWave => _enemiesPerWave;
     public int WaveNumber => _waveNumber;
@@ -97,8 +98,9 @@ public class WaveManager : MonoBehaviour
         if (GameManager.Instance.Enemies.Count == 0)
         {
             _waveEndTime = Time.time;
-            
-                _state = WaveState.Pause;
+
+            OnWaveFinished?.Invoke();
+            _state = WaveState.Pause;
         }
     }
 
@@ -128,7 +130,7 @@ public class WaveManager : MonoBehaviour
     {
         _spawnedInWave = 0;
         GameManager.Instance.ClearDiedEnemies();
-        
+
         _nextSpawnTime = Time.time + _spawnTime;
         _state = WaveState.Spawning;
     }

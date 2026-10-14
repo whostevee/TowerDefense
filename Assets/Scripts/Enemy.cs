@@ -19,7 +19,7 @@ public class Enemy : MonoBehaviour, IDamageable
     private NavMeshAgent _agent;
     private Animator _animator;
 
-    public static Action<Enemy> OnEnemyDied;
+    public static event Action<Enemy> OnEnemyDied;
     
     public int Health => _health;
     public int MaxHealth => _maxHealth;

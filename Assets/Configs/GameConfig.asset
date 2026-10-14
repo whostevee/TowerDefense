@@ -18,8 +18,8 @@ MonoBehaviour:
   _towerAttackSpeed: 1
   _projectileSpeed: 10
   _enemyMaxHealth: 100
-  _enemySpeed: 2
-  _enemyDamage: 10
+  _enemySpeed: 5
+  _enemyDamage: 100
   _maxWaves: 2
   _enemiesPerWave: 5
   _spawnTime: 0.5

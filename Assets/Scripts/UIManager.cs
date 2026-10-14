@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -13,10 +14,13 @@ public class UIManager : MonoBehaviour
     [SerializeField] private GameObject _upgradeMenuPanel;
     [SerializeField] private GameObject _loseMenuPanel;
     [SerializeField] private GameObject _winMenuPanel;
+    [SerializeField] private GameObject _statsPanel;
     [SerializeField] private HUD _hud;
 
     [SerializeField] private Button _resumeButton;
     [SerializeField] private Button _startButton;
+
+    [SerializeField] private TextMeshProUGUI _statsText;
 
     public static Action OnGameStarted;
     private static bool _skipMenu;
@@ -35,7 +39,7 @@ public class UIManager : MonoBehaviour
     {
         _resumeButton.onClick.RemoveListener(HideMenu);
         _startButton.onClick.RemoveListener(StartGame);
-        
+
         Tower.OnTowerClicked -= ShowUpgradeMenu;
         Tower.OnTowerDestroyed -= ShowLoseMenu;
         WaveManager.OnWavesEnded -= ShowWinMenu;
@@ -86,12 +90,14 @@ public class UIManager : MonoBehaviour
     {
         _hud.gameObject.SetActive(false);
         _loseMenuPanel.SetActive(true);
+        ShowStats();
     }
 
     private void ShowWinMenu()
     {
         _hud.gameObject.SetActive(false);
         _winMenuPanel.SetActive(true);
+        ShowStats();
     }
 
     private IEnumerator OpenMenuRoutine()
@@ -118,5 +124,12 @@ public class UIManager : MonoBehaviour
         {
             _skipMenu = true;
         }
+    }
+
+    public void ShowStats()
+    {
+        _statsPanel.SetActive(true);
+        _statsText.text = $"Убито врагов: {StatsManager.Instance.EnemyKilled}\n" +
+                          $"Пережито волн: {StatsManager.Instance.WavesSurvived}";
     }
 }
