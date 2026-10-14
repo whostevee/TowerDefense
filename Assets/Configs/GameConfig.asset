@@ -18,9 +18,9 @@ MonoBehaviour:
   _towerAttackSpeed: 1
   _projectileSpeed: 10
   _enemyMaxHealth: 100
-  _enemySpeed: 5
-  _enemyDamage: 100
-  _maxWaves: 2
+  _enemySpeed: 2
+  _enemyDamage: 10
+  _maxWaves: 5
   _enemiesPerWave: 5
   _spawnTime: 0.5
   _waveDelay: 5
@@ -31,5 +31,5 @@ MonoBehaviour:
   _healthUpgradePrice: 20
   _attackSpeedUpgradePrice: 15
   _healthUpgradeQuantity: 100
-  _attackSpeedUpgradeQuantity: 5
+  _attackSpeedUpgradeQuantity: 0.2
   _damageUpgradeQuantity: 50

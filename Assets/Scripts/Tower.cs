@@ -169,7 +169,7 @@ public class Tower : MonoBehaviour, IDamageable, IPointerClickHandler
                 _maxHealth += _healthUpgradeQuantity;
                 break;
             case UpgradeMenu.UpgradeType.AttackSpeed:
-                _projectileSpeed += _attackSpeedUpgradeQuantity;
+                _shotDelayTime -= _attackSpeedUpgradeQuantity;
                 break;
             case UpgradeMenu.UpgradeType.Damage:
                 _damage += _damageUpgradeQuantity;

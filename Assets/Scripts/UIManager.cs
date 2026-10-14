@@ -91,6 +91,7 @@ public class UIManager : MonoBehaviour
         _hud.gameObject.SetActive(false);
         _loseMenuPanel.SetActive(true);
         ShowStats();
+        Time.timeScale = 0f;
     }
 
     private void ShowWinMenu()
@@ -98,6 +99,7 @@ public class UIManager : MonoBehaviour
         _hud.gameObject.SetActive(false);
         _winMenuPanel.SetActive(true);
         ShowStats();
+        Time.timeScale = 0f;
     }
 
     private IEnumerator OpenMenuRoutine()
@@ -126,7 +128,7 @@ public class UIManager : MonoBehaviour
         }
     }
 
-    public void ShowStats()
+    private void ShowStats()
     {
         _statsPanel.SetActive(true);
         _statsText.text = $"Убито врагов: {StatsManager.Instance.EnemyKilled}\n" +
