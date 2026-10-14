@@ -16,7 +16,7 @@ MonoBehaviour:
   _towerDamage: 100
   _towerAttackRange: 10
   _towerAttackSpeed: 1
-  _attackSpeed: 10
+  _projectileSpeed: 10
   _enemyMaxHealth: 100
   _enemySpeed: 2
   _enemyDamage: 10

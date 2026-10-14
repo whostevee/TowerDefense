@@ -7,7 +7,7 @@ public class GameConfig : ScriptableObject
     [SerializeField] private int _towerDamage;
     [SerializeField] private float _towerAttackRange;
     [SerializeField] private float _towerAttackSpeed;
-    [SerializeField] private float _attackSpeed;
+    [SerializeField] private float _projectileSpeed;
     
     [SerializeField] private int _enemyMaxHealth;
     [SerializeField] private float _enemySpeed;
@@ -33,7 +33,7 @@ public class GameConfig : ScriptableObject
     public int TowerDamage => _towerDamage;
     public float TowerAttackRange => _towerAttackRange;
     public float TowerAttackSpeed => _towerAttackSpeed;
-    public float AttackSpeed => _attackSpeed;
+    public float ProjectileSpeed => _projectileSpeed;
 
     public int EnemyMaxHealth => _enemyMaxHealth;
     public float EnemySpeed => _enemySpeed;

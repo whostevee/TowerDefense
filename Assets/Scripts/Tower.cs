@@ -17,7 +17,7 @@ public class Tower : MonoBehaviour, IDamageable, IPointerClickHandler
     private int _maxHealth;
     private float _shotDelayTime;
     private int _damage;
-    private float _attackSpeed;
+    private float _projectileSpeed;
     
     private int _healthUpgradeQuantity;
     private float _attackSpeedUpgradeQuantity;
@@ -39,7 +39,7 @@ public class Tower : MonoBehaviour, IDamageable, IPointerClickHandler
     public int Health => _health;
     public int MaxHealth => _maxHealth;
 
-    public float AttackSpeed => _attackSpeed;
+    public float ProjectileSpeed => _projectileSpeed;
     public float AttackRange => _attackRange;
 
     private void OnEnable() => _upgradeMenu.OnTowerUpgraded += TakeUpgrade;
@@ -52,7 +52,7 @@ public class Tower : MonoBehaviour, IDamageable, IPointerClickHandler
         _attackRange = _gameConfig.TowerAttackRange;
         _shotDelayTime = _gameConfig.TowerAttackSpeed;
         _damage = _gameConfig.TowerDamage;
-        _attackSpeed = _gameConfig.AttackSpeed;
+        _projectileSpeed = _gameConfig.ProjectileSpeed;
 
         _attackSpeedUpgradeQuantity = _gameConfig.AttackSpeedUpgradeQuantity;
         _healthUpgradeQuantity = _gameConfig.HealthUpgradeQuantity;
@@ -169,7 +169,7 @@ public class Tower : MonoBehaviour, IDamageable, IPointerClickHandler
                 _maxHealth += _healthUpgradeQuantity;
                 break;
             case UpgradeMenu.UpgradeType.AttackSpeed:
-                _attackSpeed += _attackSpeedUpgradeQuantity;
+                _projectileSpeed += _attackSpeedUpgradeQuantity;
                 break;
             case UpgradeMenu.UpgradeType.Damage:
                 _damage += _damageUpgradeQuantity;

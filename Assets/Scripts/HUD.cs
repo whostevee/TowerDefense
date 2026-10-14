@@ -1,3 +1,4 @@
+using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -49,12 +50,13 @@ public class HUD : MonoBehaviour
       _textEnemies.text = "Enemies: " + _diedEnemies + " / " + _enemiesInWave;
       _textWaves.text = "Waves: " + _currentWave + " / " + _maxWaves;
       _textMoney.text = "Money: " + _moneyCount;
-
    }
 
    private void PauseGame()
    {
       _pauseMenuPanel.SetActive(true);
+      
+      gameObject.SetActive(false);
       Time.timeScale = 0f;
    }
 }

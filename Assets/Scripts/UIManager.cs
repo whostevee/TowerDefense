@@ -84,11 +84,13 @@ public class UIManager : MonoBehaviour
 
     private void ShowLoseMenu()
     {
+        _hud.gameObject.SetActive(false);
         _loseMenuPanel.SetActive(true);
     }
 
     private void ShowWinMenu()
     {
+        _hud.gameObject.SetActive(false);
         _winMenuPanel.SetActive(true);
     }
 
