@@ -25,6 +25,7 @@ public class Tower : MonoBehaviour, IDamageable, IPointerClickHandler
     
     private float _attackTimeAcc;
     private float _searchTimeAcc;
+    private float _destroyTimeAcc;
     private bool _canShoot;
 
     private Enemy _nearestEnemy;
@@ -121,8 +122,6 @@ public class Tower : MonoBehaviour, IDamageable, IPointerClickHandler
         {
             Destroy(gameObject);
             OnTowerDestroyed?.Invoke();
-            
-            Time.timeScale = 0f;
         }
     }
 

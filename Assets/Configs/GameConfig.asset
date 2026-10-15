@@ -13,23 +13,24 @@ MonoBehaviour:
   m_Name: GameConfig
   m_EditorClassIdentifier: Assembly-CSharp::GameConfig
   _towerMaxHealth: 1000
-  _towerDamage: 100
-  _towerAttackRange: 10
-  _towerAttackSpeed: 1
-  _projectileSpeed: 10
+  _towerDamage: 20
+  _towerAttackRange: 8
+  _towerAttackSpeed: 1.2
+  _projectileSpeed: 13
   _enemyMaxHealth: 100
   _enemySpeed: 2
-  _enemyDamage: 10
+  _enemyDamage: 6
+  _enemyAttackDelay: 1
   _maxWaves: 5
   _enemiesPerWave: 5
-  _spawnTime: 0.5
+  _spawnTime: 1
   _waveDelay: 5
-  _maxDamageUpgrade: 3
+  _maxDamageUpgrade: 4
   _maxAttackSpeedUpgrade: 3
-  _maxHealthUpgrade: 2
+  _maxHealthUpgrade: 3
   _damageUpgradePrice: 10
   _healthUpgradePrice: 20
   _attackSpeedUpgradePrice: 15
-  _healthUpgradeQuantity: 100
+  _healthUpgradeQuantity: 105
   _attackSpeedUpgradeQuantity: 0.2
-  _damageUpgradeQuantity: 50
+  _damageUpgradeQuantity: 20

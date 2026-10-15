@@ -12,6 +12,7 @@ public class GameConfig : ScriptableObject
     [SerializeField] private int _enemyMaxHealth;
     [SerializeField] private float _enemySpeed;
     [SerializeField] private int _enemyDamage;
+    [SerializeField] private float _enemyAttackDelay;
     
     [SerializeField] private int _maxWaves;
     [SerializeField] private int _enemiesPerWave;
@@ -38,6 +39,7 @@ public class GameConfig : ScriptableObject
     public int EnemyMaxHealth => _enemyMaxHealth;
     public float EnemySpeed => _enemySpeed;
     public int EnemyDamage => _enemyDamage;
+    public float EnemyAttackDelay => _enemyAttackDelay;
     
     public int MaxWaves => _maxWaves;
     public int EnemiesPerWave => _enemiesPerWave;

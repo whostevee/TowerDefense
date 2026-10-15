@@ -2,7 +2,6 @@ using System;
 using System.Collections;
 using TMPro;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
@@ -89,9 +88,14 @@ public class UIManager : MonoBehaviour
     private void ShowLoseMenu()
     {
         _hud.gameObject.SetActive(false);
+        StartCoroutine(ShowLoseMenuRoutine());
+    }
+
+    private IEnumerator ShowLoseMenuRoutine()
+    {
+        yield return new WaitForSeconds(2f);
         _loseMenuPanel.SetActive(true);
         ShowStats();
-        Time.timeScale = 0f;
     }
 
     private void ShowWinMenu()
@@ -99,7 +103,6 @@ public class UIManager : MonoBehaviour
         _hud.gameObject.SetActive(false);
         _winMenuPanel.SetActive(true);
         ShowStats();
-        Time.timeScale = 0f;
     }
 
     private IEnumerator OpenMenuRoutine()
