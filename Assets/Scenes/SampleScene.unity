@@ -3664,7 +3664,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1636025a638834e2aabd9d3811410143, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UpgradeMenu
-  _gameConfig: {fileID: 11400000, guid: 886b9803d3b5747ebae8f2cff7f98bbd, type: 2}
+  _towerConfig: {fileID: 11400000, guid: c193568b4eb114474b2e259732543a29, type: 2}
   _upgradeHealthButton: {fileID: 888921298}
   _upgradeAttackSpeedButton: {fileID: 497700974}
   _upgradeDamageButton: {fileID: 1988653057}
@@ -18772,7 +18772,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cdde9383310cd48b2ae9cd5198cfd9e5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Tower
-  _gameConfig: {fileID: 11400000, guid: 886b9803d3b5747ebae8f2cff7f98bbd, type: 2}
+  _towerConfig: {fileID: 11400000, guid: c193568b4eb114474b2e259732543a29, type: 2}
   _projectile: {fileID: 4537697832828660871, guid: dfabd19a7e8c042c58d3599f465ab865, type: 3}
   _firePoint: {fileID: 1108122752}
   _upgradeMenu: {fileID: 284875937}

@@ -11,7 +11,7 @@ public class UpgradeMenu : MonoBehaviour
         AttackSpeed,
         Damage
     }
-    [SerializeField] private GameConfig _gameConfig;
+    [SerializeField] private TowerConfig _towerConfig;
 
     [SerializeField] private Button _upgradeHealthButton;
     [SerializeField] private Button _upgradeAttackSpeedButton;
@@ -65,13 +65,13 @@ public class UpgradeMenu : MonoBehaviour
 
     private void Awake()
     {
-        _maxHealthUpgrade = _gameConfig.MaxHealthUpgrade;
-        _maxSpeedUpgrade = _gameConfig.MaxAttackSpeedUpgrade;
-        _maxDamageUpgrade = _gameConfig.MaxDamageUpgrade;
+        _maxHealthUpgrade = _towerConfig.MaxHealthUpgrade;
+        _maxSpeedUpgrade = _towerConfig.MaxAttackSpeedUpgrade;
+        _maxDamageUpgrade = _towerConfig.MaxDamageUpgrade;
 
-        _healthUpgradePrice = _gameConfig.HealthUpgradePrice;
-        _attackSpeedUpgradePrice = _gameConfig.AttackSpeedUpgradePrice;
-        _damageUpgradePrice = _gameConfig.DamageUpgradePrice;
+        _healthUpgradePrice = _towerConfig.HealthUpgradePrice;
+        _attackSpeedUpgradePrice = _towerConfig.AttackSpeedUpgradePrice;
+        _damageUpgradePrice = _towerConfig.DamageUpgradePrice;
     }
 
     private string SetUpgradeText(string name, int currentUpgrade, int maxUpgrade, int price)
@@ -91,6 +91,7 @@ public class UpgradeMenu : MonoBehaviour
     {
         GameManager.Instance.BuyUpgrade(_damageUpgradePrice);
         _currentDamageUpgrade++;
+        _damageUpgradePrice = _towerConfig.GetNewDamagePrice(_currentDamageUpgrade);
         OnTowerUpgraded?.Invoke(UpgradeType.Damage);
     }
 

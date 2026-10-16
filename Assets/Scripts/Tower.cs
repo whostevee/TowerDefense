@@ -7,7 +7,7 @@ public class Tower : MonoBehaviour, IDamageable, IPointerClickHandler
     private const float UpdateTime = 0.5f;
     private const int PointsCount = 50;
     
-    [SerializeField] private GameConfig _gameConfig;
+    [SerializeField] private TowerConfig _towerConfig;
     [SerializeField] private Projectile _projectile;
     [SerializeField] private Transform _firePoint;
     [SerializeField] private UpgradeMenu _upgradeMenu;
@@ -47,16 +47,16 @@ public class Tower : MonoBehaviour, IDamageable, IPointerClickHandler
 
     private void Start()
     {
-        _maxHealth = _gameConfig.TowerMaxHealth;
+        _maxHealth = _towerConfig.TowerMaxHealth;
         _health = _maxHealth;
-        _attackRange = _gameConfig.TowerAttackRange;
-        _shotDelayTime = _gameConfig.TowerAttackSpeed;
-        _damage = _gameConfig.TowerDamage;
-        _projectileSpeed = _gameConfig.ProjectileSpeed;
+        _attackRange = _towerConfig.TowerAttackRange;
+        _shotDelayTime = _towerConfig.TowerAttackSpeed;
+        _damage = _towerConfig.TowerDamage;
+        _projectileSpeed = _towerConfig.ProjectileSpeed;
 
-        _attackSpeedUpgradeQuantity = _gameConfig.AttackSpeedUpgradeQuantity;
-        _healthUpgradeQuantity = _gameConfig.HealthUpgradeQuantity;
-        _damageUpgradeQuantity = _gameConfig.DamageUpgradeQuantity;
+        _attackSpeedUpgradeQuantity = _towerConfig.AttackSpeedUpgradeQuantity;
+        _healthUpgradeQuantity = _towerConfig.HealthUpgradeQuantity;
+        _damageUpgradeQuantity = _towerConfig.DamageUpgradeQuantity;
         
         _lineRenderer = GetComponent<LineRenderer>();
         _lineRenderer.positionCount = PointsCount;
