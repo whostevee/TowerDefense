@@ -5,7 +5,7 @@ using Random = UnityEngine.Random;
 
 public class Enemy : MonoBehaviour, IDamageable
 {
-    [SerializeField] private GameConfig _gameConfig;
+    [SerializeField] private EnemyConfig _enemyConfig;
     [SerializeField] private string[] _attackAnimations =
         { "Attack 1", "Attack 2", "Attack 3", "Attack 4" };
 
@@ -32,10 +32,10 @@ public class Enemy : MonoBehaviour, IDamageable
 
     private void Start()
     {
-        _maxHealth = _gameConfig.EnemyMaxHealth;
+        _maxHealth = _enemyConfig.EnemyMaxHealth;
         _health = _maxHealth;
-        _speed = _gameConfig.EnemySpeed;
-        _damage = _gameConfig.EnemyDamage;
+        _speed = _enemyConfig.EnemySpeed;
+        _damage = _enemyConfig.EnemyDamage;
         
         _target = FindAnyObjectByType<Tower>();
         _animator = GetComponent<Animator>();

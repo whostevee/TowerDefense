@@ -12,7 +12,7 @@ public class WaveManager : MonoBehaviour
         Win
     }
 
-    [SerializeField] private GameConfig _gameConfig;
+    [SerializeField] private EnemyConfig _enemyConfig;
     [SerializeField] private EnemySpawner _enemySpawner;
 
     private WaveState _state;
@@ -46,10 +46,10 @@ public class WaveManager : MonoBehaviour
 
     private void Start()
     {
-        _maxWaves = _gameConfig.MaxWaves;
-        _enemiesPerWave = _gameConfig.EnemiesPerWave;
-        _spawnTime = _gameConfig.SpawnTime;
-        _waveDelay = _gameConfig.WaveDelay;
+        _maxWaves = _enemyConfig.MaxWaves;
+        _enemiesPerWave = _enemyConfig.EnemiesPerWave;
+        _spawnTime = _enemyConfig.SpawnTime;
+        _waveDelay = _enemyConfig.WaveDelay;
 
         _state = WaveState.Stop;
     }

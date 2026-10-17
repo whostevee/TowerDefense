@@ -1,7 +1,7 @@
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "GameConfig", menuName = "Scriptable Objects/GameConfig")]
-public class GameConfig : ScriptableObject
+[CreateAssetMenu(fileName = "EnemyConfig", menuName = "Scriptable Objects/EnemyConfig")]
+public class EnemyConfig : ScriptableObject
 {
     [SerializeField] private int _enemyMaxHealth;
     [SerializeField] private float _enemySpeed;
@@ -11,8 +11,6 @@ public class GameConfig : ScriptableObject
     [SerializeField] private int _enemiesPerWave;
     [SerializeField] private float _spawnTime;
     [SerializeField] private int _waveDelay;
-    
-    
     
     public int EnemyMaxHealth => _enemyMaxHealth;
     public float EnemySpeed => _enemySpeed;
