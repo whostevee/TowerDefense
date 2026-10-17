@@ -84,6 +84,7 @@ public class UpgradeMenu : MonoBehaviour
     {
         GameManager.Instance.BuyUpgrade(_healthUpgradePrice);
         _currentHealthUpgrade++;
+        _healthUpgradePrice = _towerConfig.GetNewHealthPrice(_currentHealthUpgrade);
         OnTowerUpgraded?.Invoke(UpgradeType.Health);
     }
 
@@ -99,6 +100,7 @@ public class UpgradeMenu : MonoBehaviour
     {
         GameManager.Instance.BuyUpgrade(_attackSpeedUpgradePrice);
         _currentSpeedUpgrade++;
+        _attackSpeedUpgradePrice = _towerConfig.GetNewAttackSpeedPrice(_currentSpeedUpgrade);
         OnTowerUpgraded?.Invoke(UpgradeType.AttackSpeed);
     }
 

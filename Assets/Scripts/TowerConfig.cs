@@ -22,6 +22,8 @@ public class TowerConfig : ScriptableObject
     [SerializeField] private int _attackSpeedUpgradePrice;
 
     private float _damageMultiplier = 3f;
+    private float _healthMultiplier = 2f;
+    private float _attackSpeedMultiplier = 3.5f;
     private int _rounding = 10;
     
     public int TowerMaxHealth => _towerMaxHealth;
@@ -45,6 +47,18 @@ public class TowerConfig : ScriptableObject
     public int GetNewDamagePrice(int currentLevel)
     {
         float raw = _damageUpgradePrice * Mathf.Pow(_damageMultiplier, currentLevel);
+        return Mathf.CeilToInt(raw / _rounding) * _rounding;
+    }
+    
+    public int GetNewHealthPrice(int currentLevel)
+    {
+        float raw = _healthUpgradePrice * Mathf.Pow(_healthMultiplier, currentLevel);
+        return Mathf.CeilToInt(raw / _rounding) * _rounding;
+    }
+    
+    public int GetNewAttackSpeedPrice(int currentLevel)
+    {
+        float raw = _attackSpeedUpgradePrice * Mathf.Pow(_attackSpeedMultiplier, currentLevel);
         return Mathf.CeilToInt(raw / _rounding) * _rounding;
     }
     
