@@ -76,6 +76,7 @@ public class Enemy : MonoBehaviour, IDamageable
             _animator.SetBool(Idle, false);
 
             Attack();
+            _animator.SetBool(Idle, true);
         }
     }
 
@@ -94,19 +95,17 @@ public class Enemy : MonoBehaviour, IDamageable
 
         if (!_agent.pathPending && _agent.remainingDistance <= _agent.stoppingDistance)
         {
+            _animator.SetBool(Walking, false);
+            _animator.SetBool(Idle, true);
             _isCanAttack = true;
         }
     }
 
     private void Attack()
     {
-        var animationState = _animator.GetCurrentAnimatorStateInfo(0);
-
-        if (animationState.normalizedTime < 1f)
-        {
-            return;
-        }
-
+        _animator.SetBool(Walking, false);
+        _animator.SetBool(Idle, false);
+        
         _animator.Play(_attackAnimations[Random.Range(0, _attackAnimations.Length)]);
         _target.TakeDamage(_damage);
     }
