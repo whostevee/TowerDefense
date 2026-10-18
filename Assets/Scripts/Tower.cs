@@ -35,6 +35,7 @@ public class Tower : MonoBehaviour, IDamageable, IPointerClickHandler
 
     public static Action OnTowerClicked;
     public static Action OnTowerDestroyed;
+    public event Action OnTowerHealthChanged;
 
     public int Damage => _damage;
     public int Health => _health;
@@ -50,6 +51,8 @@ public class Tower : MonoBehaviour, IDamageable, IPointerClickHandler
     {
         _maxHealth = _towerConfig.TowerMaxHealth;
         _health = _maxHealth;
+        OnTowerHealthChanged?.Invoke();
+        
         _attackRange = _towerConfig.TowerAttackRange;
         _shotDelayTime = _towerConfig.TowerAttackSpeed;
         _damage = _towerConfig.TowerDamage;
@@ -123,6 +126,8 @@ public class Tower : MonoBehaviour, IDamageable, IPointerClickHandler
             Destroy(gameObject);
             OnTowerDestroyed?.Invoke();
         }
+        
+        OnTowerHealthChanged?.Invoke();
     }
 
     private void FindTarget()
@@ -166,6 +171,7 @@ public class Tower : MonoBehaviour, IDamageable, IPointerClickHandler
             case UpgradeMenu.UpgradeType.Health:
                 _health += _healthUpgradeQuantity;
                 _maxHealth += _healthUpgradeQuantity;
+                OnTowerHealthChanged?.Invoke();
                 break;
             case UpgradeMenu.UpgradeType.AttackSpeed:
                 _shotDelayTime -= _attackSpeedUpgradeQuantity;

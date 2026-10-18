@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class Projectile : MonoBehaviour
 {
-    private float _speed = 5f;
+    private float _speed;
     private int _damage;
     private float _maxDistance;
     

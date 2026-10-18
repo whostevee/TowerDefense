@@ -31,6 +31,7 @@ public class WaveManager : MonoBehaviour
 
     public static Action OnWavesEnded;
     public static Action OnWaveFinished;
+    public event Action OnEnemiesInWaveChanged;
 
     public int MaxWaves => _maxWaves;
     public int EnemiesPerWave => _enemiesPerWave;
@@ -50,6 +51,8 @@ public class WaveManager : MonoBehaviour
     {
         _maxWaves = enemyConfig.MaxWaves;
         _enemiesPerWave = enemyConfig.EnemiesPerWave;
+        OnEnemiesInWaveChanged?.Invoke();
+        
         _spawnTime = enemyConfig.SpawnTime;
         _waveDelay = enemyConfig.WaveDelay;
 
@@ -147,5 +150,6 @@ public class WaveManager : MonoBehaviour
     private void NextWave()
     {
         _enemiesPerWave += AddEnemies;
+        OnEnemiesInWaveChanged?.Invoke();
     }
 }

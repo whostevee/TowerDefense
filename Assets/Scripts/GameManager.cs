@@ -12,6 +12,9 @@ public class GameManager : MonoBehaviour
     private int _rewardForKill;
     private bool _isGameStarted;
     private int _diedEnemyCount;
+    
+    public event Action OnMoneyChanged;
+    public event Action OnEnemyDied;
 
     public int DiedEnemyCount => _diedEnemyCount;
     public int Money => _money;
@@ -64,8 +67,12 @@ public class GameManager : MonoBehaviour
     private void HandleEnemyDied(Enemy e)
     {
         _rewardForKill = 10;
+        
         _diedEnemyCount++;
+        OnEnemyDied?.Invoke();
+        
         _money += _rewardForKill;
+        OnMoneyChanged?.Invoke();
 
         RemoveEnemy(e);
     }
