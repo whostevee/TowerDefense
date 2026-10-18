@@ -68,12 +68,12 @@ public class GameManager : MonoBehaviour
     {
         _rewardForKill = 10;
         
+        _money += _rewardForKill;
+        OnMoneyChanged?.Invoke();
+        
         _diedEnemyCount++;
         OnEnemyDied?.Invoke();
         
-        _money += _rewardForKill;
-        OnMoneyChanged?.Invoke();
-
         RemoveEnemy(e);
     }
 

@@ -27,27 +27,25 @@ public class HUD : MonoBehaviour
    private void OnEnable()
    {
       _pauseButton.onClick.AddListener(PauseGame);
+      
       GameManager.Instance.OnMoneyChanged += UpdateMoney;
       GameManager.Instance.OnEnemyDied += UpdateEnemies;
+      
       _tower.OnTowerHealthChanged += UpdateTowerHealth;
       _waveManager.OnEnemiesInWaveChanged += UpdateEnemies;
+      _waveManager.OnCurrentWaveChanged += UpdateWaves;
    }
 
    private void OnDisable()
    {
       _pauseButton.onClick.RemoveListener(PauseGame);
+      
       GameManager.Instance.OnMoneyChanged -= UpdateMoney;
       GameManager.Instance.OnEnemyDied -= UpdateEnemies;
+      
       _tower.OnTowerHealthChanged -= UpdateTowerHealth;
       _waveManager.OnEnemiesInWaveChanged -= UpdateEnemies;
-   }
-
-   private void Update()
-   {
-      _currentWave = _waveManager.WaveNumber;
-      _maxWaves = _waveManager.MaxWaves;
-      
-      _textWaves.text = "Waves: " + _currentWave + " / " + _maxWaves;
+      _waveManager.OnCurrentWaveChanged -= UpdateWaves;
    }
 
    private void PauseGame()
@@ -78,5 +76,13 @@ public class HUD : MonoBehaviour
       _enemiesInWave = _waveManager.EnemiesPerWave;
       
       _textEnemies.text = "Enemies: " + _diedEnemies + " / " + _enemiesInWave;
+   }
+
+   private void UpdateWaves()
+   {
+      _currentWave = _waveManager.WaveNumber;
+      _maxWaves = _waveManager.MaxWaves;
+      
+      _textWaves.text = "Waves: " + _currentWave + " / " + _maxWaves;
    }
 }
