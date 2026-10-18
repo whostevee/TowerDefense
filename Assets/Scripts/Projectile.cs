@@ -14,13 +14,6 @@ public class Projectile : MonoBehaviour
     private void Awake()
     {
         _rigidbody = GetComponent<Rigidbody>();
-        
-        _maxDistance = FindAnyObjectByType<Tower>().AttackRange;
-        _damage = FindAnyObjectByType<Tower>().Damage;
-        _speed = FindAnyObjectByType<Tower>().ProjectileSpeed;
-        
-        _spawnPosition = transform.position;
-        
     }
 
     private void Update()
@@ -31,7 +24,7 @@ public class Projectile : MonoBehaviour
         }
     }
 
-    public void SetTarget(Enemy target)
+    private void SetTarget(Enemy target)
     {
         _enemyTarget = target;
         
@@ -46,5 +39,15 @@ public class Projectile : MonoBehaviour
             enemy.TakeDamage(_damage);
             Destroy(gameObject);
         }
+    }
+
+    public void InitializeProjectile(float attackRange, int damage, float speed, Enemy target)
+    {
+        _speed = speed;
+        _damage = damage;
+        _maxDistance = attackRange;
+        SetTarget(target);
+        
+        _spawnPosition = transform.position;
     }
 }

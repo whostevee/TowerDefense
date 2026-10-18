@@ -96,7 +96,7 @@ public class Tower : MonoBehaviour, IDamageable, IPointerClickHandler
     private void Attack(Enemy enemy)
     {
         var projectile = Instantiate(_projectile, _firePoint.position, Quaternion.identity);
-        projectile.SetTarget(enemy);
+        projectile.InitializeProjectile(_attackRange, _damage, _projectileSpeed, enemy);
     }
 
     private Vector3[] SetPoints(int pointsCount)

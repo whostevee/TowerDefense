@@ -29,7 +29,7 @@ public class HUD : MonoBehaviour
       _pauseButton.onClick.AddListener(PauseGame);
       
       GameManager.Instance.OnMoneyChanged += UpdateMoney;
-      GameManager.Instance.OnEnemyDied += UpdateEnemies;
+      GameManager.Instance.OnEnemyValueChanged += UpdateEnemies;
       
       _tower.OnTowerHealthChanged += UpdateTowerHealth;
       _waveManager.OnEnemiesInWaveChanged += UpdateEnemies;
@@ -41,7 +41,7 @@ public class HUD : MonoBehaviour
       _pauseButton.onClick.RemoveListener(PauseGame);
       
       GameManager.Instance.OnMoneyChanged -= UpdateMoney;
-      GameManager.Instance.OnEnemyDied -= UpdateEnemies;
+      GameManager.Instance.OnEnemyValueChanged -= UpdateEnemies;
       
       _tower.OnTowerHealthChanged -= UpdateTowerHealth;
       _waveManager.OnEnemiesInWaveChanged -= UpdateEnemies;

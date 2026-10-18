@@ -14,7 +14,7 @@ public class GameManager : MonoBehaviour
     private int _diedEnemyCount;
     
     public event Action OnMoneyChanged;
-    public event Action OnEnemyDied;
+    public event Action OnEnemyValueChanged;
 
     public int DiedEnemyCount => _diedEnemyCount;
     public int Money => _money;
@@ -62,6 +62,7 @@ public class GameManager : MonoBehaviour
     public void ClearDiedEnemies()
     {
         _diedEnemyCount = 0;
+        OnEnemyValueChanged?.Invoke();
     }
 
     private void HandleEnemyDied(Enemy e)
@@ -72,7 +73,7 @@ public class GameManager : MonoBehaviour
         OnMoneyChanged?.Invoke();
         
         _diedEnemyCount++;
-        OnEnemyDied?.Invoke();
+        OnEnemyValueChanged?.Invoke();
         
         RemoveEnemy(e);
     }
@@ -82,6 +83,7 @@ public class GameManager : MonoBehaviour
         if (_money >= price)
         {
             _money -= price;
+            OnMoneyChanged?.Invoke();
         }
     }
 }
