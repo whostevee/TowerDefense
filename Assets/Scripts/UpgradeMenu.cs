@@ -11,6 +11,11 @@ public class UpgradeMenu : MonoBehaviour
         AttackSpeed,
         Damage
     }
+    
+    private const string HealthName = "Здоровье";
+    private const string AttackSpeedName = "Скорость атаки";
+    private const string DamageName = "Сила атаки";
+    
     [SerializeField] private TowerConfig _towerConfig;
 
     [SerializeField] private Button _upgradeHealthButton;
@@ -40,6 +45,7 @@ public class UpgradeMenu : MonoBehaviour
         _upgradeHealthButton.onClick.AddListener(TakeHealthUpgrade);
         _upgradeAttackSpeedButton.onClick.AddListener(TakeAttackSpeedUpgrade);
         _upgradeDamageButton.onClick.AddListener(TakeDamageUpgrade);
+        GameManager.Instance.OnMoneyChanged += RefreshUI;
     }
 
     private void OnDisable()
@@ -47,20 +53,7 @@ public class UpgradeMenu : MonoBehaviour
         _upgradeHealthButton.onClick.RemoveListener(TakeHealthUpgrade);
         _upgradeAttackSpeedButton.onClick.RemoveListener(TakeAttackSpeedUpgrade);
         _upgradeDamageButton.onClick.RemoveListener(TakeDamageUpgrade);
-    }
-
-    private void Update()
-    {
-        _upgradeHealthText.text =
-            SetUpgradeText("здоровья", _currentHealthUpgrade, _maxHealthUpgrade, _healthUpgradePrice);
-        _upgradeSpeedText.text = SetUpgradeText("скорость атаки", _currentSpeedUpgrade, _maxSpeedUpgrade,
-            _attackSpeedUpgradePrice);
-        _upgradeDamageText.text =
-            SetUpgradeText("атаки", _currentDamageUpgrade, _maxDamageUpgrade, _damageUpgradePrice);
-
-        ActivateButton(_upgradeHealthButton, _healthUpgradePrice, _currentHealthUpgrade, _maxHealthUpgrade);
-        ActivateButton(_upgradeAttackSpeedButton, _attackSpeedUpgradePrice, _currentSpeedUpgrade, _maxSpeedUpgrade);
-        ActivateButton(_upgradeDamageButton, _damageUpgradePrice, _currentDamageUpgrade, _maxDamageUpgrade);
+        GameManager.Instance.OnMoneyChanged -= RefreshUI;
     }
 
     private void Awake()
@@ -74,9 +67,14 @@ public class UpgradeMenu : MonoBehaviour
         _damageUpgradePrice = _towerConfig.DamageUpgradePrice;
     }
 
+    private void Start()
+    {
+        RefreshUI();
+    }
+    
     private string SetUpgradeText(string name, int currentUpgrade, int maxUpgrade, int price)
     {
-        string text = "Улучшение: " + name + ". " + currentUpgrade + "/" + maxUpgrade + ". Стоимость: " + price;
+        string text = $"Улучшение: {name}. {currentUpgrade}/{maxUpgrade}.\nСтоимость {price}";
         return text;
     }
 
@@ -86,6 +84,7 @@ public class UpgradeMenu : MonoBehaviour
         _currentHealthUpgrade++;
         _healthUpgradePrice = _towerConfig.GetNewHealthPrice(_currentHealthUpgrade);
         OnTowerUpgraded?.Invoke(UpgradeType.Health);
+        RefreshUI();
     }
 
     private void TakeDamageUpgrade()
@@ -94,6 +93,7 @@ public class UpgradeMenu : MonoBehaviour
         _currentDamageUpgrade++;
         _damageUpgradePrice = _towerConfig.GetNewDamagePrice(_currentDamageUpgrade);
         OnTowerUpgraded?.Invoke(UpgradeType.Damage);
+        RefreshUI();
     }
 
     private void TakeAttackSpeedUpgrade()
@@ -102,6 +102,21 @@ public class UpgradeMenu : MonoBehaviour
         _currentSpeedUpgrade++;
         _attackSpeedUpgradePrice = _towerConfig.GetNewAttackSpeedPrice(_currentSpeedUpgrade);
         OnTowerUpgraded?.Invoke(UpgradeType.AttackSpeed);
+        RefreshUI();
+    }
+
+    private void RefreshUI()
+    {
+        _upgradeHealthText.text =
+            SetUpgradeText(HealthName, _currentHealthUpgrade, _maxHealthUpgrade, _healthUpgradePrice);
+        _upgradeSpeedText.text = SetUpgradeText(AttackSpeedName, _currentSpeedUpgrade, _maxSpeedUpgrade,
+            _attackSpeedUpgradePrice);
+        _upgradeDamageText.text =
+            SetUpgradeText(DamageName, _currentDamageUpgrade, _maxDamageUpgrade, _damageUpgradePrice);
+        
+        ActivateButton(_upgradeHealthButton, _healthUpgradePrice, _currentHealthUpgrade, _maxHealthUpgrade);
+        ActivateButton(_upgradeAttackSpeedButton, _attackSpeedUpgradePrice, _currentSpeedUpgrade, _maxSpeedUpgrade);
+        ActivateButton(_upgradeDamageButton, _damageUpgradePrice, _currentDamageUpgrade, _maxDamageUpgrade);
     }
 
     private void ActivateButton(Button button, int upgradePrice, int currentUpgrade, int maxUpgrade)

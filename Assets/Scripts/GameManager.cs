@@ -48,7 +48,7 @@ public class GameManager : MonoBehaviour
         _enemies.Add(e);
     }
 
-    public void RemoveEnemy(Enemy e)
+    private void RemoveEnemy(Enemy e)
     {
         _enemies.Remove(e);
     }
@@ -80,6 +80,10 @@ public class GameManager : MonoBehaviour
 
     public void BuyUpgrade(int price)
     {
+        if (_money < price)
+        {
+            return;
+        }
         if (_money >= price)
         {
             _money -= price;
