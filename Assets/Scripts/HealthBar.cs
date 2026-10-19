@@ -7,11 +7,12 @@ public class HealthBar : MonoBehaviour
     [SerializeField] private MonoBehaviour _target;
 
     private IDamageable _damageable;
-
+    private Camera _camera;
 
     private void Start()
     {
         _damageable = _target as IDamageable;
+        _camera = Camera.main;
     }
 
     private void Update()
@@ -20,5 +21,10 @@ public class HealthBar : MonoBehaviour
         {
             _fillImage.fillAmount = (float)_damageable.Health / _damageable.MaxHealth;
         }
+    }
+
+    private void LateUpdate()
+    {
+        transform.LookAt(_camera.transform.position);
     }
 }
