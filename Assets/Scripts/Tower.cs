@@ -6,7 +6,7 @@ public class Tower : MonoBehaviour, IDamageable, IPointerClickHandler
 {
     private const float UpdateTime = 0.5f;
     private const int PointsCount = 50;
-    
+
     [SerializeField] private TowerConfig _towerConfig;
     [SerializeField] private Projectile _projectile;
     [SerializeField] private Transform _firePoint;
@@ -18,15 +18,13 @@ public class Tower : MonoBehaviour, IDamageable, IPointerClickHandler
     private float _shotDelayTime;
     private int _damage;
     private float _projectileSpeed;
-    
+
     private int _healthUpgradeQuantity;
     private float _attackSpeedUpgradeQuantity;
     private int _damageUpgradeQuantity;
-    
+
     private float _attackTimeAcc;
     private float _searchTimeAcc;
-    private float _destroyTimeAcc;
-    private bool _canShoot;
 
     private Enemy _nearestEnemy;
     private float _nearestDistance = Mathf.Infinity;
@@ -37,12 +35,8 @@ public class Tower : MonoBehaviour, IDamageable, IPointerClickHandler
     public static Action OnTowerDestroyed;
     public event Action OnTowerHealthChanged;
 
-    public int Damage => _damage;
     public int Health => _health;
     public int MaxHealth => _maxHealth;
-
-    public float ProjectileSpeed => _projectileSpeed;
-    public float AttackRange => _attackRange;
 
     private void OnEnable() => _upgradeMenu.OnTowerUpgraded += TakeUpgrade;
     private void OnDisable() => _upgradeMenu.OnTowerUpgraded -= TakeUpgrade;
@@ -52,7 +46,7 @@ public class Tower : MonoBehaviour, IDamageable, IPointerClickHandler
         _maxHealth = _towerConfig.TowerMaxHealth;
         _health = _maxHealth;
         OnTowerHealthChanged?.Invoke();
-        
+
         _attackRange = _towerConfig.TowerAttackRange;
         _shotDelayTime = _towerConfig.TowerAttackSpeed;
         _damage = _towerConfig.TowerDamage;
@@ -61,7 +55,7 @@ public class Tower : MonoBehaviour, IDamageable, IPointerClickHandler
         _attackSpeedUpgradeQuantity = _towerConfig.AttackSpeedUpgradeQuantity;
         _healthUpgradeQuantity = _towerConfig.HealthUpgradeQuantity;
         _damageUpgradeQuantity = _towerConfig.DamageUpgradeQuantity;
-        
+
         _lineRenderer = GetComponent<LineRenderer>();
         _lineRenderer.positionCount = PointsCount;
         _lineRenderer.SetPositions(SetPoints(PointsCount));
@@ -76,42 +70,32 @@ public class Tower : MonoBehaviour, IDamageable, IPointerClickHandler
 
         if (_nearestEnemy == null)
         {
-            _canShoot = true;
-            _attackTimeAcc = 0f;
+            _attackTimeAcc = _shotDelayTime;
         }
-        else
+        else if (TakeTimer(ref _attackTimeAcc, _shotDelayTime))
         {
-            if (_canShoot)
-            {
-                _canShoot = false;
-                Attack(_nearestEnemy);
-            }
-            else if (TakeTimer(ref _attackTimeAcc, _shotDelayTime))
-            {
-                Attack(_nearestEnemy);
-            }
+            Attack(_nearestEnemy);
         }
     }
 
     private void Attack(Enemy enemy)
     {
-        var projectile = Instantiate(_projectile, _firePoint.position, Quaternion.identity);
-        projectile.InitializeProjectile(_attackRange, _damage, _projectileSpeed, enemy);
+        if (enemy.Health > 0)
+        {
+            var projectile = Instantiate(_projectile, _firePoint.position, Quaternion.identity);
+            projectile.InitializeProjectile(_attackRange, _damage, _projectileSpeed, enemy);
+        }
     }
 
     private Vector3[] SetPoints(int pointsCount)
     {
-        Vector3[] pointsPositions = new Vector3[pointsCount];
+        var pointsPositions = new Vector3[pointsCount];
 
-        for (int i = 0; i < pointsCount; i++)
+        for (var i = 0; i < pointsCount; i++)
         {
-            float angle;
-            float x;
-            float z;
-
-            angle = (float)i / pointsCount * (Mathf.PI * 2);
-            x = Mathf.Cos(angle) * _attackRange;
-            z = Mathf.Sin(angle) * _attackRange;
+            var angle = (float)i / pointsCount * (Mathf.PI * 2);
+            var x = Mathf.Cos(angle) * _attackRange;
+            var z = Mathf.Sin(angle) * _attackRange;
             pointsPositions[i] = new Vector3(x, 0, z) + transform.position;
         }
 
@@ -125,8 +109,9 @@ public class Tower : MonoBehaviour, IDamageable, IPointerClickHandler
         {
             Destroy(gameObject);
             OnTowerDestroyed?.Invoke();
+            return;
         }
-        
+
         OnTowerHealthChanged?.Invoke();
     }
 
@@ -146,21 +131,8 @@ public class Tower : MonoBehaviour, IDamageable, IPointerClickHandler
         }
     }
 
-    private bool TakeTimer(ref float accumulator, float delay)
-    {
-        accumulator += Time.deltaTime;
-        if (accumulator < delay)
-        {
-            return false;
-        }
-
-        accumulator = 0f;
-        return true;
-    }
-
     public void OnPointerClick(PointerEventData eventData)
     {
-        Debug.Log("OnPointerClick");
         OnTowerClicked?.Invoke();
     }
 
@@ -180,5 +152,17 @@ public class Tower : MonoBehaviour, IDamageable, IPointerClickHandler
                 _damage += _damageUpgradeQuantity;
                 break;
         }
+    }
+
+    private bool TakeTimer(ref float accumulator, float delay)
+    {
+        accumulator += Time.deltaTime;
+        if (accumulator < delay)
+        {
+            return false;
+        }
+
+        accumulator = 0f;
+        return true;
     }
 }
