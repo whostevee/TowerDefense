@@ -45,8 +45,7 @@ public class Enemy : MonoBehaviour, IDamageable
         _speed = _enemyConfig.EnemySpeed;
         _damage = _enemyConfig.EnemyDamage;
         _attackDelay = _enemyConfig.EnemyAttackDelay;
-
-        _target = FindAnyObjectByType<Tower>();
+        
         _animator = GetComponent<Animator>();
     }
 
