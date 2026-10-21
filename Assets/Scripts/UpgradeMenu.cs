@@ -46,6 +46,7 @@ public class UpgradeMenu : MonoBehaviour
         _upgradeAttackSpeedButton.onClick.AddListener(TakeAttackSpeedUpgrade);
         _upgradeDamageButton.onClick.AddListener(TakeDamageUpgrade);
         GameManager.Instance.OnMoneyChanged += RefreshUI;
+        UIManager.OnUpgradeMenuOpened += RefreshUI;
     }
 
     private void OnDisable()
@@ -54,6 +55,7 @@ public class UpgradeMenu : MonoBehaviour
         _upgradeAttackSpeedButton.onClick.RemoveListener(TakeAttackSpeedUpgrade);
         _upgradeDamageButton.onClick.RemoveListener(TakeDamageUpgrade);
         GameManager.Instance.OnMoneyChanged -= RefreshUI;
+        UIManager.OnUpgradeMenuOpened -= RefreshUI;
     }
 
     private void Awake()

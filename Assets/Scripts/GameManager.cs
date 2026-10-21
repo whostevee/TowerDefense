@@ -16,7 +16,6 @@ public class GameManager : MonoBehaviour
 
     public event Action OnMoneyChanged;
     public event Action OnEnemyValueChanged;
-    public event Action OnGamePaused;
 
     public int DiedEnemyCount => _diedEnemyCount;
     public int Money => _money;
@@ -98,8 +97,17 @@ public class GameManager : MonoBehaviour
     {
         if (!_isGamePaused)
         {
+            _isGamePaused = true;
             Time.timeScale = 0;
-            OnGamePaused?.Invoke();
+        }
+    }
+
+    public void ResumeGame()
+    {
+        if (_isGamePaused)
+        {
+            _isGamePaused = false;
+            Time.timeScale = 1;
         }
     }
 }

@@ -6,7 +6,10 @@ using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
 {
-    [SerializeField] private Animator _upgradeMenuAnumator;
+    private const string _openMenu = "OpenMenu";
+    private const string _closeMenu = "CloseMenu";
+
+    [SerializeField] private Animator _upgradeMenuAnimator;
 
     [SerializeField] private GameObject _pauseMenuPanel;
     [SerializeField] private GameObject _mainMenuPanel;
@@ -22,6 +25,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI _statsText;
 
     public static Action OnGameStarted;
+    public static Action OnUpgradeMenuOpened;
     private static bool _skipMenu;
 
     private void OnEnable()
@@ -53,7 +57,7 @@ public class UIManager : MonoBehaviour
         }
         else
         {
-            Time.timeScale = 0f;
+            GameManager.Instance.PauseGame();
             _mainMenuPanel.SetActive(true);
         }
     }
@@ -62,13 +66,13 @@ public class UIManager : MonoBehaviour
     {
         _pauseMenuPanel.SetActive(false);
 
-        Time.timeScale = 1f;
+        GameManager.Instance.ResumeGame();
         _hud.gameObject.SetActive(true);
     }
 
     private void StartGame()
     {
-        Time.timeScale = 1f;
+        GameManager.Instance.ResumeGame();
         OnGameStarted?.Invoke();
         _mainMenuPanel.SetActive(false);
     }
@@ -77,58 +81,51 @@ public class UIManager : MonoBehaviour
     {
         if (_upgradeMenuPanel.activeSelf)
         {
-            StartCoroutine(CloseMenuRoutine());
+            StartCoroutine(CloseUpgradeMenuRoutine());
         }
         else
         {
-            StartCoroutine(OpenMenuRoutine());
+            StartCoroutine(OpenUpgradeMenuRoutine());
         }
     }
 
     private void ShowLoseMenu()
     {
         _hud.gameObject.SetActive(false);
-        StartCoroutine(ShowLoseMenuRoutine());
-    }
-
-    private IEnumerator ShowLoseMenuRoutine()
-    {
-        yield return new WaitForSeconds(2f);
-        _loseMenuPanel.SetActive(true);
-        ShowStats();
+        StartCoroutine(ShowMenuRoutine(_loseMenuPanel, 2f));
     }
 
     private void ShowWinMenu()
     {
         _hud.gameObject.SetActive(false);
-        _winMenuPanel.SetActive(true);
+        StartCoroutine(ShowMenuRoutine(_winMenuPanel, 2f));
+    }
+
+    private IEnumerator ShowMenuRoutine(GameObject menu, float duration)
+    {
+        yield return new WaitForSeconds(duration);
+        menu.SetActive(true);
         ShowStats();
     }
 
-    private IEnumerator OpenMenuRoutine()
+    private IEnumerator OpenUpgradeMenuRoutine()
     {
         _upgradeMenuPanel.SetActive(true);
+        OnUpgradeMenuOpened?.Invoke();
         yield return null;
-        _upgradeMenuAnumator.SetTrigger("OpenMenu");
+        _upgradeMenuAnimator.SetTrigger(_openMenu);
     }
 
-    private IEnumerator CloseMenuRoutine()
+    private IEnumerator CloseUpgradeMenuRoutine()
     {
-        _upgradeMenuAnumator.SetTrigger("CloseMenu");
+        _upgradeMenuAnimator.SetTrigger(_closeMenu);
         yield return new WaitForSeconds(0.5f);
         _upgradeMenuPanel.SetActive(false);
     }
 
-    public static void ChangeFlag()
+    public static void SetSkipMenu()
     {
-        if (_skipMenu)
-        {
-            _skipMenu = false;
-        }
-        else
-        {
-            _skipMenu = true;
-        }
+        _skipMenu = !_skipMenu;
     }
 
     private void ShowStats()

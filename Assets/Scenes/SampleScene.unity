@@ -16664,7 +16664,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 211e317eba5684f7ba8f7d3ce6f15eab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UIManager
-  _upgradeMenuAnumator: {fileID: 284875936}
+  _upgradeMenuAnimator: {fileID: 284875936}
   _pauseMenuPanel: {fileID: 759776382}
   _mainMenuPanel: {fileID: 1574429071}
   _upgradeMenuPanel: {fileID: 284875931}

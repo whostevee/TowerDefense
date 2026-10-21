@@ -12,7 +12,7 @@ public class RestartButton : MonoBehaviour
 
     private void ReloadScene()
     {
-        UIManager.ChangeFlag();
+        UIManager.SetSkipMenu();
         GameManager.Instance.ClearFields();
         Time.timeScale = 1f;
 
