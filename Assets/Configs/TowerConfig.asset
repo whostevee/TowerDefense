@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: TowerConfig
   m_EditorClassIdentifier: Assembly-CSharp::TowerConfig
   _towerMaxHealth: 1000
-  _towerDamage: 20
+  _towerDamage: 25
   _towerAttackRange: 5
   _towerAttackSpeed: 1
   _projectileSpeed: 13
@@ -23,6 +23,6 @@ MonoBehaviour:
   _maxDamageUpgrade: 3
   _maxAttackSpeedUpgrade: 3
   _maxHealthUpgrade: 3
-  _damageUpgradePrice: 10
+  _damageUpgradePrice: 20
   _healthUpgradePrice: 10
-  _attackSpeedUpgradePrice: 10
+  _attackSpeedUpgradePrice: 30

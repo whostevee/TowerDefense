@@ -40,5 +40,10 @@ public class StatsManager : MonoBehaviour
     {
         WavesSurvived++;
     }
-    
+
+    public void ClearStats()
+    {
+        EnemyKilled = 0;
+        WavesSurvived = 0;
+    }
 }

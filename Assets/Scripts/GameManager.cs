@@ -4,12 +4,12 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
+    private const int RewardForKill = 10;
     private List<Enemy> _enemies;
     public IReadOnlyList<Enemy> Enemies => _enemies;
 
     public static GameManager Instance { get; private set; }
     private int _money;
-    private int _rewardForKill;
     private bool _isGameStarted;
     private int _diedEnemyCount;
     private bool _isGamePaused;
@@ -58,6 +58,7 @@ public class GameManager : MonoBehaviour
     {
         _enemies.Clear();
         _money = 0;
+        StatsManager.Instance.ClearStats();
     }
 
     public void ClearDiedEnemies()
@@ -68,9 +69,7 @@ public class GameManager : MonoBehaviour
 
     private void HandleEnemyDied(Enemy e)
     {
-        _rewardForKill = 10;
-
-        _money += _rewardForKill;
+        _money += RewardForKill;
         OnMoneyChanged?.Invoke();
 
         _diedEnemyCount++;
