@@ -12,9 +12,11 @@ public class GameManager : MonoBehaviour
     private int _rewardForKill;
     private bool _isGameStarted;
     private int _diedEnemyCount;
-    
+    private bool _isGamePaused;
+
     public event Action OnMoneyChanged;
     public event Action OnEnemyValueChanged;
+    public event Action OnGamePaused;
 
     public int DiedEnemyCount => _diedEnemyCount;
     public int Money => _money;
@@ -68,13 +70,13 @@ public class GameManager : MonoBehaviour
     private void HandleEnemyDied(Enemy e)
     {
         _rewardForKill = 10;
-        
+
         _money += _rewardForKill;
         OnMoneyChanged?.Invoke();
-        
+
         _diedEnemyCount++;
         OnEnemyValueChanged?.Invoke();
-        
+
         RemoveEnemy(e);
     }
 
@@ -84,10 +86,20 @@ public class GameManager : MonoBehaviour
         {
             return;
         }
+
         if (_money >= price)
         {
             _money -= price;
             OnMoneyChanged?.Invoke();
+        }
+    }
+
+    public void PauseGame()
+    {
+        if (!_isGamePaused)
+        {
+            Time.timeScale = 0;
+            OnGamePaused?.Invoke();
         }
     }
 }
