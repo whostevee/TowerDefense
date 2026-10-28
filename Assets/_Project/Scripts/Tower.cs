@@ -4,6 +4,7 @@ using UnityEngine.EventSystems;
 
 namespace _Project.Scripts
 {
+    [RequireComponent(typeof(LineRenderer))]
     public class Tower : MonoBehaviour, IDamageable, IPointerClickHandler
     {
         private const float UpdateTime = 0.5f;

@@ -3,8 +3,11 @@ using UnityEngine;
 using UnityEngine.AI;
 using Random = UnityEngine.Random;
 
+
 namespace _Project.Scripts
 {
+    [RequireComponent(typeof(NavMeshAgent))]
+    [RequireComponent(typeof(Animator))]
     public class Enemy : MonoBehaviour, IDamageable
     {
         private const string Walking = "isWalking";

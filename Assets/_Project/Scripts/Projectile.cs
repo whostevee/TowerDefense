@@ -2,6 +2,7 @@ using UnityEngine;
 
 namespace _Project.Scripts
 {
+    [RequireComponent(typeof(Rigidbody))]
     public class Projectile : MonoBehaviour
     {
         private float _speed;
