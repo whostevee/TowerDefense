@@ -8,8 +8,8 @@ namespace _Project.Scripts
 {
     public class UIManager : MonoBehaviour
     {
-        private const string _openMenu = "OpenMenu";
-        private const string _closeMenu = "CloseMenu";
+        private const string OpenMenu = "OpenMenu";
+        private const string CloseMenu = "CloseMenu";
 
         [SerializeField] private Animator _upgradeMenuAnimator;
 
@@ -115,12 +115,12 @@ namespace _Project.Scripts
             _upgradeMenuPanel.SetActive(true);
             OnUpgradeMenuOpened?.Invoke();
             yield return null;
-            _upgradeMenuAnimator.SetTrigger(_openMenu);
+            _upgradeMenuAnimator.SetTrigger(OpenMenu);
         }
 
         private IEnumerator CloseUpgradeMenuRoutine()
         {
-            _upgradeMenuAnimator.SetTrigger(_closeMenu);
+            _upgradeMenuAnimator.SetTrigger(CloseMenu);
             yield return new WaitForSeconds(0.5f);
             _upgradeMenuPanel.SetActive(false);
         }
