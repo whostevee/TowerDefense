@@ -5,64 +5,44 @@ namespace _Project.Scripts
     [CreateAssetMenu(fileName = "TowerConfig", menuName = "Scriptable Objects/TowerConfig")]
     public class TowerConfig : ScriptableObject
     {
-        [SerializeField] private int _towerMaxHealth;
-        [SerializeField] private int _towerDamage;
-        [SerializeField] private float _towerAttackRange;
-        [SerializeField] private float _towerAttackSpeed;
-        [SerializeField] private float _projectileSpeed;
+        private const float DamageMultiplier = 3f;
+        private const float HealthMultiplier = 2f;
+        private const float AttackSpeedMultiplier = 3.5f;
+        private const int Rounding = 10;
+        
+        [field: SerializeField] public int TowerMaxHealth {get; private set;}
+        [field: SerializeField] public int TowerDamage {get; private set;}
+        [field: SerializeField] public float TowerAttackRange {get; private set;}
+        [field: SerializeField] public float TowerAttackSpeed {get; private set;}
+        [field: SerializeField] public float ProjectileSpeed {get; private set;}
     
-        [SerializeField] private int _healthUpgradeQuantity;
-        [SerializeField] private float _attackSpeedUpgradeQuantity;
-        [SerializeField] private int _damageUpgradeQuantity;
+        [field:SerializeField] public int HealthUpgradeQuantity {get; private set;}
+        [field:SerializeField] public float AttackSpeedUpgradeQuantity {get; private set;}
+        [field:SerializeField] public int DamageUpgradeQuantity {get; private set;}
     
-        [SerializeField] private int _maxDamageUpgrade;
-        [SerializeField] private int _maxAttackSpeedUpgrade;
-        [SerializeField] private int _maxHealthUpgrade;
-        [SerializeField] private int _damageUpgradePrice;
-        [SerializeField] private int _healthUpgradePrice;
-        [SerializeField] private int _attackSpeedUpgradePrice;
-
-        private float _damageMultiplier = 3f;
-        private float _healthMultiplier = 2f;
-        private float _attackSpeedMultiplier = 3.5f;
-        private int _rounding = 10;
+        [field: SerializeField] public int MaxDamageUpgrade {get; private set;}
+        [field: SerializeField] public int MaxAttackSpeedUpgrade {get; private set;}
+        [field: SerializeField] public int MaxHealthUpgrade {get; private set;}
+        [field: SerializeField] public int DamageUpgradePrice {get; private set;}
+        [field: SerializeField] public int HealthUpgradePrice {get; private set;}
+        [field: SerializeField] public int AttackSpeedUpgradePrice {get; private set;}
     
-        public int TowerMaxHealth => _towerMaxHealth;
-        public int TowerDamage => _towerDamage;
-        public float TowerAttackRange => _towerAttackRange;
-        public float TowerAttackSpeed => _towerAttackSpeed;
-        public float ProjectileSpeed => _projectileSpeed;
-    
-        public int HealthUpgradeQuantity => _healthUpgradeQuantity;
-        public float AttackSpeedUpgradeQuantity => _attackSpeedUpgradeQuantity;
-        public int DamageUpgradeQuantity => _damageUpgradeQuantity;
-    
-        public int MaxDamageUpgrade => _maxDamageUpgrade;
-        public int MaxHealthUpgrade => _maxHealthUpgrade;
-        public int MaxAttackSpeedUpgrade => _maxAttackSpeedUpgrade;
-        public int DamageUpgradePrice => _damageUpgradePrice;
-        public int HealthUpgradePrice => _healthUpgradePrice;
-        public int AttackSpeedUpgradePrice => _attackSpeedUpgradePrice;
-
-
         public int GetNewDamagePrice(int currentLevel)
         {
-            float raw = _damageUpgradePrice * Mathf.Pow(_damageMultiplier, currentLevel);
-            return Mathf.CeilToInt(raw / _rounding) * _rounding;
+            float raw = DamageUpgradePrice * Mathf.Pow(DamageMultiplier, currentLevel);
+            return Mathf.CeilToInt(raw / Rounding) * Rounding;
         }
     
         public int GetNewHealthPrice(int currentLevel)
         {
-            float raw = _healthUpgradePrice * Mathf.Pow(_healthMultiplier, currentLevel);
-            return Mathf.CeilToInt(raw / _rounding) * _rounding;
+            float raw = HealthUpgradePrice * Mathf.Pow(HealthMultiplier, currentLevel);
+            return Mathf.CeilToInt(raw / Rounding) * Rounding;
         }
     
         public int GetNewAttackSpeedPrice(int currentLevel)
         {
-            float raw = _attackSpeedUpgradePrice * Mathf.Pow(_attackSpeedMultiplier, currentLevel);
-            return Mathf.CeilToInt(raw / _rounding) * _rounding;
+            float raw = AttackSpeedUpgradePrice * Mathf.Pow(AttackSpeedMultiplier, currentLevel);
+            return Mathf.CeilToInt(raw / Rounding) * Rounding;
         }
-    
-    
     }
 }

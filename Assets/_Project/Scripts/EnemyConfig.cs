@@ -5,26 +5,14 @@ namespace _Project.Scripts
     [CreateAssetMenu(fileName = "EnemyConfig", menuName = "Scriptable Objects/EnemyConfig")]
     public class EnemyConfig : ScriptableObject
     {
-        [SerializeField] private int _enemyMaxHealth;
-        [SerializeField] private float _enemySpeed;
-        [SerializeField] private int _enemyDamage;
-        [SerializeField] private int _enemyAttackDelay;
-    
-        [SerializeField] private int _maxWaves;
-        [SerializeField] private int _enemiesPerWave;
-        [SerializeField] private float _spawnTime;
-        [SerializeField] private int _waveDelay;
-    
-        public int EnemyMaxHealth => _enemyMaxHealth;
-        public float EnemySpeed => _enemySpeed;
-        public int EnemyDamage => _enemyDamage;
-        public int EnemyAttackDelay => _enemyAttackDelay;
-    
-        public int MaxWaves => _maxWaves;
-        public int EnemiesPerWave => _enemiesPerWave;
-        public float SpawnTime => _spawnTime;
-        public int WaveDelay => _waveDelay;
-    
-    
+        [field:SerializeField] public int EnemyMaxHealth {get; private set;}
+        [field: SerializeField] public float EnemySpeed {get; private set;}
+        [field: SerializeField] public int EnemyDamage {get; private set;}
+        [field: SerializeField] public int EnemyAttackDelay {get; private set;}
+        
+        [field: SerializeField] public int MaxWaves {get; private set;}
+        [field: SerializeField] public int EnemiesPerWave {get; private set;}
+        [field: SerializeField] public float SpawnTime {get; private set;}
+        [field: SerializeField] public int WaveDelay {get; private set;}
     }
 }
