@@ -1,7 +1,8 @@
-using UnityEngine;
-
-public interface IDamageable
+namespace _Project.Scripts
 {
-    public int MaxHealth { get; }
-    public int Health { get; }
+    public interface IDamageable
+    {
+        public int MaxHealth { get; }
+        public int Health { get; }
+    }
 }

@@ -2,111 +2,114 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GameManager : MonoBehaviour
+namespace _Project.Scripts
 {
-    private const int RewardForKill = 10;
-    private List<Enemy> _enemies;
-    public IReadOnlyList<Enemy> Enemies => _enemies;
-
-    public static GameManager Instance { get; private set; }
-    private int _money;
-    private bool _isGameStarted;
-    private int _diedEnemyCount;
-    private bool _isGamePaused;
-
-    public event Action OnMoneyChanged;
-    public event Action OnEnemyValueChanged;
-
-    public int DiedEnemyCount => _diedEnemyCount;
-    public int Money => _money;
-
-    private void OnEnable()
+    public class GameManager : MonoBehaviour
     {
-        Enemy.OnEnemyDied += HandleEnemyDied;
-    }
+        private const int RewardForKill = 10;
+        private List<Enemy> _enemies;
+        public IReadOnlyList<Enemy> Enemies => _enemies;
 
-    private void OnDisable()
-    {
-        Enemy.OnEnemyDied -= HandleEnemyDied;
-    }
+        public static GameManager Instance { get; private set; }
+        private int _money;
+        private bool _isGameStarted;
+        private int _diedEnemyCount;
+        private bool _isGamePaused;
 
-    private void Awake()
-    {
-        _enemies = new List<Enemy>();
+        public event Action OnMoneyChanged;
+        public event Action OnEnemyValueChanged;
 
-        if (Instance != null && Instance != this)
+        public int DiedEnemyCount => _diedEnemyCount;
+        public int Money => _money;
+
+        private void OnEnable()
         {
-            Destroy(gameObject);
-            return;
+            Enemy.OnEnemyDied += HandleEnemyDied;
         }
 
-        Instance = this;
-        DontDestroyOnLoad(gameObject);
-    }
-
-    public void AddEnemy(Enemy e)
-    {
-        _enemies.Add(e);
-    }
-
-    private void RemoveEnemy(Enemy e)
-    {
-        _enemies.Remove(e);
-    }
-
-    public void ClearFields()
-    {
-        _enemies.Clear();
-        _money = 0;
-        StatsManager.Instance.ClearStats();
-    }
-
-    public void ClearDiedEnemies()
-    {
-        _diedEnemyCount = 0;
-        OnEnemyValueChanged?.Invoke();
-    }
-
-    private void HandleEnemyDied(Enemy e)
-    {
-        _money += RewardForKill;
-        OnMoneyChanged?.Invoke();
-
-        _diedEnemyCount++;
-        OnEnemyValueChanged?.Invoke();
-
-        RemoveEnemy(e);
-    }
-
-    public void BuyUpgrade(int price)
-    {
-        if (_money < price)
+        private void OnDisable()
         {
-            return;
+            Enemy.OnEnemyDied -= HandleEnemyDied;
         }
 
-        if (_money >= price)
+        private void Awake()
         {
-            _money -= price;
+            _enemies = new List<Enemy>();
+
+            if (Instance != null && Instance != this)
+            {
+                Destroy(gameObject);
+                return;
+            }
+
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+
+        public void AddEnemy(Enemy e)
+        {
+            _enemies.Add(e);
+        }
+
+        private void RemoveEnemy(Enemy e)
+        {
+            _enemies.Remove(e);
+        }
+
+        public void ClearFields()
+        {
+            _enemies.Clear();
+            _money = 0;
+            StatsManager.Instance.ClearStats();
+        }
+
+        public void ClearDiedEnemies()
+        {
+            _diedEnemyCount = 0;
+            OnEnemyValueChanged?.Invoke();
+        }
+
+        private void HandleEnemyDied(Enemy e)
+        {
+            _money += RewardForKill;
             OnMoneyChanged?.Invoke();
-        }
-    }
 
-    public void PauseGame()
-    {
-        if (!_isGamePaused)
-        {
-            _isGamePaused = true;
-            Time.timeScale = 0;
-        }
-    }
+            _diedEnemyCount++;
+            OnEnemyValueChanged?.Invoke();
 
-    public void ResumeGame()
-    {
-        if (_isGamePaused)
+            RemoveEnemy(e);
+        }
+
+        public void BuyUpgrade(int price)
         {
-            _isGamePaused = false;
-            Time.timeScale = 1;
+            if (_money < price)
+            {
+                return;
+            }
+
+            if (_money >= price)
+            {
+                _money -= price;
+                OnMoneyChanged?.Invoke();
+            }
+        }
+
+        public void PauseGame()
+        {
+            if (!_isGamePaused)
+            {
+                _isGamePaused = true;
+                Time.timeScale = 0;
+            }
+        }
+
+        public void ResumeGame()
+        {
+            if (_isGamePaused)
+            {
+                _isGamePaused = false;
+                Time.timeScale = 1;
+            }
         }
     }
 }

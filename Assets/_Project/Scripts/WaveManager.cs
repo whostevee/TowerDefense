@@ -1,6 +1,8 @@
-    using System;
-    using UnityEngine;
+using System;
+using UnityEngine;
 
+namespace _Project.Scripts
+{
     public class WaveManager : MonoBehaviour
     {
         private enum WaveState
@@ -151,3 +153,4 @@
             OnEnemiesInWaveChanged?.Invoke();
         }
     }
+}

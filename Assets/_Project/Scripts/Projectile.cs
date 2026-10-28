@@ -1,53 +1,56 @@
 using UnityEngine;
 
-public class Projectile : MonoBehaviour
+namespace _Project.Scripts
 {
-    private float _speed;
-    private int _damage;
-    private float _maxDistance;
+    public class Projectile : MonoBehaviour
+    {
+        private float _speed;
+        private int _damage;
+        private float _maxDistance;
     
-    private Vector3 _spawnPosition;
+        private Vector3 _spawnPosition;
 
-    private Enemy _enemyTarget;
-    private Rigidbody _rigidbody;
+        private Enemy _enemyTarget;
+        private Rigidbody _rigidbody;
 
-    private void Awake()
-    {
-        _rigidbody = GetComponent<Rigidbody>();
-    }
-
-    private void Update()
-    {
-        if (Vector3.Distance(transform.position, _spawnPosition) >= _maxDistance)
+        private void Awake()
         {
-            Destroy(gameObject);
+            _rigidbody = GetComponent<Rigidbody>();
         }
-    }
 
-    private void SetTarget(Enemy target)
-    {
-        _enemyTarget = target;
-        
-        var direction = (_enemyTarget.transform.position - transform.position).normalized;
-        _rigidbody.linearVelocity = direction * _speed;
-    }
-
-    private void OnCollisionEnter(Collision collision)
-    {
-        if (collision.gameObject.TryGetComponent<Enemy>(out Enemy enemy))
+        private void Update()
         {
-            enemy.TakeDamage(_damage);
-            Destroy(gameObject);
+            if (Vector3.Distance(transform.position, _spawnPosition) >= _maxDistance)
+            {
+                Destroy(gameObject);
+            }
         }
-    }
 
-    public void InitializeProjectile(float attackRange, int damage, float speed, Enemy target)
-    {
-        _speed = speed;
-        _damage = damage;
-        _maxDistance = attackRange;
-        SetTarget(target);
+        private void SetTarget(Enemy target)
+        {
+            _enemyTarget = target;
         
-        _spawnPosition = transform.position;
+            var direction = (_enemyTarget.transform.position - transform.position).normalized;
+            _rigidbody.linearVelocity = direction * _speed;
+        }
+
+        private void OnCollisionEnter(Collision collision)
+        {
+            if (collision.gameObject.TryGetComponent<Enemy>(out Enemy enemy))
+            {
+                enemy.TakeDamage(_damage);
+                Destroy(gameObject);
+            }
+        }
+
+        public void InitializeProjectile(float attackRange, int damage, float speed, Enemy target)
+        {
+            _speed = speed;
+            _damage = damage;
+            _maxDistance = attackRange;
+            SetTarget(target);
+        
+            _spawnPosition = transform.position;
+        }
     }
 }

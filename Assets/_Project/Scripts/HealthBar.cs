@@ -1,30 +1,33 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class HealthBar : MonoBehaviour
+namespace _Project.Scripts
 {
-    [SerializeField] private Image _fillImage;
-    [SerializeField] private MonoBehaviour _target;
-
-    private IDamageable _damageable;
-    private Camera _camera;
-
-    private void Start()
+    public class HealthBar : MonoBehaviour
     {
-        _damageable = _target as IDamageable;
-        _camera = Camera.main;
-    }
+        [SerializeField] private Image _fillImage;
+        [SerializeField] private MonoBehaviour _target;
 
-    private void Update()
-    {
-        if (_damageable != null)
+        private IDamageable _damageable;
+        private Camera _camera;
+
+        private void Start()
         {
-            _fillImage.fillAmount = (float)_damageable.Health / _damageable.MaxHealth;
+            _damageable = _target as IDamageable;
+            _camera = Camera.main;
         }
-    }
 
-    private void LateUpdate()
-    {
-        transform.LookAt(_camera.transform.position);
+        private void Update()
+        {
+            if (_damageable != null)
+            {
+                _fillImage.fillAmount = (float)_damageable.Health / _damageable.MaxHealth;
+            }
+        }
+
+        private void LateUpdate()
+        {
+            transform.LookAt(_camera.transform.position);
+        }
     }
 }

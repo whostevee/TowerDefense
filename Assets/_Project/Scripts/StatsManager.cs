@@ -1,49 +1,52 @@
 using UnityEngine;
 
-public class StatsManager : MonoBehaviour
+namespace _Project.Scripts
 {
-    public static StatsManager Instance {get; private set;}
-
-    public int EnemyKilled { get; private set; }
-    public int WavesSurvived { get; private set; }
-
-    private void OnEnable()
+    public class StatsManager : MonoBehaviour
     {
-        Enemy.OnEnemyDied += AddKill;
-        WaveManager.OnWaveFinished += AddWave;
-    }
+        public static StatsManager Instance {get; private set;}
 
-    private void OnDisable()
-    {
-        Enemy.OnEnemyDied -= AddKill;
-        WaveManager.OnWaveFinished -= AddWave;
-    }
-    
-    private void Awake()
-    {
-        if (Instance != null && Instance != this)
+        public int EnemyKilled { get; private set; }
+        public int WavesSurvived { get; private set; }
+
+        private void OnEnable()
         {
-            Destroy(gameObject);
-            return;
+            Enemy.OnEnemyDied += AddKill;
+            WaveManager.OnWaveFinished += AddWave;
         }
 
-        Instance = this;
-        DontDestroyOnLoad(gameObject);
-    }
+        private void OnDisable()
+        {
+            Enemy.OnEnemyDied -= AddKill;
+            WaveManager.OnWaveFinished -= AddWave;
+        }
+    
+        private void Awake()
+        {
+            if (Instance != null && Instance != this)
+            {
+                Destroy(gameObject);
+                return;
+            }
 
-    private void AddKill(Enemy e)
-    {
-        EnemyKilled++;
-    }
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
 
-    private void AddWave()
-    {
-        WavesSurvived++;
-    }
+        private void AddKill(Enemy e)
+        {
+            EnemyKilled++;
+        }
 
-    public void ClearStats()
-    {
-        EnemyKilled = 0;
-        WavesSurvived = 0;
+        private void AddWave()
+        {
+            WavesSurvived++;
+        }
+
+        public void ClearStats()
+        {
+            EnemyKilled = 0;
+            WavesSurvived = 0;
+        }
     }
 }

@@ -4,134 +4,137 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class UIManager : MonoBehaviour
+namespace _Project.Scripts
 {
-    private const string _openMenu = "OpenMenu";
-    private const string _closeMenu = "CloseMenu";
-
-    [SerializeField] private Animator _upgradeMenuAnimator;
-
-    [SerializeField] private GameObject _pauseMenuPanel;
-    [SerializeField] private GameObject _mainMenuPanel;
-    [SerializeField] private GameObject _upgradeMenuPanel;
-    [SerializeField] private GameObject _loseMenuPanel;
-    [SerializeField] private GameObject _winMenuPanel;
-    [SerializeField] private GameObject _statsPanel;
-    [SerializeField] private HUD _hud;
-
-    [SerializeField] private Button _resumeButton;
-    [SerializeField] private Button _startButton;
-
-    [SerializeField] private TextMeshProUGUI _statsText;
-
-    public static Action OnGameStarted;
-    public static Action OnUpgradeMenuOpened;
-    private static bool _skipMenu;
-
-    private void OnEnable()
+    public class UIManager : MonoBehaviour
     {
-        _resumeButton.onClick.AddListener(HideMenu);
-        _startButton.onClick.AddListener(StartGame);
+        private const string _openMenu = "OpenMenu";
+        private const string _closeMenu = "CloseMenu";
 
-        Tower.OnTowerClicked += ShowUpgradeMenu;
-        Tower.OnTowerDestroyed += ShowLoseMenu;
-        WaveManager.OnWavesEnded += ShowWinMenu;
-    }
+        [SerializeField] private Animator _upgradeMenuAnimator;
 
-    private void OnDisable()
-    {
-        _resumeButton.onClick.RemoveListener(HideMenu);
-        _startButton.onClick.RemoveListener(StartGame);
+        [SerializeField] private GameObject _pauseMenuPanel;
+        [SerializeField] private GameObject _mainMenuPanel;
+        [SerializeField] private GameObject _upgradeMenuPanel;
+        [SerializeField] private GameObject _loseMenuPanel;
+        [SerializeField] private GameObject _winMenuPanel;
+        [SerializeField] private GameObject _statsPanel;
+        [SerializeField] private HUD _hud;
 
-        Tower.OnTowerClicked -= ShowUpgradeMenu;
-        Tower.OnTowerDestroyed -= ShowLoseMenu;
-        WaveManager.OnWavesEnded -= ShowWinMenu;
-    }
+        [SerializeField] private Button _resumeButton;
+        [SerializeField] private Button _startButton;
 
-    private void Start()
-    {
-        if (_skipMenu)
+        [SerializeField] private TextMeshProUGUI _statsText;
+
+        public static Action OnGameStarted;
+        public static Action OnUpgradeMenuOpened;
+        private static bool _skipMenu;
+
+        private void OnEnable()
         {
-            StartGame();
-            _skipMenu = false;
+            _resumeButton.onClick.AddListener(HideMenu);
+            _startButton.onClick.AddListener(StartGame);
+
+            Tower.OnTowerClicked += ShowUpgradeMenu;
+            Tower.OnTowerDestroyed += ShowLoseMenu;
+            WaveManager.OnWavesEnded += ShowWinMenu;
         }
-        else
+
+        private void OnDisable()
         {
-            GameManager.Instance.PauseGame();
-            _mainMenuPanel.SetActive(true);
+            _resumeButton.onClick.RemoveListener(HideMenu);
+            _startButton.onClick.RemoveListener(StartGame);
+
+            Tower.OnTowerClicked -= ShowUpgradeMenu;
+            Tower.OnTowerDestroyed -= ShowLoseMenu;
+            WaveManager.OnWavesEnded -= ShowWinMenu;
         }
-    }
 
-    private void HideMenu()
-    {
-        _pauseMenuPanel.SetActive(false);
-
-        GameManager.Instance.ResumeGame();
-        _hud.gameObject.SetActive(true);
-    }
-
-    private void StartGame()
-    {
-        GameManager.Instance.ResumeGame();
-        OnGameStarted?.Invoke();
-        _mainMenuPanel.SetActive(false);
-    }
-
-    private void ShowUpgradeMenu()
-    {
-        if (_upgradeMenuPanel.activeSelf)
+        private void Start()
         {
-            StartCoroutine(CloseUpgradeMenuRoutine());
+            if (_skipMenu)
+            {
+                StartGame();
+                _skipMenu = false;
+            }
+            else
+            {
+                GameManager.Instance.PauseGame();
+                _mainMenuPanel.SetActive(true);
+            }
         }
-        else
+
+        private void HideMenu()
         {
-            StartCoroutine(OpenUpgradeMenuRoutine());
+            _pauseMenuPanel.SetActive(false);
+
+            GameManager.Instance.ResumeGame();
+            _hud.gameObject.SetActive(true);
         }
-    }
 
-    private void ShowLoseMenu()
-    {
-        _hud.gameObject.SetActive(false);
-        StartCoroutine(ShowMenuRoutine(_loseMenuPanel, 2f));
-    }
+        private void StartGame()
+        {
+            GameManager.Instance.ResumeGame();
+            OnGameStarted?.Invoke();
+            _mainMenuPanel.SetActive(false);
+        }
 
-    private void ShowWinMenu()
-    {
-        _hud.gameObject.SetActive(false);
-        StartCoroutine(ShowMenuRoutine(_winMenuPanel, 2f));
-    }
+        private void ShowUpgradeMenu()
+        {
+            if (_upgradeMenuPanel.activeSelf)
+            {
+                StartCoroutine(CloseUpgradeMenuRoutine());
+            }
+            else
+            {
+                StartCoroutine(OpenUpgradeMenuRoutine());
+            }
+        }
 
-    private IEnumerator ShowMenuRoutine(GameObject menu, float duration)
-    {
-        yield return new WaitForSeconds(duration);
-        menu.SetActive(true);
-        ShowStats();
-    }
+        private void ShowLoseMenu()
+        {
+            _hud.gameObject.SetActive(false);
+            StartCoroutine(ShowMenuRoutine(_loseMenuPanel, 2f));
+        }
 
-    private IEnumerator OpenUpgradeMenuRoutine()
-    {
-        _upgradeMenuPanel.SetActive(true);
-        OnUpgradeMenuOpened?.Invoke();
-        yield return null;
-        _upgradeMenuAnimator.SetTrigger(_openMenu);
-    }
+        private void ShowWinMenu()
+        {
+            _hud.gameObject.SetActive(false);
+            StartCoroutine(ShowMenuRoutine(_winMenuPanel, 2f));
+        }
 
-    private IEnumerator CloseUpgradeMenuRoutine()
-    {
-        _upgradeMenuAnimator.SetTrigger(_closeMenu);
-        yield return new WaitForSeconds(0.5f);
-        _upgradeMenuPanel.SetActive(false);
-    }
+        private IEnumerator ShowMenuRoutine(GameObject menu, float duration)
+        {
+            yield return new WaitForSeconds(duration);
+            menu.SetActive(true);
+            ShowStats();
+        }
 
-    public static void SetSkipMenu()
-    {
-        _skipMenu = !_skipMenu;
-    }
+        private IEnumerator OpenUpgradeMenuRoutine()
+        {
+            _upgradeMenuPanel.SetActive(true);
+            OnUpgradeMenuOpened?.Invoke();
+            yield return null;
+            _upgradeMenuAnimator.SetTrigger(_openMenu);
+        }
 
-    private void ShowStats()
-    {
-        _statsPanel.SetActive(true);
-        _statsText.text = $"Убито врагов: {StatsManager.Instance.EnemyKilled}\n" +
-                          $"Пережито волн: {StatsManager.Instance.WavesSurvived}";
+        private IEnumerator CloseUpgradeMenuRoutine()
+        {
+            _upgradeMenuAnimator.SetTrigger(_closeMenu);
+            yield return new WaitForSeconds(0.5f);
+            _upgradeMenuPanel.SetActive(false);
+        }
+
+        public static void SetSkipMenu()
+        {
+            _skipMenu = !_skipMenu;
+        }
+
+        private void ShowStats()
+        {
+            _statsPanel.SetActive(true);
+            _statsText.text = $"Убито врагов: {StatsManager.Instance.EnemyKilled}\n" +
+                              $"Пережито волн: {StatsManager.Instance.WavesSurvived}";
+        }
     }
 }
