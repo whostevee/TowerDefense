@@ -4,23 +4,11 @@ namespace _Project.Scripts
 {
     public class StatsManager : MonoBehaviour
     {
-        public static StatsManager Instance {get; private set;}
+        public static StatsManager Instance { get; private set; }
 
         public int EnemyKilled { get; private set; }
         public int WavesSurvived { get; private set; }
 
-        private void OnEnable()
-        {
-            Enemy.OnEnemyDied += AddKill;
-            WaveManager.OnWaveFinished += AddWave;
-        }
-
-        private void OnDisable()
-        {
-            Enemy.OnEnemyDied -= AddKill;
-            WaveManager.OnWaveFinished -= AddWave;
-        }
-    
         private void Awake()
         {
             if (Instance != null && Instance != this)
@@ -31,6 +19,18 @@ namespace _Project.Scripts
 
             Instance = this;
             DontDestroyOnLoad(gameObject);
+        }
+
+        private void Start()
+        {
+            Enemy.OnEnemyDied += AddKill;
+            WaveManager.OnWaveFinished += AddWave;
+        }
+
+        private void OnDestroy()
+        {
+            Enemy.OnEnemyDied -= AddKill;
+            WaveManager.OnWaveFinished -= AddWave;
         }
 
         private void AddKill(Enemy e)

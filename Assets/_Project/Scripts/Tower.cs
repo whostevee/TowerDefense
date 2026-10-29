@@ -41,8 +41,15 @@ namespace _Project.Scripts
         public int Health => _health;
         public int MaxHealth => _maxHealth;
 
-        private void OnEnable() => _upgradeMenu.OnTowerUpgraded += TakeUpgrade;
-        private void OnDisable() => _upgradeMenu.OnTowerUpgraded -= TakeUpgrade;
+        private void OnEnable()
+        {
+            _upgradeMenu.OnTowerUpgraded += TakeUpgrade;
+        }
+
+        private void OnDisable()
+        {
+            _upgradeMenu.OnTowerUpgraded -= TakeUpgrade;
+        }
 
         private void Start()
         {

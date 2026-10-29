@@ -29,7 +29,15 @@ namespace _Project.Scripts
         private void OnEnable()
         {
             _pauseButton.onClick.AddListener(PauseGame);
+        }
 
+        private void OnDisable()
+        {
+            _pauseButton.onClick.RemoveListener(PauseGame);
+        }
+
+        private void Start()
+        {
             GameManager.Instance.OnMoneyChanged += UpdateMoney;
             GameManager.Instance.OnEnemyValueChanged += UpdateEnemies;
 
@@ -38,10 +46,8 @@ namespace _Project.Scripts
             _waveManager.OnCurrentWaveChanged += UpdateWaves;
         }
 
-        private void OnDisable()
+        private void OnDestroy()
         {
-            _pauseButton.onClick.RemoveListener(PauseGame);
-
             GameManager.Instance.OnMoneyChanged -= UpdateMoney;
             GameManager.Instance.OnEnemyValueChanged -= UpdateEnemies;
 

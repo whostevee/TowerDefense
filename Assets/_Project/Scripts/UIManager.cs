@@ -40,24 +40,20 @@ namespace _Project.Scripts
         {
             _resumeButton.onClick.AddListener(HideMenu);
             _startButton.onClick.AddListener(StartGame);
-
-            Tower.OnTowerClicked += ShowUpgradeMenu;
-            Tower.OnTowerDestroyed += ShowLoseMenu;
-            WaveManager.OnWavesEnded += ShowWinMenu;
         }
 
         private void OnDisable()
         {
             _resumeButton.onClick.RemoveListener(HideMenu);
             _startButton.onClick.RemoveListener(StartGame);
-
-            Tower.OnTowerClicked -= ShowUpgradeMenu;
-            Tower.OnTowerDestroyed -= ShowLoseMenu;
-            WaveManager.OnWavesEnded -= ShowWinMenu;
         }
 
         private void Start()
         {
+            Tower.OnTowerClicked += ShowUpgradeMenu;
+            Tower.OnTowerDestroyed += ShowLoseMenu;
+            WaveManager.OnWavesEnded += ShowWinMenu;
+            
             if (_skipMenu)
             {
                 StartGame();
@@ -68,6 +64,13 @@ namespace _Project.Scripts
                 GameManager.Instance.PauseGame();
                 _mainMenuPanel.SetActive(true);
             }
+        }
+
+        private void OnDestroy()
+        {
+            Tower.OnTowerClicked -= ShowUpgradeMenu;
+            Tower.OnTowerDestroyed -= ShowLoseMenu;
+            WaveManager.OnWavesEnded -= ShowWinMenu;
         }
 
         private void HideMenu()

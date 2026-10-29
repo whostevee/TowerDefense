@@ -40,18 +40,10 @@ namespace _Project.Scripts
         public int EnemiesPerWave => _enemiesPerWave;
         public int WaveNumber => _waveNumber;
 
-        private void OnEnable()
-        {
-            UIManager.OnGameStarted += StartWave;
-        }
-
-        private void OnDisable()
-        {
-            UIManager.OnGameStarted -= StartWave;
-        }
-
         private void Start()
         {
+            UIManager.OnGameStarted += StartWave;
+            
             _maxWaves = _enemyConfig.MaxWaves;
             _enemiesPerWave = _enemyConfig.EnemiesPerWave;
             OnEnemiesInWaveChanged?.Invoke();
@@ -63,6 +55,11 @@ namespace _Project.Scripts
             GameManager.Instance.PauseGame();
         }
 
+        private void OnDestroy()
+        {
+            UIManager.OnGameStarted -= StartWave;
+        }
+        
         private void Update()
         {
             switch (_state)

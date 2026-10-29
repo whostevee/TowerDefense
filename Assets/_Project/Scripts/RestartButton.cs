@@ -10,9 +10,15 @@ namespace _Project.Scripts
 
         [SerializeField] private Button _restartButton;
 
-        private void OnEnable() => _restartButton.onClick.AddListener(ReloadScene);
-    
-        private void OnDisable() => _restartButton.onClick.RemoveListener(ReloadScene);
+        private void OnEnable()
+        {
+            _restartButton.onClick.AddListener(ReloadScene);
+        }
+
+        private void OnDisable()
+        {
+            _restartButton.onClick.RemoveListener(ReloadScene);
+        }
 
         private void ReloadScene()
         {

@@ -9,7 +9,7 @@ namespace _Project.Scripts
         private const int RewardForKill = 10;
         private const float PausedTime = 0f;
         private const float NormalTime = 1f;
-        
+
         private List<Enemy> _enemies;
         public IReadOnlyList<Enemy> Enemies => _enemies;
 
@@ -25,16 +25,6 @@ namespace _Project.Scripts
         public int DiedEnemyCount => _diedEnemyCount;
         public int Money => _money;
 
-        private void OnEnable()
-        {
-            Enemy.OnEnemyDied += HandleEnemyDied;
-        }
-
-        private void OnDisable()
-        {
-            Enemy.OnEnemyDied -= HandleEnemyDied;
-        }
-
         private void Awake()
         {
             _enemies = new List<Enemy>();
@@ -47,6 +37,16 @@ namespace _Project.Scripts
 
             Instance = this;
             DontDestroyOnLoad(gameObject);
+        }
+
+        private void Start()
+        {
+            Enemy.OnEnemyDied += HandleEnemyDied;
+        }
+
+        private void OnDestroy()
+        {
+            Enemy.OnEnemyDied -= HandleEnemyDied;
         }
 
         public void AddEnemy(Enemy e)

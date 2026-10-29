@@ -47,8 +47,7 @@ namespace _Project.Scripts
             _upgradeHealthButton.onClick.AddListener(TakeHealthUpgrade);
             _upgradeAttackSpeedButton.onClick.AddListener(TakeAttackSpeedUpgrade);
             _upgradeDamageButton.onClick.AddListener(TakeDamageUpgrade);
-            GameManager.Instance.OnMoneyChanged += RefreshUI;
-            UIManager.OnUpgradeMenuOpened += RefreshUI;
+            
         }
 
         private void OnDisable()
@@ -56,8 +55,6 @@ namespace _Project.Scripts
             _upgradeHealthButton.onClick.RemoveListener(TakeHealthUpgrade);
             _upgradeAttackSpeedButton.onClick.RemoveListener(TakeAttackSpeedUpgrade);
             _upgradeDamageButton.onClick.RemoveListener(TakeDamageUpgrade);
-            GameManager.Instance.OnMoneyChanged -= RefreshUI;
-            UIManager.OnUpgradeMenuOpened -= RefreshUI;
         }
 
         private void Awake()
@@ -73,7 +70,16 @@ namespace _Project.Scripts
 
         private void Start()
         {
+            GameManager.Instance.OnMoneyChanged += RefreshUI;
+            UIManager.OnUpgradeMenuOpened += RefreshUI;
+            
             RefreshUI();
+        }
+
+        private void OnDestroy()
+        {
+            GameManager.Instance.OnMoneyChanged -= RefreshUI;
+            UIManager.OnUpgradeMenuOpened -= RefreshUI;
         }
     
         private string SetUpgradeText(string name, int currentUpgrade, int maxUpgrade, int price)
