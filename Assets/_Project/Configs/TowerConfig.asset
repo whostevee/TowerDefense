@@ -12,17 +12,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4bf7bb086df7475ca92fc32ed87ea16, type: 3}
   m_Name: TowerConfig
   m_EditorClassIdentifier: Assembly-CSharp::TowerConfig
-  _towerMaxHealth: 1000
-  _towerDamage: 25
-  _towerAttackRange: 5
-  _towerAttackSpeed: 1
-  _projectileSpeed: 13
-  _healthUpgradeQuantity: 100
-  _attackSpeedUpgradeQuantity: 0.2
-  _damageUpgradeQuantity: 20
-  _maxDamageUpgrade: 3
-  _maxAttackSpeedUpgrade: 3
-  _maxHealthUpgrade: 3
-  _damageUpgradePrice: 20
-  _healthUpgradePrice: 10
-  _attackSpeedUpgradePrice: 30
+  <TowerMaxHealth>k__BackingField: 1000
+  <TowerDamage>k__BackingField: 25
+  <TowerAttackRange>k__BackingField: 5
+  <TowerAttackSpeed>k__BackingField: 1
+  <ProjectileSpeed>k__BackingField: 14
+  <HealthUpgradeQuantity>k__BackingField: 100
+  <AttackSpeedUpgradeQuantity>k__BackingField: 0.2
+  <DamageUpgradeQuantity>k__BackingField: 20
+  <MaxDamageUpgrade>k__BackingField: 3
+  <MaxAttackSpeedUpgrade>k__BackingField: 3
+  <MaxHealthUpgrade>k__BackingField: 3
+  <DamageUpgradePrice>k__BackingField: 20
+  <HealthUpgradePrice>k__BackingField: 10
+  <AttackSpeedUpgradePrice>k__BackingField: 30

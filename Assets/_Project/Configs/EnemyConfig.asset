@@ -12,11 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dd3525ea6405d4268b9d5943c0fe1dc2, type: 3}
   m_Name: EnemyConfig
   m_EditorClassIdentifier: Assembly-CSharp::GameConfig
-  _enemyMaxHealth: 100
-  _enemySpeed: 2
-  _enemyDamage: 5
-  _enemyAttackDelay: 2
-  _maxWaves: 5
-  _enemiesPerWave: 5
-  _spawnTime: 0.5
-  _waveDelay: 5
+  <EnemyMaxHealth>k__BackingField: 100
+  <EnemySpeed>k__BackingField: 2
+  <EnemyDamage>k__BackingField: 5
+  <EnemyAttackDelay>k__BackingField: 2
+  <MaxWaves>k__BackingField: 5
+  <EnemiesPerWave>k__BackingField: 5
+  <SpawnTime>k__BackingField: 0.5
+  <WaveDelay>k__BackingField: 3

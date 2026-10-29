@@ -25,6 +25,9 @@ namespace _Project.Scripts
         [SerializeField] private Button _startButton;
 
         [SerializeField] private TextMeshProUGUI _statsText;
+        
+        private Coroutine _upgradeMenuRoutine;
+        private readonly WaitForSeconds _upgradeAnimationDelay = new WaitForSeconds(0.5f);
 
         public static Action OnGameStarted;
         public static Action OnUpgradeMenuOpened;
@@ -79,17 +82,6 @@ namespace _Project.Scripts
             _mainMenuPanel.SetActive(false);
         }
 
-        private void ShowUpgradeMenu()
-        {
-            if (_upgradeMenuPanel.activeSelf)
-            {
-                StartCoroutine(CloseUpgradeMenuRoutine());
-            }
-            else
-            {
-                StartCoroutine(OpenUpgradeMenuRoutine());
-            }
-        }
 
         private void ShowLoseMenu()
         {
@@ -109,6 +101,16 @@ namespace _Project.Scripts
             menu.SetActive(true);
             ShowStats();
         }
+        
+        private void ShowUpgradeMenu()
+        {
+            if (_upgradeMenuRoutine != null)
+            {
+                StopCoroutine(_upgradeMenuRoutine);
+            }
+
+            _upgradeMenuRoutine = StartCoroutine(_upgradeMenuPanel.activeSelf ? CloseUpgradeMenuRoutine() : OpenUpgradeMenuRoutine());
+        }
 
         private IEnumerator OpenUpgradeMenuRoutine()
         {
@@ -121,7 +123,7 @@ namespace _Project.Scripts
         private IEnumerator CloseUpgradeMenuRoutine()
         {
             _upgradeMenuAnimator.SetTrigger(CloseMenu);
-            yield return new WaitForSeconds(0.5f);
+            yield return _upgradeAnimationDelay;
             _upgradeMenuPanel.SetActive(false);
         }
 
