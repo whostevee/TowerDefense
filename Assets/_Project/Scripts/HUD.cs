@@ -7,6 +7,9 @@ namespace _Project.Scripts
     public class HUD : MonoBehaviour
     {
         [SerializeField] private WaveManager _waveManager;
+        [SerializeField] private MoneyManager _moneyManager;
+        [SerializeField] private TimeManager _timeManager;
+        [SerializeField] private StatsManager _statsManager;
         [SerializeField] private Tower _tower;
 
         [SerializeField] private TextMeshProUGUI _textHealth;
@@ -38,8 +41,8 @@ namespace _Project.Scripts
 
         private void Start()
         {
-            GameManager.Instance.OnMoneyChanged += UpdateMoney;
-            GameManager.Instance.OnEnemyValueChanged += UpdateEnemies;
+            _moneyManager.OnMoneyChanged += UpdateMoney;
+            _statsManager.OnEnemyValueChanged += UpdateEnemies;
 
             _tower.OnTowerHealthChanged += UpdateTowerHealth;
             _waveManager.OnEnemiesInWaveChanged += UpdateEnemies;
@@ -48,8 +51,8 @@ namespace _Project.Scripts
 
         private void OnDestroy()
         {
-            GameManager.Instance.OnMoneyChanged -= UpdateMoney;
-            GameManager.Instance.OnEnemyValueChanged -= UpdateEnemies;
+            _moneyManager.OnMoneyChanged -= UpdateMoney;
+            _statsManager.OnEnemyValueChanged -= UpdateEnemies;
 
             _tower.OnTowerHealthChanged -= UpdateTowerHealth;
             _waveManager.OnEnemiesInWaveChanged -= UpdateEnemies;
@@ -61,12 +64,12 @@ namespace _Project.Scripts
             _pauseMenuPanel.SetActive(true);
 
             gameObject.SetActive(false);
-            GameManager.Instance.PauseGame();
+            _timeManager.Pause();
         }
 
         private void UpdateMoney()
         {
-            _moneyCount = GameManager.Instance.Money;
+            _moneyCount = _moneyManager.Money;
             _textMoney.text = "Money: " + _moneyCount;
         }
 
@@ -80,7 +83,7 @@ namespace _Project.Scripts
 
         private void UpdateEnemies()
         {
-            _diedEnemies = GameManager.Instance.DiedEnemyCount;
+            _diedEnemies = _statsManager.DiedEnemyCount;
             _enemiesInWave = _waveManager.EnemiesPerWave;
 
             _textEnemies.text = "Enemies: " + _diedEnemies + " / " + _enemiesInWave;

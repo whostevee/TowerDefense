@@ -19,7 +19,7 @@ namespace _Project.Scripts
     
         private void ReturnToMainMenu()
         {
-            GameManager.Instance.ClearFields();
+            //GameManager.Instance.ClearFields();
             SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         }
     }

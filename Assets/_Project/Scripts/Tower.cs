@@ -10,6 +10,7 @@ namespace _Project.Scripts
         private const float UpdateTime = 0.5f;
         private const int PointsCount = 50;
 
+        [SerializeField] private EnemyRegistry _enemyRegistry;
         [SerializeField] private TowerConfig _towerConfig;
         [SerializeField] private Projectile _projectile;
         [SerializeField] private Transform _firePoint;
@@ -130,7 +131,7 @@ namespace _Project.Scripts
             _nearestDistance = Mathf.Infinity;
             _nearestEnemy = null;
 
-            foreach (Enemy enemy in GameManager.Instance.Enemies)
+            foreach (Enemy enemy in _enemyRegistry.Enemies)
             {
                 float dist = Vector3.Distance(transform.position, enemy.transform.position);
                 if (dist <= _attackRange && dist < _nearestDistance)

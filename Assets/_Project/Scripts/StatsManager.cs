@@ -1,26 +1,17 @@
+using System;
 using UnityEngine;
 
 namespace _Project.Scripts
 {
     public class StatsManager : MonoBehaviour
     {
-        public static StatsManager Instance { get; private set; }
-
+        public int DiedEnemyCount { get; private set; }
+        
+        public event Action OnEnemyValueChanged;
+        
         public int EnemyKilled { get; private set; }
         public int WavesSurvived { get; private set; }
-
-        private void Awake()
-        {
-            if (Instance != null && Instance != this)
-            {
-                Destroy(gameObject);
-                return;
-            }
-
-            Instance = this;
-            DontDestroyOnLoad(gameObject);
-        }
-
+        
         private void Start()
         {
             Enemy.OnEnemyDied += AddKill;
@@ -36,6 +27,7 @@ namespace _Project.Scripts
         private void AddKill(Enemy e)
         {
             EnemyKilled++;
+            OnEnemyValueChanged?.Invoke();
         }
 
         private void AddWave()
@@ -47,6 +39,18 @@ namespace _Project.Scripts
         {
             EnemyKilled = 0;
             WavesSurvived = 0;
+        }
+
+        public void UpdateDiedEnemies()
+        {
+            DiedEnemyCount++;
+            OnEnemyValueChanged?.Invoke();
+        }
+
+        public void ClearDiedEnemies()
+        {
+            DiedEnemyCount = 0;
+            OnEnemyValueChanged?.Invoke();
         }
     }
 }

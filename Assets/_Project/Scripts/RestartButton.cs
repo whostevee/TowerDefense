@@ -23,7 +23,7 @@ namespace _Project.Scripts
         private void ReloadScene()
         {
             UIManager.SetSkipMenu();
-            GameManager.Instance.ClearFields();
+            //GameManager.Instance.ClearFields();
             Time.timeScale = NormalTime;
 
             SceneManager.LoadScene(SceneManager.GetActiveScene().name);

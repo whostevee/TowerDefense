@@ -8,12 +8,13 @@ namespace _Project.Scripts
         [SerializeField] private Enemy _enemy;
         [SerializeField] private Tower _tower;
         [SerializeField] private Transform[] _spawnPoint;
+        [SerializeField] private EnemyRegistry _enemyRegistry;
 
         public void Spawn()
         {
             var enemy = Instantiate(_enemy, _spawnPoint[Random.Range(0, _spawnPoint.Length)].position, Quaternion.identity);
         
-            GameManager.Instance.AddEnemy(enemy);
+            _enemyRegistry.AddEnemy(enemy);
         
             enemy.SetTarget(_tower);
         }

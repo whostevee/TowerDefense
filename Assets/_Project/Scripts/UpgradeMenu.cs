@@ -19,6 +19,8 @@ namespace _Project.Scripts
         private const string DamageName = "Сила атаки";
     
         [SerializeField] private TowerConfig _towerConfig;
+        [SerializeField] private UIManager _uiManager;
+        [SerializeField] private MoneyManager _moneyManager;
 
         [SerializeField] private Button _upgradeHealthButton;
         [SerializeField] private Button _upgradeAttackSpeedButton;
@@ -70,16 +72,16 @@ namespace _Project.Scripts
 
         private void Start()
         {
-            GameManager.Instance.OnMoneyChanged += RefreshUI;
-            UIManager.OnUpgradeMenuOpened += RefreshUI;
+            _moneyManager.OnMoneyChanged += RefreshUI;
+            _uiManager.OnUpgradeMenuOpened += RefreshUI;
             
             RefreshUI();
         }
 
         private void OnDestroy()
         {
-            GameManager.Instance.OnMoneyChanged -= RefreshUI;
-            UIManager.OnUpgradeMenuOpened -= RefreshUI;
+            _moneyManager.OnMoneyChanged -= RefreshUI;
+            _uiManager.OnUpgradeMenuOpened -= RefreshUI;
         }
     
         private string SetUpgradeText(string name, int currentUpgrade, int maxUpgrade, int price)
@@ -90,7 +92,7 @@ namespace _Project.Scripts
 
         private void TakeHealthUpgrade()
         {
-            GameManager.Instance.BuyUpgrade(_healthUpgradePrice);
+            _moneyManager.TrySpend(_healthUpgradePrice);
             _currentHealthUpgrade++;
             _healthUpgradePrice = _towerConfig.GetNewHealthPrice(_currentHealthUpgrade);
             OnTowerUpgraded?.Invoke(UpgradeType.Health);
@@ -99,7 +101,7 @@ namespace _Project.Scripts
 
         private void TakeDamageUpgrade()
         {
-            GameManager.Instance.BuyUpgrade(_damageUpgradePrice);
+            _moneyManager.TrySpend(_damageUpgradePrice);
             _currentDamageUpgrade++;
             _damageUpgradePrice = _towerConfig.GetNewDamagePrice(_currentDamageUpgrade);
             OnTowerUpgraded?.Invoke(UpgradeType.Damage);
@@ -108,7 +110,7 @@ namespace _Project.Scripts
 
         private void TakeAttackSpeedUpgrade()
         {
-            GameManager.Instance.BuyUpgrade(_attackSpeedUpgradePrice);
+            _moneyManager.TrySpend(_attackSpeedUpgradePrice);
             _currentSpeedUpgrade++;
             _attackSpeedUpgradePrice = _towerConfig.GetNewAttackSpeedPrice(_currentSpeedUpgrade);
             OnTowerUpgraded?.Invoke(UpgradeType.AttackSpeed);
@@ -132,7 +134,7 @@ namespace _Project.Scripts
         private void ActivateButton(Button button, int upgradePrice, int currentUpgrade, int maxUpgrade)
         {
             button.interactable = false;
-            if (GameManager.Instance.Money >= upgradePrice && currentUpgrade < maxUpgrade)
+            if (_moneyManager.Money >= upgradePrice && currentUpgrade < maxUpgrade)
             {
                 button.interactable = true;
             }

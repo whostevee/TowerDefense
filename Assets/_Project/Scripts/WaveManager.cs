@@ -16,8 +16,12 @@ namespace _Project.Scripts
 
         private const int AddEnemies = 5;
 
+        [SerializeField] private EnemyRegistry _enemyRegistry;
         [SerializeField] private EnemyConfig _enemyConfig;
         [SerializeField] private EnemySpawner _enemySpawner;
+        [SerializeField] private UIManager _uiManager;
+        [SerializeField] private TimeManager _timeManager;
+        [SerializeField] private StatsManager _statsManager;
 
         private WaveState _state;
 
@@ -42,7 +46,7 @@ namespace _Project.Scripts
 
         private void Start()
         {
-            UIManager.OnGameStarted += StartWave;
+            _uiManager.OnGameStarted += StartWave;
             
             _maxWaves = _enemyConfig.MaxWaves;
             _enemiesPerWave = _enemyConfig.EnemiesPerWave;
@@ -52,12 +56,12 @@ namespace _Project.Scripts
             _waveDelay = _enemyConfig.WaveDelay;
 
             _state = WaveState.Stop;
-            GameManager.Instance.PauseGame();
+            _timeManager.Pause();
         }
 
         private void OnDestroy()
         {
-            UIManager.OnGameStarted -= StartWave;
+            _uiManager.OnGameStarted -= StartWave;
         }
         
         private void Update()
@@ -99,7 +103,7 @@ namespace _Project.Scripts
 
         private void UpdateWaiting()
         {
-            if (GameManager.Instance.Enemies.Count == 0)
+            if (_enemyRegistry.Enemies.Count == 0)
             {
                 _waveEndTime = Time.time;
 
@@ -129,7 +133,7 @@ namespace _Project.Scripts
         private void StartWave()
         {
             _spawnedInWave = 0;
-            GameManager.Instance.ClearDiedEnemies();
+            _statsManager.ClearDiedEnemies();
 
             _nextSpawnTime = Time.time + _spawnTime;
             _state = WaveState.Spawning;

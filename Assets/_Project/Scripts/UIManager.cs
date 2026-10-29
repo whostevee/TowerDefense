@@ -22,6 +22,8 @@ namespace _Project.Scripts
         [SerializeField] private GameObject _winMenuPanel;
         [SerializeField] private GameObject _statsPanel;
         [SerializeField] private HUD _hud;
+        [SerializeField] private StatsManager _statsManager;
+        [SerializeField] private TimeManager _timeManager;
 
         [SerializeField] private Button _resumeButton;
         [SerializeField] private Button _startButton;
@@ -32,8 +34,8 @@ namespace _Project.Scripts
         private Coroutine _upgradeMenuRoutine;
         private readonly WaitForSeconds _upgradeAnimationDelay = new WaitForSeconds(UpgradeMenuAnimationDuration);
 
-        public static Action OnGameStarted;
-        public static Action OnUpgradeMenuOpened;
+        public event Action OnGameStarted;
+        public event Action OnUpgradeMenuOpened;
         private static bool _skipMenu;
 
         private void OnEnable()
@@ -61,7 +63,7 @@ namespace _Project.Scripts
             }
             else
             {
-                GameManager.Instance.PauseGame();
+                _timeManager.Pause();
                 _mainMenuPanel.SetActive(true);
             }
         }
@@ -77,13 +79,13 @@ namespace _Project.Scripts
         {
             _pauseMenuPanel.SetActive(false);
 
-            GameManager.Instance.ResumeGame();
+            _timeManager.Resume();
             _hud.gameObject.SetActive(true);
         }
 
         private void StartGame()
         {
-            GameManager.Instance.ResumeGame();
+            _timeManager.Resume();
             OnGameStarted?.Invoke();
             _mainMenuPanel.SetActive(false);
         }
@@ -141,8 +143,8 @@ namespace _Project.Scripts
         private void ShowStats()
         {
             _statsPanel.SetActive(true);
-            _statsText.text = $"Убито врагов: {StatsManager.Instance.EnemyKilled}\n" +
-                              $"Пережито волн: {StatsManager.Instance.WavesSurvived}";
+            _statsText.text = $"Убито врагов: {_statsManager.EnemyKilled}\n" +
+                              $"Пережито волн: {_statsManager.WavesSurvived}";
         }
     }
 }
