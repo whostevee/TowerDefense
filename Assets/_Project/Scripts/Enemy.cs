@@ -13,6 +13,8 @@ namespace _Project.Scripts
         private const string Walking = "isWalking";
         private const string Idle = "isIdle";
         private const string Dead = "Die";
+        private const float MovementThreshold = 0.1f;
+        private const float EnemyDestroyTime = 0.5f;
 
         [SerializeField] private EnemyConfig _enemyConfig;
 
@@ -88,7 +90,7 @@ namespace _Project.Scripts
         {
             _agent.speed = _speed;
 
-            if (_agent.velocity.magnitude > 0.1f)
+            if (_agent.velocity.magnitude > MovementThreshold)
             {
                 _animator.SetBool(Walking, true);
             }
@@ -150,7 +152,7 @@ namespace _Project.Scripts
 
             OnEnemyDied?.Invoke(this);
 
-            Destroy(gameObject, 0.5f);
+            Destroy(gameObject, EnemyDestroyTime);
         }
 
         private bool TakeTimer(ref float accumulator, float delay)
@@ -161,7 +163,7 @@ namespace _Project.Scripts
                 return false;
             }
 
-            accumulator = 0f;
+            accumulator = 0;
             return true;
         }
     }

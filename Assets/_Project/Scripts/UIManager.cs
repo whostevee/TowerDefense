@@ -10,6 +10,8 @@ namespace _Project.Scripts
     {
         private const string OpenMenu = "OpenMenu";
         private const string CloseMenu = "CloseMenu";
+        private const float UpgradeMenuAnimationDuration = 0.5f;
+        private const float ShowMenuDuration = 2f;
 
         [SerializeField] private Animator _upgradeMenuAnimator;
 
@@ -26,8 +28,9 @@ namespace _Project.Scripts
 
         [SerializeField] private TextMeshProUGUI _statsText;
         
+        
         private Coroutine _upgradeMenuRoutine;
-        private readonly WaitForSeconds _upgradeAnimationDelay = new WaitForSeconds(0.5f);
+        private readonly WaitForSeconds _upgradeAnimationDelay = new WaitForSeconds(UpgradeMenuAnimationDuration);
 
         public static Action OnGameStarted;
         public static Action OnUpgradeMenuOpened;
@@ -86,13 +89,13 @@ namespace _Project.Scripts
         private void ShowLoseMenu()
         {
             _hud.gameObject.SetActive(false);
-            StartCoroutine(ShowMenuRoutine(_loseMenuPanel, 2f));
+            StartCoroutine(ShowMenuRoutine(_loseMenuPanel, ShowMenuDuration));
         }
 
         private void ShowWinMenu()
         {
             _hud.gameObject.SetActive(false);
-            StartCoroutine(ShowMenuRoutine(_winMenuPanel, 2f));
+            StartCoroutine(ShowMenuRoutine(_winMenuPanel, ShowMenuDuration));
         }
 
         private IEnumerator ShowMenuRoutine(GameObject menu, float duration)

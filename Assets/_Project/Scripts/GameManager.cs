@@ -7,6 +7,9 @@ namespace _Project.Scripts
     public class GameManager : MonoBehaviour
     {
         private const int RewardForKill = 10;
+        private const float PausedTime = 0f;
+        private const float NormalTime = 1f;
+        
         private List<Enemy> _enemies;
         public IReadOnlyList<Enemy> Enemies => _enemies;
 
@@ -99,7 +102,7 @@ namespace _Project.Scripts
             if (!_isGamePaused)
             {
                 _isGamePaused = true;
-                Time.timeScale = 0;
+                Time.timeScale = PausedTime;
             }
         }
 
@@ -108,7 +111,7 @@ namespace _Project.Scripts
             if (_isGamePaused)
             {
                 _isGamePaused = false;
-                Time.timeScale = 1;
+                Time.timeScale = NormalTime;
             }
         }
     }

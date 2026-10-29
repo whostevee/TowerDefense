@@ -6,6 +6,8 @@ namespace _Project.Scripts
 {
     public class RestartButton : MonoBehaviour
     {
+        private const float NormalTime = 1f;
+
         [SerializeField] private Button _restartButton;
 
         private void OnEnable() => _restartButton.onClick.AddListener(ReloadScene);
@@ -16,7 +18,7 @@ namespace _Project.Scripts
         {
             UIManager.SetSkipMenu();
             GameManager.Instance.ClearFields();
-            Time.timeScale = 1f;
+            Time.timeScale = NormalTime;
 
             SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         }
