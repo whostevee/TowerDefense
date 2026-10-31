@@ -5,29 +5,24 @@ namespace _Project.Scripts
 {
     public class StatsManager : MonoBehaviour
     {
-        public int DiedEnemyCount { get; private set; }
+        [SerializeField] private EnemyRegistry _enemyRegistry;
         
         public event Action OnEnemyValueChanged;
         
-        public int EnemyKilled { get; private set; }
+        public int DiedEnemyCount { get; private set; }
+        public int TotalEnemyKilled { get; private set; }
         public int WavesSurvived { get; private set; }
         
         private void Start()
         {
-            Enemy.OnEnemyDied += AddKill;
+            _enemyRegistry.OnEnemyDied += UpdateDiedEnemies;
             WaveManager.OnWaveFinished += AddWave;
         }
 
         private void OnDestroy()
         {
-            Enemy.OnEnemyDied -= AddKill;
+            _enemyRegistry.OnEnemyDied -= UpdateDiedEnemies;
             WaveManager.OnWaveFinished -= AddWave;
-        }
-
-        private void AddKill(Enemy e)
-        {
-            EnemyKilled++;
-            OnEnemyValueChanged?.Invoke();
         }
 
         private void AddWave()
@@ -35,15 +30,10 @@ namespace _Project.Scripts
             WavesSurvived++;
         }
 
-        public void ClearStats()
-        {
-            EnemyKilled = 0;
-            WavesSurvived = 0;
-        }
-
-        public void UpdateDiedEnemies()
+        private void UpdateDiedEnemies()
         {
             DiedEnemyCount++;
+            TotalEnemyKilled++;
             OnEnemyValueChanged?.Invoke();
         }
 

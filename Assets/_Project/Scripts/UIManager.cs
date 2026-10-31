@@ -143,7 +143,7 @@ namespace _Project.Scripts
         private void ShowStats()
         {
             _statsPanel.SetActive(true);
-            _statsText.text = $"Убито врагов: {_statsManager.EnemyKilled}\n" +
+            _statsText.text = $"Убито врагов: {_statsManager.TotalEnemyKilled}\n" +
                               $"Пережито волн: {_statsManager.WavesSurvived}";
         }
     }

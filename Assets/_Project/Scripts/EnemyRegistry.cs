@@ -1,47 +1,28 @@
 using System;
 using System.Collections.Generic;
-using Unity.VisualScripting.Antlr3.Runtime.Misc;
 using UnityEngine;
 
 namespace _Project.Scripts
 {
     public class EnemyRegistry : MonoBehaviour
     {
-        private const int RewardForKill = 10;
+        private List<Enemy> _enemies = new();
 
-        [SerializeField] private MoneyManager _moneyManager;
-        [SerializeField] private StatsManager _statsManager;
-
-        private List<Enemy> _enemies;
+        public event Action OnEnemyDied;
 
         public IReadOnlyList<Enemy> Enemies => _enemies;
 
-        private void Awake()
+        public void AddEnemy(Enemy enemy)
         {
-            _enemies = new List<Enemy>();
+            enemy.OnDied += HandleEnemyDied;
+            _enemies.Add(enemy);
         }
 
-        private void Start()
+        private void HandleEnemyDied(Enemy enemy)
         {
-            Enemy.OnEnemyDied += HandleEnemyDied;
-        }
-
-        public void AddEnemy(Enemy e)
-        {
-            _enemies.Add(e);
-        }
-
-        public void RemoveEnemy(Enemy e)
-        {
-            _enemies.Remove(e);
-        }
-
-        private void HandleEnemyDied(Enemy e)
-        {
-            _moneyManager.Add(RewardForKill);
-
-            _statsManager.UpdateDiedEnemies();
-            RemoveEnemy(e);
+            enemy.OnDied -= HandleEnemyDied;
+            _enemies.Remove(enemy);
+            OnEnemyDied?.Invoke();
         }
     }
 }

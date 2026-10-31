@@ -13,10 +13,10 @@ MonoBehaviour:
   m_Name: TowerConfig
   m_EditorClassIdentifier: Assembly-CSharp::TowerConfig
   <TowerMaxHealth>k__BackingField: 1000
-  <TowerDamage>k__BackingField: 25
-  <TowerAttackRange>k__BackingField: 5
+  <TowerDamage>k__BackingField: 100
+  <TowerAttackRange>k__BackingField: 8
   <TowerAttackSpeed>k__BackingField: 1
-  <ProjectileSpeed>k__BackingField: 14
+  <ProjectileSpeed>k__BackingField: 30
   <HealthUpgradeQuantity>k__BackingField: 100
   <AttackSpeedUpgradeQuantity>k__BackingField: 0.2
   <DamageUpgradeQuantity>k__BackingField: 20

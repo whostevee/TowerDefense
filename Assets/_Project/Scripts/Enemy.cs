@@ -34,7 +34,7 @@ namespace _Project.Scripts
         private NavMeshAgent _agent;
         private Animator _animator;
 
-        public static event Action<Enemy> OnEnemyDied;
+        public event Action<Enemy> OnDied; 
 
         public int Health => _health;
         public int MaxHealth => _maxHealth;
@@ -150,7 +150,7 @@ namespace _Project.Scripts
 
             _animator.SetTrigger(Dead);
 
-            OnEnemyDied?.Invoke(this);
+            OnDied?.Invoke(this);
 
             Destroy(gameObject, EnemyDestroyTime);
         }

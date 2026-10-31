@@ -5,10 +5,23 @@ namespace _Project.Scripts
 {
     public class MoneyManager : MonoBehaviour
     {
+        private const int RewardForKill = 10;
+
+        [SerializeField] private EnemyRegistry _enemyRegistry;
         public int Money { get; private set; }
         public event Action OnMoneyChanged;
 
-        public void Add(int amount)
+        private void Start()
+        {
+            _enemyRegistry.OnEnemyDied += HandleEnemyDied;
+        }
+
+        private void OnDestroy()
+        {
+            _enemyRegistry.OnEnemyDied -= HandleEnemyDied;
+        }
+
+        private void Add(int amount)
         {
             Money += amount;
             OnMoneyChanged?.Invoke();
@@ -24,6 +37,11 @@ namespace _Project.Scripts
             Money -= amount;
             OnMoneyChanged?.Invoke();
             return true;
+        }
+
+        private void HandleEnemyDied()
+        {
+            Add(RewardForKill);
         }
     }
 }

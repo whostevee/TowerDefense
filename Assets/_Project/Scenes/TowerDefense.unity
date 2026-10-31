@@ -1645,6 +1645,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dde954eb8c17d49f98bdf7b1ae4c0ea1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GameManager
+  _statsManager: {fileID: 0}
+  _enemies: []
+  _money: 0
+  _isGameStarted: 0
+  _diedEnemyCount: 0
+  _isGamePaused: 0
 --- !u!4 &173759548
 Transform:
   m_ObjectHideFlags: 0
@@ -3681,6 +3687,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UpgradeMenu
   _towerConfig: {fileID: 11400000, guid: c193568b4eb114474b2e259732543a29, type: 2}
+  _uiManager: {fileID: 1520427686}
+  _moneyManager: {fileID: 1928641778}
   _upgradeHealthButton: {fileID: 888921298}
   _upgradeAttackSpeedButton: {fileID: 497700974}
   _upgradeDamageButton: {fileID: 1988653057}
@@ -4626,6 +4634,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HUD
   _waveManager: {fileID: 495887567}
+  _moneyManager: {fileID: 1928641778}
+  _timeManager: {fileID: 1554736126}
+  _statsManager: {fileID: 262327851}
   _tower: {fileID: 1771625985}
   _textHealth: {fileID: 1105145297}
   _textEnemies: {fileID: 1390767928}
@@ -5068,6 +5079,7 @@ MonoBehaviour:
   - {fileID: 1731009852}
   - {fileID: 2082833055}
   - {fileID: 214701698}
+  _enemyRegistry: {fileID: 1006703882}
 --- !u!4 &443188089
 Transform:
   m_ObjectHideFlags: 0
@@ -5501,8 +5513,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b7ac08558eae42feb5e4538d05c98e7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::WaveManager
+  _enemyRegistry: {fileID: 1006703882}
   _enemyConfig: {fileID: 11400000, guid: 886b9803d3b5747ebae8f2cff7f98bbd, type: 2}
   _enemySpawner: {fileID: 443188088}
+  _uiManager: {fileID: 1520427686}
+  _timeManager: {fileID: 1554736126}
+  _statsManager: {fileID: 262327851}
 --- !u!4 &495887568
 Transform:
   m_ObjectHideFlags: 0
@@ -11945,6 +11961,52 @@ Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 6d8aaa320e5a84ed48df6beb99368dba, type: 3}
   m_PrefabInstance: {fileID: 1556153890}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1006703881
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1006703883}
+  - component: {fileID: 1006703882}
+  m_Layer: 0
+  m_Name: EnemyRegistry
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1006703882
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1006703881}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 29a003e4aebdc4d04950e83c93988368, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::_Project.Scripts.EnemyRegistry
+  _moneyManager: {fileID: 1928641778}
+  _statsManager: {fileID: 262327851}
+--- !u!4 &1006703883
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1006703881}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 2.57408, y: 2.5741, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1006705423
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -16704,6 +16766,8 @@ MonoBehaviour:
   _winMenuPanel: {fileID: 62588933}
   _statsPanel: {fileID: 1138236829}
   _hud: {fileID: 365738868}
+  _statsManager: {fileID: 262327851}
+  _timeManager: {fileID: 1554736126}
   _resumeButton: {fileID: 1905402758}
   _startButton: {fileID: 269805723}
   _statsText: {fileID: 1726048172}
@@ -16972,6 +17036,50 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c88f1a59647094096af5c9dc973231a7, type: 3}
+--- !u!1 &1554736125
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1554736127}
+  - component: {fileID: 1554736126}
+  m_Layer: 0
+  m_Name: TimeManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1554736126
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1554736125}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0be12ced549424ad099bd3692bb804aa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::_Project.Scripts.TimeManager
+--- !u!4 &1554736127
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1554736125}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 2.57408, y: 2.5741, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1556153890
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -18804,6 +18912,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cdde9383310cd48b2ae9cd5198cfd9e5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Tower
+  _enemyRegistry: {fileID: 1006703882}
   _towerConfig: {fileID: 11400000, guid: c193568b4eb114474b2e259732543a29, type: 2}
   _projectile: {fileID: 4537697832828660871, guid: dfabd19a7e8c042c58d3599f465ab865, type: 3}
   _firePoint: {fileID: 1108122752}
@@ -21194,6 +21303,50 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8871957b75e1c40cd9560c2294993009, type: 3}
+--- !u!1 &1928641777
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1928641779}
+  - component: {fileID: 1928641778}
+  m_Layer: 0
+  m_Name: MoneyManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1928641778
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1928641777}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d17718c8883884c39b967bae5c49c787, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::_Project.Scripts.MoneyManager
+--- !u!4 &1928641779
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1928641777}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 2.57408, y: 2.5741, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1940402707
 GameObject:
   m_ObjectHideFlags: 0
@@ -22950,6 +23103,9 @@ SceneRoots:
   - {fileID: 495887568}
   - {fileID: 1520427687}
   - {fileID: 262327852}
+  - {fileID: 1928641779}
+  - {fileID: 1554736127}
+  - {fileID: 1006703883}
   - {fileID: 284875935}
   - {fileID: 2051475604}
   - {fileID: 365738867}

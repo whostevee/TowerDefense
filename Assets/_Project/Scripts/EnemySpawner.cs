@@ -13,11 +13,10 @@ namespace _Project.Scripts
         public void Spawn()
         {
             var enemy = Instantiate(_enemy, _spawnPoint[Random.Range(0, _spawnPoint.Length)].position, Quaternion.identity);
-        
+
             _enemyRegistry.AddEnemy(enemy);
         
             enemy.SetTarget(_tower);
         }
-
     }
 }

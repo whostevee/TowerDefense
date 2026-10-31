@@ -16,7 +16,7 @@ MonoBehaviour:
   <EnemySpeed>k__BackingField: 2
   <EnemyDamage>k__BackingField: 5
   <EnemyAttackDelay>k__BackingField: 2
-  <MaxWaves>k__BackingField: 5
+  <MaxWaves>k__BackingField: 2
   <EnemiesPerWave>k__BackingField: 5
   <SpawnTime>k__BackingField: 0.5
   <WaveDelay>k__BackingField: 3
