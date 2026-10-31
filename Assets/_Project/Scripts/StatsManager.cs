@@ -6,6 +6,7 @@ namespace _Project.Scripts
     public class StatsManager : MonoBehaviour
     {
         [SerializeField] private EnemyRegistry _enemyRegistry;
+        [SerializeField] private WaveManager _waveManager;
         
         public event Action OnEnemyValueChanged;
         
@@ -16,13 +17,15 @@ namespace _Project.Scripts
         private void Start()
         {
             _enemyRegistry.OnEnemyDied += UpdateDiedEnemies;
-            WaveManager.OnWaveFinished += AddWave;
+            _waveManager.OnWaveFinished += AddWave;
+            _waveManager.OnCurrentWaveChanged += ClearDiedEnemies;
         }
 
         private void OnDestroy()
         {
             _enemyRegistry.OnEnemyDied -= UpdateDiedEnemies;
-            WaveManager.OnWaveFinished -= AddWave;
+            _waveManager.OnWaveFinished -= AddWave;
+            _waveManager.OnCurrentWaveChanged -= ClearDiedEnemies;
         }
 
         private void AddWave()
@@ -37,7 +40,7 @@ namespace _Project.Scripts
             OnEnemyValueChanged?.Invoke();
         }
 
-        public void ClearDiedEnemies()
+        private void ClearDiedEnemies()
         {
             DiedEnemyCount = 0;
             OnEnemyValueChanged?.Invoke();

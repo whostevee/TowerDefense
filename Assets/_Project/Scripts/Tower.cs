@@ -35,8 +35,8 @@ namespace _Project.Scripts
 
         private LineRenderer _lineRenderer;
 
-        public static Action OnTowerClicked;
-        public static Action OnTowerDestroyed;
+        public event Action OnTowerClicked;
+        public event Action OnTowerDestroyed;
         public event Action OnTowerHealthChanged;
 
         public int Health => _health;

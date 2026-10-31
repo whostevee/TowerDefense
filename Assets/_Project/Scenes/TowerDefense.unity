@@ -1616,56 +1616,6 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 3100553483150029818, guid: 36a282966712440788fea75592a6237d, type: 3}
   m_PrefabInstance: {fileID: 599805031}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &173759546
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 173759548}
-  - component: {fileID: 173759547}
-  m_Layer: 0
-  m_Name: GameManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &173759547
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 173759546}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dde954eb8c17d49f98bdf7b1ae4c0ea1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::GameManager
-  _statsManager: {fileID: 0}
-  _enemies: []
-  _money: 0
-  _isGameStarted: 0
-  _diedEnemyCount: 0
-  _isGamePaused: 0
---- !u!4 &173759548
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 173759546}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.78808, y: -0, z: 6.4739}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &175453820
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2795,6 +2745,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ef6ce2bbc0f39420298b545d1d5c0c57, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::StatsManager
+  _enemyRegistry: {fileID: 1006703882}
+  _waveManager: {fileID: 495887567}
 --- !u!4 &262327852
 Transform:
   m_ObjectHideFlags: 0
@@ -5518,7 +5470,6 @@ MonoBehaviour:
   _enemySpawner: {fileID: 443188088}
   _uiManager: {fileID: 1520427686}
   _timeManager: {fileID: 1554736126}
-  _statsManager: {fileID: 262327851}
 --- !u!4 &495887568
 Transform:
   m_ObjectHideFlags: 0
@@ -11990,8 +11941,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 29a003e4aebdc4d04950e83c93988368, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::_Project.Scripts.EnemyRegistry
-  _moneyManager: {fileID: 1928641778}
-  _statsManager: {fileID: 262327851}
 --- !u!4 &1006703883
 Transform:
   m_ObjectHideFlags: 0
@@ -16765,9 +16714,11 @@ MonoBehaviour:
   _loseMenuPanel: {fileID: 1367938377}
   _winMenuPanel: {fileID: 62588933}
   _statsPanel: {fileID: 1138236829}
+  _tower: {fileID: 1771625985}
   _hud: {fileID: 365738868}
   _statsManager: {fileID: 262327851}
   _timeManager: {fileID: 1554736126}
+  _waveManager: {fileID: 495887567}
   _resumeButton: {fileID: 1905402758}
   _startButton: {fileID: 269805723}
   _statsText: {fileID: 1726048172}
@@ -21332,6 +21283,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d17718c8883884c39b967bae5c49c787, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::_Project.Scripts.MoneyManager
+  _enemyRegistry: {fileID: 1006703882}
 --- !u!4 &1928641779
 Transform:
   m_ObjectHideFlags: 0
@@ -23099,7 +23051,6 @@ SceneRoots:
   - {fileID: 330585546}
   - {fileID: 410087041}
   - {fileID: 832575519}
-  - {fileID: 173759548}
   - {fileID: 495887568}
   - {fileID: 1520427687}
   - {fileID: 262327852}

@@ -21,9 +21,12 @@ namespace _Project.Scripts
         [SerializeField] private GameObject _loseMenuPanel;
         [SerializeField] private GameObject _winMenuPanel;
         [SerializeField] private GameObject _statsPanel;
+        [SerializeField] private Tower _tower;
+        
         [SerializeField] private HUD _hud;
         [SerializeField] private StatsManager _statsManager;
         [SerializeField] private TimeManager _timeManager;
+        [SerializeField] private WaveManager _waveManager;
 
         [SerializeField] private Button _resumeButton;
         [SerializeField] private Button _startButton;
@@ -52,9 +55,9 @@ namespace _Project.Scripts
 
         private void Start()
         {
-            Tower.OnTowerClicked += ShowUpgradeMenu;
-            Tower.OnTowerDestroyed += ShowLoseMenu;
-            WaveManager.OnWavesEnded += ShowWinMenu;
+            _tower.OnTowerClicked += ShowUpgradeMenu;
+            _tower.OnTowerDestroyed += ShowLoseMenu;
+            _waveManager.OnWavesEnded += ShowWinMenu;
             
             if (_skipMenu)
             {
@@ -70,9 +73,9 @@ namespace _Project.Scripts
 
         private void OnDestroy()
         {
-            Tower.OnTowerClicked -= ShowUpgradeMenu;
-            Tower.OnTowerDestroyed -= ShowLoseMenu;
-            WaveManager.OnWavesEnded -= ShowWinMenu;
+            _tower.OnTowerClicked -= ShowUpgradeMenu;
+            _tower.OnTowerDestroyed -= ShowLoseMenu;
+            _waveManager.OnWavesEnded -= ShowWinMenu;
         }
 
         private void HideMenu()

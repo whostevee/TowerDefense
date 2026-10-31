@@ -21,7 +21,6 @@ namespace _Project.Scripts
         [SerializeField] private EnemySpawner _enemySpawner;
         [SerializeField] private UIManager _uiManager;
         [SerializeField] private TimeManager _timeManager;
-        [SerializeField] private StatsManager _statsManager;
 
         private WaveState _state;
 
@@ -35,8 +34,8 @@ namespace _Project.Scripts
         private float _waveEndTime;
         private int _waveNumber = 1;
 
-        public static Action OnWavesEnded;
-        public static Action OnWaveFinished;
+        public event Action OnWavesEnded;
+        public event Action OnWaveFinished;
         public event Action OnEnemiesInWaveChanged;
         public event Action OnCurrentWaveChanged;
 
@@ -133,7 +132,6 @@ namespace _Project.Scripts
         private void StartWave()
         {
             _spawnedInWave = 0;
-            _statsManager.ClearDiedEnemies();
 
             _nextSpawnTime = Time.time + _spawnTime;
             _state = WaveState.Spawning;

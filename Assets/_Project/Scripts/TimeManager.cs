@@ -4,26 +4,26 @@ namespace _Project.Scripts
 {
    public class TimeManager : MonoBehaviour
    {
-      private bool IsPaused { get; set; }
+      private bool _isPaused;
 
       public void Pause()
       {
-         if (IsPaused)
+         if (_isPaused)
          {
             return;
          }
-         IsPaused = true;
+         _isPaused = true;
          Time.timeScale = 0f;
       }
 
       public void Resume()
       {
-         if (!IsPaused)
+         if (!_isPaused)
          {
             return;
          }
       
-         IsPaused = false;
+         _isPaused = false;
          Time.timeScale = 1f;
       }
    }
