@@ -9,6 +9,7 @@ namespace _Project.Scripts
         private const float NormalTime = 1f;
 
         [SerializeField] private Button _restartButton;
+        [SerializeField] private RestartEvent _restartEvent;
 
         private void OnEnable()
         {
@@ -22,8 +23,7 @@ namespace _Project.Scripts
 
         private void ReloadScene()
         {
-            UIManager.SetSkipMenu();
-            //GameManager.Instance.ClearFields();
+            _restartEvent.Restart();
             Time.timeScale = NormalTime;
 
             SceneManager.LoadScene(SceneManager.GetActiveScene().name);

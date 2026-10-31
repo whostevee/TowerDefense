@@ -16722,6 +16722,7 @@ MonoBehaviour:
   _resumeButton: {fileID: 1905402758}
   _startButton: {fileID: 269805723}
   _statsText: {fileID: 1726048172}
+  _restartEvent: {fileID: 11400000, guid: c308478d6ece34e41b7e777fadb1fa89, type: 2}
 --- !u!4 &1520427687
 Transform:
   m_ObjectHideFlags: 0

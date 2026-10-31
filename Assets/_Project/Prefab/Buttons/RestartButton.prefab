@@ -272,3 +272,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::RestartButton
   _restartButton: {fileID: 2553529425081875266}
+  _restartEvent: {fileID: 11400000, guid: c308478d6ece34e41b7e777fadb1fa89, type: 2}

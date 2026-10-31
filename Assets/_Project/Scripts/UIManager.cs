@@ -33,24 +33,26 @@ namespace _Project.Scripts
 
         [SerializeField] private TextMeshProUGUI _statsText;
         
+        [SerializeField] private RestartEvent _restartEvent;
         
         private Coroutine _upgradeMenuRoutine;
         private readonly WaitForSeconds _upgradeAnimationDelay = new WaitForSeconds(UpgradeMenuAnimationDuration);
 
         public event Action OnGameStarted;
         public event Action OnUpgradeMenuOpened;
-        private static bool _skipMenu;
 
         private void OnEnable()
         {
             _resumeButton.onClick.AddListener(HideMenu);
             _startButton.onClick.AddListener(StartGame);
+            _restartEvent.OnRestart += SetSkipMenu;
         }
 
         private void OnDisable()
         {
             _resumeButton.onClick.RemoveListener(HideMenu);
             _startButton.onClick.RemoveListener(StartGame);
+            _restartEvent.OnRestart -= SetSkipMenu;
         }
 
         private void Start()
@@ -59,10 +61,10 @@ namespace _Project.Scripts
             _tower.OnTowerDestroyed += ShowLoseMenu;
             _waveManager.OnWavesEnded += ShowWinMenu;
             
-            if (_skipMenu)
+            if (_restartEvent.SkipMenu)
             {
                 StartGame();
-                _skipMenu = false;
+                _restartEvent.SkipMenu = false;
             }
             else
             {
@@ -138,9 +140,9 @@ namespace _Project.Scripts
             _upgradeMenuPanel.SetActive(false);
         }
 
-        public static void SetSkipMenu()
+        private void SetSkipMenu()
         {
-            _skipMenu = !_skipMenu;
+            _restartEvent.SkipMenu = !_restartEvent.SkipMenu;
         }
 
         private void ShowStats()
