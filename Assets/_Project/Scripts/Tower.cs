@@ -27,8 +27,8 @@ namespace _Project.Scripts
         private float _attackSpeedUpgradeQuantity;
         private int _damageUpgradeQuantity;
 
-        private float _attackTimeAcc;
-        private float _searchTimeAcc;
+        private float _attackTimeAccumulator;
+        private float _searchTimeAccumulator;
 
         private Enemy _nearestEnemy;
         private float _nearestDistance = Mathf.Infinity;
@@ -74,16 +74,16 @@ namespace _Project.Scripts
 
         private void Update()
         {
-            if (TakeTimer(ref _searchTimeAcc, UpdateTime))
+            if (TakeTimer(ref _searchTimeAccumulator, UpdateTime))
             {
                 FindTarget();
             }
 
             if (_nearestEnemy == null)
             {
-                _attackTimeAcc = _shotDelayTime;
+                _attackTimeAccumulator = _shotDelayTime;
             }
-            else if (TakeTimer(ref _attackTimeAcc, _shotDelayTime))
+            else if (TakeTimer(ref _attackTimeAccumulator, _shotDelayTime))
             {
                 Attack(_nearestEnemy);
             }
@@ -133,11 +133,11 @@ namespace _Project.Scripts
 
             foreach (Enemy enemy in _enemyRegistry.Enemies)
             {
-                float dist = Vector3.Distance(transform.position, enemy.transform.position);
-                if (dist <= _attackRange && dist < _nearestDistance)
+                float distance = Vector3.Distance(transform.position, enemy.transform.position);
+                if (distance <= _attackRange && distance < _nearestDistance)
                 {
                     _nearestEnemy = enemy;
-                    _nearestDistance = dist;
+                    _nearestDistance = distance;
                 }
             }
         }
