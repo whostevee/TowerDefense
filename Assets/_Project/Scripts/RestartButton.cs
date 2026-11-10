@@ -6,10 +6,7 @@ namespace _Project.Scripts
 {
     public class RestartButton : MonoBehaviour
     {
-        private const float NormalTime = 1f;
-
         [SerializeField] private Button _restartButton;
-        [SerializeField] private RestartEvent _restartEvent;
 
         private void OnEnable()
         {
@@ -23,9 +20,6 @@ namespace _Project.Scripts
 
         private void ReloadScene()
         {
-            _restartEvent.Restart();
-            Time.timeScale = NormalTime;
-
             SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         }
     }

@@ -15,6 +15,8 @@ namespace _Project.Scripts
         private const string Dead = "Die";
         private const float MovementThreshold = 0.1f;
         private const float EnemyDestroyTime = 0.5f;
+        
+        private TimeManager _timeManager;
 
         [SerializeField] private EnemyConfig _enemyConfig;
 
@@ -58,6 +60,17 @@ namespace _Project.Scripts
 
         private void Update()
         {
+            if (_timeManager.IsPaused)
+            {
+                _agent.isStopped = true;
+                _animator.speed = 0;
+            }
+            else
+            {
+                _agent.isStopped = false;
+                _animator.speed = 1;
+            }
+            
             if (_isDead)
             {
                 return;
@@ -127,6 +140,11 @@ namespace _Project.Scripts
             {
                 _agent.SetDestination(_target.transform.position + offset);
             }
+        }
+
+        public void SetTimeManager(TimeManager timeManager)
+        {
+            _timeManager = timeManager;
         }
 
         public void TakeDamage(int damage)

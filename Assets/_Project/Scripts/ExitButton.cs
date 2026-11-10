@@ -6,6 +6,7 @@ namespace _Project.Scripts
 {
     public class ExitButton : MonoBehaviour
     {
+        private const string MainMenuName = "MainMenu";
         [SerializeField] private Button _exitButton;
 
         private void OnEnable()
@@ -19,7 +20,7 @@ namespace _Project.Scripts
     
         private void ReturnToMainMenu()
         {
-            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+            SceneManager.LoadScene(MainMenuName);
         }
     }
 }

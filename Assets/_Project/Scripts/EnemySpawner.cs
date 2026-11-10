@@ -9,6 +9,7 @@ namespace _Project.Scripts
         [SerializeField] private Tower _tower;
         [SerializeField] private Transform[] _spawnPoint;
         [SerializeField] private EnemyRegistry _enemyRegistry;
+        [SerializeField] private TimeManager _timeManager;
 
         public void Spawn()
         {
@@ -16,6 +17,7 @@ namespace _Project.Scripts
 
             _enemyRegistry.AddEnemy(enemy);
         
+            enemy.SetTimeManager(_timeManager);
             enemy.SetTarget(_tower);
         }
     }

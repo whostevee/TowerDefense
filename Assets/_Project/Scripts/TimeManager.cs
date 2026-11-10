@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 namespace _Project.Scripts
@@ -5,6 +6,10 @@ namespace _Project.Scripts
    public class TimeManager : MonoBehaviour
    {
       private bool _isPaused;
+      public bool IsPaused => _isPaused;
+
+      public event Action OnGamePaused;
+      public event Action OnGameResumed;
 
       public void Pause()
       {
@@ -13,7 +18,7 @@ namespace _Project.Scripts
             return;
          }
          _isPaused = true;
-         Time.timeScale = 0f;
+         OnGamePaused?.Invoke();
       }
 
       public void Resume()
@@ -24,7 +29,7 @@ namespace _Project.Scripts
          }
       
          _isPaused = false;
-         Time.timeScale = 1f;
+         OnGameResumed?.Invoke();
       }
    }
 }

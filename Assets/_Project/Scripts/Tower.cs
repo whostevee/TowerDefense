@@ -15,6 +15,7 @@ namespace _Project.Scripts
         [SerializeField] private Projectile _projectile;
         [SerializeField] private Transform _firePoint;
         [SerializeField] private UpgradeMenu _upgradeMenu;
+        [SerializeField] private TimeManager _timeManager;
 
         private float _attackRange;
         private int _health;
@@ -74,6 +75,11 @@ namespace _Project.Scripts
 
         private void Update()
         {
+            if (_timeManager.IsPaused)
+            {
+                return;
+            }
+            
             if (TakeTimer(ref _searchTimeAccumulator, UpdateTime))
             {
                 FindTarget();
@@ -94,7 +100,8 @@ namespace _Project.Scripts
             if (enemy.Health > 0)
             {
                 var projectile = Instantiate(_projectile, _firePoint.position, Quaternion.identity);
-                projectile.InitializeProjectile(_attackRange, _damage, _projectileSpeed, enemy);
+                
+                projectile.InitializeProjectile(_attackRange, _damage, _projectileSpeed, enemy, _timeManager);
             }
         }
 

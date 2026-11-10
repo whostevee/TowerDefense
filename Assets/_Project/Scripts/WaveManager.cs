@@ -57,6 +57,11 @@ namespace _Project.Scripts
 
         private void Update()
         {
+            if (_timeManager.IsPaused)
+            {
+                return;
+            }
+            
             switch (_state)
             {
                 case WaveState.Spawning:
