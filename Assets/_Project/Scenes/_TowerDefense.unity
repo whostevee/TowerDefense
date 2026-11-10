@@ -16709,7 +16709,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::UIManager
   _upgradeMenuAnimator: {fileID: 284875936}
   _pauseMenuPanel: {fileID: 759776382}
-  _mainMenuPanel: {fileID: 1574429071}
   _upgradeMenuPanel: {fileID: 284875931}
   _loseMenuPanel: {fileID: 1367938377}
   _winMenuPanel: {fileID: 62588933}
@@ -17195,7 +17194,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1574429072
 RectTransform:
   m_ObjectHideFlags: 0

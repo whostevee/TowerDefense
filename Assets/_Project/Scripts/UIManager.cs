@@ -16,7 +16,6 @@ namespace _Project.Scripts
         [SerializeField] private Animator _upgradeMenuAnimator;
 
         [SerializeField] private GameObject _pauseMenuPanel;
-        [SerializeField] private GameObject _mainMenuPanel;
         [SerializeField] private GameObject _upgradeMenuPanel;
         [SerializeField] private GameObject _loseMenuPanel;
         [SerializeField] private GameObject _winMenuPanel;
@@ -69,7 +68,6 @@ namespace _Project.Scripts
             else
             {
                 _timeManager.Pause();
-                _mainMenuPanel.SetActive(true);
             }
         }
 
@@ -92,7 +90,6 @@ namespace _Project.Scripts
         {
             _timeManager.Resume();
             OnGameStarted?.Invoke();
-            _mainMenuPanel.SetActive(false);
         }
 
 
