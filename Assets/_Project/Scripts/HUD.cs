@@ -47,6 +47,7 @@ namespace _Project.Scripts
             _tower.OnTowerHealthChanged += UpdateTowerHealth;
             _waveManager.OnEnemiesInWaveChanged += UpdateEnemies;
             _waveManager.OnCurrentWaveChanged += UpdateWaves;
+            
         }
 
         private void OnDestroy()

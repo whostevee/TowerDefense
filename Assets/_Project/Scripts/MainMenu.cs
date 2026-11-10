@@ -2,23 +2,26 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-public class MainMenu : MonoBehaviour
+namespace _Project.Scripts
 {
-   private const string SceneName = "_TowerDefense";
-   [SerializeField] private Button _startGameButton;
-
-   private void Start()
+   public class MainMenu : MonoBehaviour
    {
-      _startGameButton.onClick.AddListener(StartGame);
-   }
+      private const string SceneName = "_TowerDefense";
+      [SerializeField] private Button _startGameButton;
 
-   private void OnDestroy()
-   {
-      _startGameButton.onClick.RemoveListener(StartGame);
-   }
+      private void OnEnable()
+      {
+         _startGameButton.onClick.AddListener(StartGame);
+      }
 
-   private void StartGame()
-   {
-      SceneManager.LoadScene(SceneName);
+      private void OnDisable()
+      {
+         _startGameButton.onClick.RemoveListener(StartGame);
+      }
+
+      private void StartGame()
+      {
+         SceneManager.LoadScene(SceneName);
+      }
    }
 }

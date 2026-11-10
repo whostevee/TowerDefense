@@ -45,24 +45,16 @@ namespace _Project.Scripts
 
         private void Start()
         {
-            _uiManager.OnGameStarted += StartWave;
-            
             _maxWaves = _enemyConfig.MaxWaves;
             _enemiesPerWave = _enemyConfig.EnemiesPerWave;
             OnEnemiesInWaveChanged?.Invoke();
 
             _spawnTime = _enemyConfig.SpawnTime;
             _waveDelay = _enemyConfig.WaveDelay;
-
-            _state = WaveState.Stop;
-            _timeManager.Pause();
+            
+            StartWave();
         }
 
-        private void OnDestroy()
-        {
-            _uiManager.OnGameStarted -= StartWave;
-        }
-        
         private void Update()
         {
             switch (_state)
