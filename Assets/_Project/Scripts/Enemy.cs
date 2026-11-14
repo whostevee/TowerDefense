@@ -15,7 +15,7 @@ namespace _Project.Scripts
         private const string Dead = "Die";
         private const float MovementThreshold = 0.1f;
         private const float EnemyDestroyTime = 0.5f;
-        
+
         private TimeManager _timeManager;
 
         [SerializeField] private EnemyConfig _enemyConfig;
@@ -36,7 +36,7 @@ namespace _Project.Scripts
         private NavMeshAgent _agent;
         private Animator _animator;
 
-        public event Action<Enemy> OnDied; 
+        public event Action<Enemy> OnDied;
 
         public int Health => _health;
         public int MaxHealth => _maxHealth;
@@ -54,12 +54,17 @@ namespace _Project.Scripts
             _speed = _enemyConfig.EnemySpeed;
             _damage = _enemyConfig.EnemyDamage;
             _attackDelay = _enemyConfig.EnemyAttackDelay;
-        
+
             _animator = GetComponent<Animator>();
         }
 
         private void Update()
         {
+            if (_isDead)
+            {
+                return;
+            }
+
             if (_timeManager.IsPaused)
             {
                 _agent.isStopped = true;
@@ -70,12 +75,7 @@ namespace _Project.Scripts
                 _agent.isStopped = false;
                 _animator.speed = 1;
             }
-            
-            if (_isDead)
-            {
-                return;
-            }
-        
+    
             if (_target == null)
             {
                 _agent.isStopped = true;
@@ -124,7 +124,7 @@ namespace _Project.Scripts
         {
             _animator.SetBool(Walking, false);
             _animator.SetBool(Idle, false);
-        
+
             _animator.Play(_attackAnimations[Random.Range(0, _attackAnimations.Length)]);
             _target.TakeDamage(_damage);
         }
