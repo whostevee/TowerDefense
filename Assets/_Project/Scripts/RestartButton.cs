@@ -20,6 +20,8 @@ namespace _Project.Scripts
 
         private void ReloadScene()
         {
+            PlayerPrefs.DeleteKey("Level");
+            PlayerPrefs.Save();
             SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         }
     }

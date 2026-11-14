@@ -15,8 +15,8 @@ MonoBehaviour:
   <TowerMaxHealth>k__BackingField: 1000
   <TowerDamage>k__BackingField: 100
   <TowerAttackRange>k__BackingField: 8
-  <TowerAttackSpeed>k__BackingField: 1
-  <ProjectileSpeed>k__BackingField: 5
+  <TowerAttackSpeed>k__BackingField: 0.1
+  <ProjectileSpeed>k__BackingField: 15
   <HealthUpgradeQuantity>k__BackingField: 100
   <AttackSpeedUpgradeQuantity>k__BackingField: 0.2
   <DamageUpgradeQuantity>k__BackingField: 20

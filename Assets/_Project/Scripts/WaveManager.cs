@@ -14,10 +14,9 @@ namespace _Project.Scripts
             Win
         }
 
-        private const int AddEnemies = 5;
-
         [SerializeField] private EnemyRegistry _enemyRegistry;
         [SerializeField] private EnemyConfig _enemyConfig;
+        [SerializeField] private ProgressManager _progressManager;
         [SerializeField] private EnemySpawner _enemySpawner;
         [SerializeField] private UIManager _uiManager;
         [SerializeField] private TimeManager _timeManager;
@@ -29,10 +28,12 @@ namespace _Project.Scripts
         private float _spawnTime;
         private int _waveDelay;
         private int _spawnedInWave;
+        private int _addEnemies;
 
         private float _nextSpawnTime;
         private float _waveEndTime;
         private int _waveNumber = 1;
+        private bool _isWin;
 
         public event Action OnWavesEnded;
         public event Action OnWaveFinished;
@@ -45,8 +46,9 @@ namespace _Project.Scripts
 
         private void Start()
         {
-            _maxWaves = _enemyConfig.MaxWaves;
-            _enemiesPerWave = _enemyConfig.EnemiesPerWave;
+            _addEnemies = _progressManager.GetAddEnemiesProgress();
+            _maxWaves = _progressManager.GetMaxWavesProgress();
+            _enemiesPerWave = _progressManager.GetEnemiesPerWaveProgress();
             OnEnemiesInWaveChanged?.Invoke();
 
             _spawnTime = _enemyConfig.SpawnTime;
@@ -76,6 +78,7 @@ namespace _Project.Scripts
                 case WaveState.Stop:
                     break;
                 case WaveState.Win:
+                    UpdateWin();
                     break;
             }
         }
@@ -126,8 +129,18 @@ namespace _Project.Scripts
             }
         }
 
+        private void UpdateWin()
+        {
+            if (!_isWin)
+            {
+                _progressManager.AdvanceLevel();
+                _isWin = true;
+            }
+        }
+
         private void StartWave()
         {
+            _isWin = false;
             _spawnedInWave = 0;
 
             _nextSpawnTime = Time.time + _spawnTime;
@@ -145,7 +158,7 @@ namespace _Project.Scripts
 
         private void NextWave()
         {
-            _enemiesPerWave += AddEnemies;
+            _enemiesPerWave += _addEnemies;
             OnEnemiesInWaveChanged?.Invoke();
         }
     }
