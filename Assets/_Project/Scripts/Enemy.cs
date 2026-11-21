@@ -1,4 +1,5 @@
 using System;
+using _Project.Scripts.Back;
 using UnityEngine;
 using UnityEngine.AI;
 using Random = UnityEngine.Random;
@@ -17,6 +18,7 @@ namespace _Project.Scripts
         private const float EnemyDestroyTime = 0.5f;
 
         private TimeManager _timeManager;
+        private Health _health;
 
         [SerializeField] private EnemyConfig _enemyConfig;
 
@@ -24,8 +26,10 @@ namespace _Project.Scripts
             { "Attack 1", "Attack 2", "Attack 3", "Attack 4" };
 
         private float _speed;
+
         private int _damage;
-        private int _health;
+
+        //private int _health;
         private int _maxHealth;
         private bool _isDead;
         private bool _isCanAttack;
@@ -38,19 +42,26 @@ namespace _Project.Scripts
 
         public event Action<Enemy> OnDied;
 
-        public int Health => _health;
+        public int Health => _health.CurrentHealth;
         public int MaxHealth => _maxHealth;
 
 
         private void Awake()
         {
+            _health = new Health(_enemyConfig.EnemyMaxHealth);
+            _health.OnDied += Die;
+
+            var healthBar = GetComponentInChildren<HealthBar>(true);
+            if (healthBar != null)
+            {
+                healthBar.Initialize(_health);
+            }
+
             _agent = GetComponent<NavMeshAgent>();
         }
 
         private void Start()
         {
-            _maxHealth = _enemyConfig.EnemyMaxHealth;
-            _health = _maxHealth;
             _speed = _enemyConfig.EnemySpeed;
             _damage = _enemyConfig.EnemyDamage;
             _attackDelay = _enemyConfig.EnemyAttackDelay;
@@ -75,7 +86,7 @@ namespace _Project.Scripts
                 _agent.isStopped = false;
                 _animator.speed = 1;
             }
-    
+
             if (_target == null)
             {
                 _agent.isStopped = true;
@@ -149,16 +160,7 @@ namespace _Project.Scripts
 
         public void TakeDamage(int damage)
         {
-            if (_isDead)
-            {
-                return;
-            }
-
-            _health -= damage;
-            if (_health <= 0)
-            {
-                Die();
-            }
+            _health.TakeDamage(damage);
         }
 
         private void Die()
@@ -169,6 +171,8 @@ namespace _Project.Scripts
             _animator.SetTrigger(Dead);
 
             OnDied?.Invoke(this);
+            
+            _health.OnDied -= Die;
 
             Destroy(gameObject, EnemyDestroyTime);
         }

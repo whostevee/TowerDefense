@@ -1,3 +1,4 @@
+using _Project.Scripts.Back;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -6,28 +7,38 @@ namespace _Project.Scripts
     public class HealthBar : MonoBehaviour
     {
         [SerializeField] private Image _fillImage;
-        [SerializeField] private MonoBehaviour _target;
+        private Health _health;
 
-        private IDamageable _damageable;
         private Camera _camera;
 
         private void Start()
         {
-            _damageable = _target as IDamageable;
             _camera = Camera.main;
         }
 
-        private void Update()
+        public void Initialize(Health health)
         {
-            if (_damageable != null)
-            {
-                _fillImage.fillAmount = (float)_damageable.Health / _damageable.MaxHealth;
-            }
+            _health = health;
+            health.OnHealthChanged += HealthChanged;
+            HealthChanged(_health.CurrentHealth, _health.MaxHealth);
+        }
+
+        private void HealthChanged(int currentHealth, int maxHealth)
+        {
+            _fillImage.fillAmount = (float)currentHealth / maxHealth;
         }
 
         private void LateUpdate()
         {
             transform.LookAt(_camera.transform.position);
+        }
+
+        private void OnDestroy()
+        {
+            if (_health != null)
+            {
+                _health.OnHealthChanged -= HealthChanged;
+            }
         }
     }
 }

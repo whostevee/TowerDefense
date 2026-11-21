@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::_Project.Scripts.ProgressConfig
   <AddEnemies>k__BackingField: 3
   <MaxWaves>k__BackingField: 2
-  <BaseEnemiesPerWave>k__BackingField: 3
+  <BaseEnemiesPerWave>k__BackingField: 1
   <WaveIncrease>k__BackingField: 2
   <BaseEnemyIncrease>k__BackingField: 2
   <AddEnemiesIncrease>k__BackingField: 2
