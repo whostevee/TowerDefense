@@ -1,4 +1,5 @@
 using System;
+using _Project.Scripts.Back;
 using UnityEngine;
 
 namespace _Project.Scripts
@@ -6,11 +7,16 @@ namespace _Project.Scripts
     public class MoneyManager : MonoBehaviour
     {
         private const int RewardForKill = 10;
-
+        
+        private Wallet _wallet;
         [SerializeField] private EnemyRegistry _enemyRegistry;
-        public int Money { get; private set; }
-        public event Action OnMoneyChanged;
+        public int Money => _wallet.Money;
+        public Wallet Wallet => _wallet;
 
+        private void Awake()
+        {
+            _wallet = new Wallet();
+        }
         private void Start()
         {
             _enemyRegistry.OnEnemyDied += HandleEnemyDied;
@@ -21,27 +27,14 @@ namespace _Project.Scripts
             _enemyRegistry.OnEnemyDied -= HandleEnemyDied;
         }
 
-        private void Add(int amount)
+        public void SpendMoney(int amount)
         {
-            Money += amount;
-            OnMoneyChanged?.Invoke();
-        }
-
-        public bool TrySpend(int amount)
-        {
-            if (Money < amount)
-            {
-                return false;
-            }
-
-            Money -= amount;
-            OnMoneyChanged?.Invoke();
-            return true;
+            _wallet.SpendMoney(amount);
         }
 
         private void HandleEnemyDied()
         {
-            Add(RewardForKill);
+            _wallet.AddMoney(RewardForKill);
         }
     }
 }

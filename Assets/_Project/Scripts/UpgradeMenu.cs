@@ -72,7 +72,7 @@ namespace _Project.Scripts
 
         private void Start()
         {
-            _moneyManager.OnMoneyChanged += RefreshUI;
+            _moneyManager.Wallet.OnMoneyChanged += RefreshUI;
             _uiManager.OnUpgradeMenuOpened += RefreshUI;
             
             RefreshUI();
@@ -80,7 +80,7 @@ namespace _Project.Scripts
 
         private void OnDestroy()
         {
-            _moneyManager.OnMoneyChanged -= RefreshUI;
+            _moneyManager.Wallet.OnMoneyChanged -= RefreshUI;
             _uiManager.OnUpgradeMenuOpened -= RefreshUI;
         }
     
@@ -92,7 +92,7 @@ namespace _Project.Scripts
 
         private void TakeHealthUpgrade()
         {
-            _moneyManager.TrySpend(_healthUpgradePrice);
+            _moneyManager.SpendMoney(_healthUpgradePrice);
             _currentHealthUpgrade++;
             _healthUpgradePrice = _towerConfig.GetNewHealthPrice(_currentHealthUpgrade);
             OnTowerUpgraded?.Invoke(UpgradeType.Health);
@@ -101,7 +101,7 @@ namespace _Project.Scripts
 
         private void TakeDamageUpgrade()
         {
-            _moneyManager.TrySpend(_damageUpgradePrice);
+            _moneyManager.SpendMoney(_damageUpgradePrice);
             _currentDamageUpgrade++;
             _damageUpgradePrice = _towerConfig.GetNewDamagePrice(_currentDamageUpgrade);
             OnTowerUpgraded?.Invoke(UpgradeType.Damage);
@@ -110,7 +110,7 @@ namespace _Project.Scripts
 
         private void TakeAttackSpeedUpgrade()
         {
-            _moneyManager.TrySpend(_attackSpeedUpgradePrice);
+            _moneyManager.SpendMoney(_attackSpeedUpgradePrice);
             _currentSpeedUpgrade++;
             _attackSpeedUpgradePrice = _towerConfig.GetNewAttackSpeedPrice(_currentSpeedUpgrade);
             OnTowerUpgraded?.Invoke(UpgradeType.AttackSpeed);

@@ -41,7 +41,7 @@ namespace _Project.Scripts
 
         private void Start()
         {
-            _moneyManager.OnMoneyChanged += UpdateMoney;
+            _moneyManager.Wallet.OnMoneyChanged += UpdateMoney;
             _statsManager.OnEnemyValueChanged += UpdateEnemies;
 
             _tower.OnTowerHealthChanged += UpdateTowerHealth;
@@ -52,7 +52,7 @@ namespace _Project.Scripts
 
         private void OnDestroy()
         {
-            _moneyManager.OnMoneyChanged -= UpdateMoney;
+            _moneyManager.Wallet.OnMoneyChanged -= UpdateMoney;
             _statsManager.OnEnemyValueChanged -= UpdateEnemies;
 
             _tower.OnTowerHealthChanged -= UpdateTowerHealth;

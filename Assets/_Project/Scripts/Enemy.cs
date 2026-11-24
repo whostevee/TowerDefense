@@ -29,7 +29,6 @@ namespace _Project.Scripts
 
         private int _damage;
 
-        //private int _health;
         private int _maxHealth;
         private bool _isDead;
         private bool _isCanAttack;
