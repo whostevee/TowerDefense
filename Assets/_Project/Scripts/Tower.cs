@@ -1,4 +1,5 @@
 using System;
+using _Project.Scripts.Back;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -18,8 +19,6 @@ namespace _Project.Scripts
         [SerializeField] private TimeManager _timeManager;
 
         private float _attackRange;
-        private int _health;
-        private int _maxHealth;
         private float _shotDelayTime;
         private int _damage;
         private float _projectileSpeed;
@@ -38,10 +37,10 @@ namespace _Project.Scripts
 
         public event Action OnTowerClicked;
         public event Action OnTowerDestroyed;
-        public event Action OnTowerHealthChanged;
 
-        public int Health => _health;
-        public int MaxHealth => _maxHealth;
+        public Health TowerHealth {get; private set;}
+        public int Health => TowerHealth.CurrentHealth;
+        public int MaxHealth => TowerHealth.MaxHealth;
 
         private void OnEnable()
         {
@@ -53,12 +52,14 @@ namespace _Project.Scripts
             _upgradeMenu.OnTowerUpgraded -= TakeUpgrade;
         }
 
+        private void Awake()
+        {
+            TowerHealth = new Health(_towerConfig.TowerMaxHealth);
+            TowerHealth.OnDied += DestroyTower;
+        }
+
         private void Start()
         {
-            _maxHealth = _towerConfig.TowerMaxHealth;
-            _health = _maxHealth;
-            OnTowerHealthChanged?.Invoke();
-
             _attackRange = _towerConfig.TowerAttackRange;
             _shotDelayTime = _towerConfig.TowerAttackSpeed;
             _damage = _towerConfig.TowerDamage;
@@ -79,7 +80,7 @@ namespace _Project.Scripts
             {
                 return;
             }
-            
+
             if (TakeTimer(ref _searchTimeAccumulator, UpdateTime))
             {
                 FindTarget();
@@ -100,7 +101,7 @@ namespace _Project.Scripts
             if (enemy.Health > 0)
             {
                 var projectile = Instantiate(_projectile, _firePoint.position, Quaternion.identity);
-                
+
                 projectile.InitializeProjectile(_attackRange, _damage, _projectileSpeed, enemy, _timeManager);
             }
         }
@@ -122,15 +123,15 @@ namespace _Project.Scripts
 
         public void TakeDamage(int damage)
         {
-            _health -= damage;
-            if (_health <= 0)
-            {
-                Destroy(gameObject);
-                OnTowerDestroyed?.Invoke();
-                return;
-            }
+            TowerHealth.TakeDamage(damage);
+        }
 
-            OnTowerHealthChanged?.Invoke();
+        private void DestroyTower()
+        {
+            Destroy(gameObject);
+            OnTowerDestroyed?.Invoke();
+            
+            TowerHealth.OnDied -= DestroyTower;
         }
 
         private void FindTarget()
@@ -159,9 +160,7 @@ namespace _Project.Scripts
             switch (upgradeType)
             {
                 case UpgradeMenu.UpgradeType.Health:
-                    _health += _healthUpgradeQuantity;
-                    _maxHealth += _healthUpgradeQuantity;
-                    OnTowerHealthChanged?.Invoke();
+                    TowerHealth.Heal(_healthUpgradeQuantity);
                     break;
                 case UpgradeMenu.UpgradeType.AttackSpeed:
                     _shotDelayTime -= _attackSpeedUpgradeQuantity;

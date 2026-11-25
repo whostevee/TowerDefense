@@ -5,7 +5,7 @@ namespace _Project.Scripts.Back
     public class Health
     {
         public int CurrentHealth { get; private set; }
-        public int MaxHealth { get; set; }
+        public int MaxHealth { get; private set; }
 
         public event Action<int, int> OnHealthChanged;
         public event Action OnDied;
@@ -25,6 +25,13 @@ namespace _Project.Scripts.Back
             {
                 OnDied?.Invoke();
             }
+        }
+
+        public void Heal(int healAmount)
+        {
+            CurrentHealth += healAmount;
+            MaxHealth += healAmount;
+            OnHealthChanged?.Invoke(CurrentHealth, MaxHealth);
         }
     }
 }

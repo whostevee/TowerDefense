@@ -44,10 +44,11 @@ namespace _Project.Scripts
             _moneyManager.Wallet.OnMoneyChanged += UpdateMoney;
             _statsManager.Statistics.OnEnemyValueChanged += UpdateEnemies;
 
-            _tower.OnTowerHealthChanged += UpdateTowerHealth;
+            _tower.TowerHealth.OnHealthChanged += UpdateTowerHealth;
             _waveManager.OnEnemiesInWaveChanged += UpdateEnemies;
             _waveManager.OnCurrentWaveChanged += UpdateWaves;
             
+            UpdateTowerHealth(_tower.Health, _tower.MaxHealth);
         }
 
         private void OnDestroy()
@@ -55,7 +56,7 @@ namespace _Project.Scripts
             _moneyManager.Wallet.OnMoneyChanged -= UpdateMoney;
             _statsManager.Statistics.OnEnemyValueChanged -= UpdateEnemies;
 
-            _tower.OnTowerHealthChanged -= UpdateTowerHealth;
+            _tower.TowerHealth.OnHealthChanged -= UpdateTowerHealth;
             _waveManager.OnEnemiesInWaveChanged -= UpdateEnemies;
             _waveManager.OnCurrentWaveChanged -= UpdateWaves;
         }
@@ -74,12 +75,9 @@ namespace _Project.Scripts
             _textMoney.text = "Money: " + _moneyCount;
         }
 
-        private void UpdateTowerHealth()
+        private void UpdateTowerHealth(int currentHealth, int maxHealth)
         {
-            _towerMaxHealth = _tower.MaxHealth;
-            _towerHealth = _tower.Health;
-
-            _textHealth.text = "HP: " + _towerHealth + " / " + _towerMaxHealth;
+            _textHealth.text = "HP: " + currentHealth + " / " + maxHealth;
         }
 
         private void UpdateEnemies()
