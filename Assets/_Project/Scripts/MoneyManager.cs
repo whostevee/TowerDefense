@@ -8,14 +8,14 @@ namespace _Project.Scripts
     {
         private const int RewardForKill = 10;
         
-        private Wallet _wallet;
         [SerializeField] private EnemyRegistry _enemyRegistry;
-        public int Money => _wallet.Money;
-        public Wallet Wallet => _wallet;
+        
+        public Wallet Wallet {get; private set;}
+        public int Money => Wallet.Money;
 
         private void Awake()
         {
-            _wallet = new Wallet();
+            Wallet = new Wallet();
         }
         private void Start()
         {
@@ -29,12 +29,12 @@ namespace _Project.Scripts
 
         public void SpendMoney(int amount)
         {
-            _wallet.SpendMoney(amount);
+            Wallet.SpendMoney(amount);
         }
 
         private void HandleEnemyDied()
         {
-            _wallet.AddMoney(RewardForKill);
+            Wallet.AddMoney(RewardForKill);
         }
     }
 }

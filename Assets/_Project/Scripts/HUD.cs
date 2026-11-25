@@ -42,7 +42,7 @@ namespace _Project.Scripts
         private void Start()
         {
             _moneyManager.Wallet.OnMoneyChanged += UpdateMoney;
-            _statsManager.OnEnemyValueChanged += UpdateEnemies;
+            _statsManager.Statistics.OnEnemyValueChanged += UpdateEnemies;
 
             _tower.OnTowerHealthChanged += UpdateTowerHealth;
             _waveManager.OnEnemiesInWaveChanged += UpdateEnemies;
@@ -53,7 +53,7 @@ namespace _Project.Scripts
         private void OnDestroy()
         {
             _moneyManager.Wallet.OnMoneyChanged -= UpdateMoney;
-            _statsManager.OnEnemyValueChanged -= UpdateEnemies;
+            _statsManager.Statistics.OnEnemyValueChanged -= UpdateEnemies;
 
             _tower.OnTowerHealthChanged -= UpdateTowerHealth;
             _waveManager.OnEnemiesInWaveChanged -= UpdateEnemies;
@@ -84,7 +84,7 @@ namespace _Project.Scripts
 
         private void UpdateEnemies()
         {
-            _diedEnemies = _statsManager.DiedEnemyCount;
+            _diedEnemies = _statsManager.CurrentWaveDiedEnemies;
             _enemiesInWave = _waveManager.EnemiesPerWave;
 
             _textEnemies.text = "Enemies: " + _diedEnemies + " / " + _enemiesInWave;

@@ -1,4 +1,5 @@
 using System;
+using _Project.Scripts.Back;
 using UnityEngine;
 
 namespace _Project.Scripts
@@ -8,12 +9,16 @@ namespace _Project.Scripts
         [SerializeField] private EnemyRegistry _enemyRegistry;
         [SerializeField] private WaveManager _waveManager;
         
-        public event Action OnEnemyValueChanged;
+        public Statistics Statistics {get; private set;}
         
-        public int DiedEnemyCount { get; private set; }
-        public int TotalEnemyKilled { get; private set; }
-        public int WavesSurvived { get; private set; }
-        
+        public int CurrentWaveDiedEnemies => Statistics.CurrentWaveDiedEnemies;
+        public int TotalEnemyKilled => Statistics.TotalEnemyKilled;
+        public int WavesSurvived => Statistics.WavesSurvived;
+
+        private void Awake()
+        {
+            Statistics = new Statistics();
+        }
         private void Start()
         {
             _enemyRegistry.OnEnemyDied += UpdateDiedEnemies;
@@ -30,20 +35,17 @@ namespace _Project.Scripts
 
         private void AddWave()
         {
-            WavesSurvived++;
+            Statistics.AddWave();
         }
 
         private void UpdateDiedEnemies()
         {
-            DiedEnemyCount++;
-            TotalEnemyKilled++;
-            OnEnemyValueChanged?.Invoke();
+            Statistics.UpdateDiedEnemies();
         }
 
         private void ClearDiedEnemies()
         {
-            DiedEnemyCount = 0;
-            OnEnemyValueChanged?.Invoke();
+            Statistics.ClearCurrentDiedEnemies();
         }
     }
 }
