@@ -11,9 +11,10 @@ namespace _Project.Scripts.Back
 
     public class TowerUpgrades
     {
+        private const float MaxShotDelayUpgradeNumber = 0.1f;
+        
         private readonly TowerUpgradesSettings _towerSettings;
         private readonly Health _health;
-        private float _maxShotDelayUpgradeNumber = 0.1f;
         public int Damage { get; private set; }
         public float ShotDelay { get; private set; }
 
@@ -38,7 +39,7 @@ namespace _Project.Scripts.Back
         public void TakeAttackSpeedUpgrade()
         {
             ShotDelay -= _towerSettings.ShotDelayUpgradeQuantity;
-            ShotDelay = Mathf.Max(ShotDelay, _maxShotDelayUpgradeNumber);
+            ShotDelay = Mathf.Max(ShotDelay, MaxShotDelayUpgradeNumber);
         }
     }
 }
