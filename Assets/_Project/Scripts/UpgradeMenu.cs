@@ -31,7 +31,7 @@ namespace _Project.Scripts
         [SerializeField] private TextMeshProUGUI _upgradeDamageText;
 
         private int _currentHealthUpgrade;
-        private int _currentSpeedUpgrade;
+        private int _currentShotDelayUpgrade;
         private int _currentDamageUpgrade;
 
         private int _maxHealthUpgrade;
@@ -39,7 +39,7 @@ namespace _Project.Scripts
         private int _maxDamageUpgrade;
 
         private int _healthUpgradePrice;
-        private int _attackSpeedUpgradePrice;
+        private int _shotDelayUpgradePrice;
         private int _damageUpgradePrice;
     
         public event Action<UpgradeType> OnTowerUpgraded;
@@ -66,7 +66,7 @@ namespace _Project.Scripts
             _maxDamageUpgrade = _towerConfig.MaxDamageUpgrade;
 
             _healthUpgradePrice = _towerConfig.HealthUpgradePrice;
-            _attackSpeedUpgradePrice = _towerConfig.AttackSpeedUpgradePrice;
+            _shotDelayUpgradePrice = _towerConfig.AttackSpeedUpgradePrice;
             _damageUpgradePrice = _towerConfig.DamageUpgradePrice;
         }
 
@@ -110,9 +110,9 @@ namespace _Project.Scripts
 
         private void TakeAttackSpeedUpgrade()
         {
-            _moneyManager.SpendMoney(_attackSpeedUpgradePrice);
-            _currentSpeedUpgrade++;
-            _attackSpeedUpgradePrice = _towerConfig.GetNewAttackSpeedPrice(_currentSpeedUpgrade);
+            _moneyManager.SpendMoney(_shotDelayUpgradePrice);
+            _currentShotDelayUpgrade++;
+            _shotDelayUpgradePrice = _towerConfig.GetNewAttackSpeedPrice(_currentShotDelayUpgrade);
             OnTowerUpgraded?.Invoke(UpgradeType.AttackSpeed);
             RefreshUI();
         }
@@ -121,13 +121,13 @@ namespace _Project.Scripts
         {
             _upgradeHealthText.text =
                 SetUpgradeText(HealthName, _currentHealthUpgrade, _maxHealthUpgrade, _healthUpgradePrice);
-            _upgradeSpeedText.text = SetUpgradeText(AttackSpeedName, _currentSpeedUpgrade, _maxSpeedUpgrade,
-                _attackSpeedUpgradePrice);
+            _upgradeSpeedText.text = SetUpgradeText(AttackSpeedName, _currentShotDelayUpgrade, _maxSpeedUpgrade,
+                _shotDelayUpgradePrice);
             _upgradeDamageText.text =
                 SetUpgradeText(DamageName, _currentDamageUpgrade, _maxDamageUpgrade, _damageUpgradePrice);
         
             ActivateButton(_upgradeHealthButton, _healthUpgradePrice, _currentHealthUpgrade, _maxHealthUpgrade);
-            ActivateButton(_upgradeAttackSpeedButton, _attackSpeedUpgradePrice, _currentSpeedUpgrade, _maxSpeedUpgrade);
+            ActivateButton(_upgradeAttackSpeedButton, _shotDelayUpgradePrice, _currentShotDelayUpgrade, _maxSpeedUpgrade);
             ActivateButton(_upgradeDamageButton, _damageUpgradePrice, _currentDamageUpgrade, _maxDamageUpgrade);
         }
 

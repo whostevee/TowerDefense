@@ -27,7 +27,7 @@ namespace _Project.Scripts.Back
             }
         }
 
-        public void Heal(int healAmount)
+        public void IncreaseMaxHealth(int healAmount)
         {
             CurrentHealth += healAmount;
             MaxHealth += healAmount;

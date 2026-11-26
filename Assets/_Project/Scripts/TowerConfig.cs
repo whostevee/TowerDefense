@@ -13,11 +13,11 @@ namespace _Project.Scripts
         [field: SerializeField] public int TowerMaxHealth {get; private set;}
         [field: SerializeField] public int TowerDamage {get; private set;}
         [field: SerializeField] public float TowerAttackRange {get; private set;}
-        [field: SerializeField] public float TowerAttackSpeed {get; private set;}
+        [field: SerializeField] public float TowerShotDelay {get; private set;}
         [field: SerializeField] public float ProjectileSpeed {get; private set;}
     
         [field:SerializeField] public int HealthUpgradeQuantity {get; private set;}
-        [field:SerializeField] public float AttackSpeedUpgradeQuantity {get; private set;}
+        [field:SerializeField] public float ShotDelayUpgradeQuantity {get; private set;}
         [field:SerializeField] public int DamageUpgradeQuantity {get; private set;}
     
         [field: SerializeField] public int MaxDamageUpgrade {get; private set;}

@@ -15,10 +15,12 @@ namespace _Project.Scripts
 
             var settings = new ProgressSettings
             {
-                MaxWaves = _progressConfig.MaxWaves, WaveIncrease = _progressConfig.WaveIncrease,
+                MaxWaves = _progressConfig.MaxWaves, 
+                WaveIncrease = _progressConfig.WaveIncrease,
                 BaseEnemiesPerWave = _progressConfig.BaseEnemiesPerWave,
                 BaseEnemiesIncrease = _progressConfig.BaseEnemiesIncrease,
-                AddEnemies = _progressConfig.AddEnemies, AddEnemiesIncrease = _progressConfig.AddEnemiesIncrease
+                AddEnemies = _progressConfig.AddEnemies, 
+                AddEnemiesIncrease = _progressConfig.AddEnemiesIncrease
             };
             _progress = new Progress(_currentLevel, settings);
             

@@ -17,15 +17,12 @@ namespace _Project.Scripts
         [SerializeField] private Transform _firePoint;
         [SerializeField] private UpgradeMenu _upgradeMenu;
         [SerializeField] private TimeManager _timeManager;
+        private TowerUpgrades _towerUpgrades;
 
         private float _attackRange;
-        private float _shotDelayTime;
-        private int _damage;
+        private float _baseShotDelayTime;
+        private int _baseDamage;
         private float _projectileSpeed;
-
-        private int _healthUpgradeQuantity;
-        private float _attackSpeedUpgradeQuantity;
-        private int _damageUpgradeQuantity;
 
         private float _attackTimeAccumulator;
         private float _searchTimeAccumulator;
@@ -38,7 +35,7 @@ namespace _Project.Scripts
         public event Action OnTowerClicked;
         public event Action OnTowerDestroyed;
 
-        public Health TowerHealth {get; private set;}
+        public Health TowerHealth { get; private set; }
         public int Health => TowerHealth.CurrentHealth;
         public int MaxHealth => TowerHealth.MaxHealth;
 
@@ -60,14 +57,20 @@ namespace _Project.Scripts
 
         private void Start()
         {
+            _baseShotDelayTime = _towerConfig.TowerShotDelay;
+            _baseDamage = _towerConfig.TowerDamage;
+            
+            var towerSettings = new TowerUpgradesSettings()
+            {
+                ShotDelayUpgradeQuantity = _towerConfig.ShotDelayUpgradeQuantity,
+                HealthUpgradeQuantity = _towerConfig.HealthUpgradeQuantity,
+                DamageUpgradeQuantity =  _towerConfig.DamageUpgradeQuantity,
+            };
+            
+            _towerUpgrades = new TowerUpgrades(towerSettings, TowerHealth, _baseShotDelayTime, _baseDamage);
+            
             _attackRange = _towerConfig.TowerAttackRange;
-            _shotDelayTime = _towerConfig.TowerAttackSpeed;
-            _damage = _towerConfig.TowerDamage;
             _projectileSpeed = _towerConfig.ProjectileSpeed;
-
-            _attackSpeedUpgradeQuantity = _towerConfig.AttackSpeedUpgradeQuantity;
-            _healthUpgradeQuantity = _towerConfig.HealthUpgradeQuantity;
-            _damageUpgradeQuantity = _towerConfig.DamageUpgradeQuantity;
 
             _lineRenderer = GetComponent<LineRenderer>();
             _lineRenderer.positionCount = PointsCount;
@@ -88,9 +91,9 @@ namespace _Project.Scripts
 
             if (_nearestEnemy == null)
             {
-                _attackTimeAccumulator = _shotDelayTime;
+                _attackTimeAccumulator = _towerUpgrades.ShotDelay;
             }
-            else if (TakeTimer(ref _attackTimeAccumulator, _shotDelayTime))
+            else if (TakeTimer(ref _attackTimeAccumulator, _towerUpgrades.ShotDelay))
             {
                 Attack(_nearestEnemy);
             }
@@ -102,7 +105,7 @@ namespace _Project.Scripts
             {
                 var projectile = Instantiate(_projectile, _firePoint.position, Quaternion.identity);
 
-                projectile.InitializeProjectile(_attackRange, _damage, _projectileSpeed, enemy, _timeManager);
+                projectile.InitializeProjectile(_attackRange, _towerUpgrades.Damage, _projectileSpeed, enemy, _timeManager);
             }
         }
 
@@ -130,7 +133,7 @@ namespace _Project.Scripts
         {
             Destroy(gameObject);
             OnTowerDestroyed?.Invoke();
-            
+
             TowerHealth.OnDied -= DestroyTower;
         }
 
@@ -160,13 +163,13 @@ namespace _Project.Scripts
             switch (upgradeType)
             {
                 case UpgradeMenu.UpgradeType.Health:
-                    TowerHealth.Heal(_healthUpgradeQuantity);
+                    _towerUpgrades.TakeHealthUpgrade();
                     break;
                 case UpgradeMenu.UpgradeType.AttackSpeed:
-                    _shotDelayTime -= _attackSpeedUpgradeQuantity;
+                    _towerUpgrades.TakeAttackSpeedUpgrade();
                     break;
                 case UpgradeMenu.UpgradeType.Damage:
-                    _damage += _damageUpgradeQuantity;
+                    _towerUpgrades.TakeDamageUpgrade();
                     break;
             }
         }
