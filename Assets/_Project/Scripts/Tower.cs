@@ -18,14 +18,13 @@ namespace _Project.Scripts
         [SerializeField] private UpgradeMenu _upgradeMenu;
         [SerializeField] private TimeManager _timeManager;
         private TowerUpgrades _towerUpgrades;
+        private Timer _attackTimer;
+        private Timer _searchTimer;
 
         private float _attackRange;
         private float _baseShotDelayTime;
         private int _baseDamage;
         private float _projectileSpeed;
-
-        private float _attackTimeAccumulator;
-        private float _searchTimeAccumulator;
 
         private Enemy _nearestEnemy;
         private float _nearestDistance = Mathf.Infinity;
@@ -69,6 +68,9 @@ namespace _Project.Scripts
             
             _towerUpgrades = new TowerUpgrades(towerSettings, TowerHealth, _baseShotDelayTime, _baseDamage);
             
+            _attackTimer = new Timer(_towerUpgrades.ShotDelay);
+            _searchTimer = new Timer(UpdateTime);
+            
             _attackRange = _towerConfig.TowerAttackRange;
             _projectileSpeed = _towerConfig.ProjectileSpeed;
 
@@ -84,16 +86,16 @@ namespace _Project.Scripts
                 return;
             }
 
-            if (TakeTimer(ref _searchTimeAccumulator, UpdateTime))
+            if (_searchTimer.Tick(Time.deltaTime))
             {
                 FindTarget();
             }
 
             if (_nearestEnemy == null)
             {
-                _attackTimeAccumulator = _towerUpgrades.ShotDelay;
+                _attackTimer.SetReady();
             }
-            else if (TakeTimer(ref _attackTimeAccumulator, _towerUpgrades.ShotDelay))
+            else if (_attackTimer.Tick(Time.deltaTime))
             {
                 Attack(_nearestEnemy);
             }
@@ -167,23 +169,12 @@ namespace _Project.Scripts
                     break;
                 case UpgradeMenu.UpgradeType.AttackSpeed:
                     _towerUpgrades.TakeAttackSpeedUpgrade();
+                    _attackTimer.Delay = _towerUpgrades.ShotDelay;
                     break;
                 case UpgradeMenu.UpgradeType.Damage:
                     _towerUpgrades.TakeDamageUpgrade();
                     break;
             }
-        }
-
-        private bool TakeTimer(ref float accumulator, float delay)
-        {
-            accumulator += Time.deltaTime;
-            if (accumulator < delay)
-            {
-                return false;
-            }
-
-            accumulator = 0f;
-            return true;
         }
     }
 }

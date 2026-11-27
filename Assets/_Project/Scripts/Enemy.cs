@@ -19,6 +19,7 @@ namespace _Project.Scripts
 
         private TimeManager _timeManager;
         private Health _health;
+        private Timer _timer;
 
         [SerializeField] private EnemyConfig _enemyConfig;
 
@@ -26,14 +27,10 @@ namespace _Project.Scripts
             { "Attack 1", "Attack 2", "Attack 3", "Attack 4" };
 
         private float _speed;
-
         private int _damage;
-
         private int _maxHealth;
         private bool _isDead;
         private bool _isCanAttack;
-        private float _accumulator;
-        private float _attackDelay;
 
         private Tower _target;
         private NavMeshAgent _agent;
@@ -42,14 +39,16 @@ namespace _Project.Scripts
         public event Action<Enemy> OnDied;
 
         public int Health => _health.CurrentHealth;
-        public int MaxHealth => _maxHealth;
+        public int MaxHealth => _health.MaxHealth;
 
 
         private void Awake()
         {
             _health = new Health(_enemyConfig.EnemyMaxHealth);
             _health.OnDied += Die;
-
+            
+            _timer = new Timer(_enemyConfig.EnemyAttackDelay);
+            
             var healthBar = GetComponentInChildren<HealthBar>(true);
             if (healthBar != null)
             {
@@ -63,7 +62,6 @@ namespace _Project.Scripts
         {
             _speed = _enemyConfig.EnemySpeed;
             _damage = _enemyConfig.EnemyDamage;
-            _attackDelay = _enemyConfig.EnemyAttackDelay;
 
             _animator = GetComponent<Animator>();
         }
@@ -99,7 +97,7 @@ namespace _Project.Scripts
                 Move();
             }
 
-            if (_isCanAttack && TakeTimer(ref _accumulator, _attackDelay))
+            if (_isCanAttack && _timer.Tick(Time.deltaTime))
             {
                 _animator.SetBool(Walking, false);
                 _animator.SetBool(Idle, false);
@@ -174,18 +172,6 @@ namespace _Project.Scripts
             _health.OnDied -= Die;
 
             Destroy(gameObject, EnemyDestroyTime);
-        }
-
-        private bool TakeTimer(ref float accumulator, float delay)
-        {
-            accumulator += Time.deltaTime;
-            if (accumulator < delay)
-            {
-                return false;
-            }
-
-            accumulator = 0;
-            return true;
         }
     }
 }
